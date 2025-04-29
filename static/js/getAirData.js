@@ -1,10 +1,12 @@
+import { getCountyAndStation } from "./getCountyAndStation.js"
 
-async function getAirData(param) {
+export async function getAirData(param) {
   try {
     let response = await fetch(
       "https://data.moenv.gov.tw/api/v2/aqx_p_432?api_key=9e565f9a-84dd-4e79-9097-d403cae1ea75&limit=1000&sort=ImportDate%20desc&format=JSON"
     );
     let data = await response.json();
+    let stationData = getCountyAndStation({county:"total"}); // 取得監測站資料
 
     // 如果fetch到的資料包含所有測站資料，進行以下
     if (data.include_total === true) {
@@ -35,9 +37,9 @@ async function getAirData(param) {
           };
         });
         return totalData;
-      } else if (typeof param === "object" && param.county && param.sitename) {
+      } else if (typeof param === "object"  && param.sitename) {
         const targetData = airData.find(
-          (item) => item.county === param.county && item.sitename === param.sitename
+          (item) =>  item.sitename === param.sitename
         );
         return targetData || null;
       } else {
@@ -47,12 +49,12 @@ async function getAirData(param) {
       throw new Error("回傳資料不完整");
     }
   } catch (error) {
-    console.log({ error: true });
     return { error: true };
   }
 }
 
-
-console.log(getAirData("total"));
-console.log(getAirData({county:"基隆市",sitename:"基隆"}));
+// console.log(getCountyAndStation({county:"total"}));
+// console.log(getAirData("total"));
+// console.log(getAirData({county:"基隆市",sitename:"基隆"}));
+// console.log(getCountyAndStation({ county: "新北市" }));
 

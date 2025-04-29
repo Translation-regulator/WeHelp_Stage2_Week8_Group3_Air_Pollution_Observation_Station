@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>空氣品質即時發送</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+    select, button { font-size: 18px; padding: 10px; margin: 10px; }
+    button { background-color: #4CAF50; color: white; border: none; border-radius: 5px; }
+    button:hover { background-color: #45a049; }
+    #status { margin-top: 20px; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>選擇測站並發送到 Discord！</h1>
+
+  <div>
+    <select id="stationSelect">
+      <option value="">請選擇測站</option>
+    </select>
+  </div>
+
+  <button id="sendButton" disabled>發送訊息</button>
+
+  <p id="status"></p>
+
+  <script>
+async function loadStations() {
+  try {
+    const res = await fetch("/stations");
+    const data = await res.json();  // 取得完整的資料
+
+    if (data && data.records && Array.isArray(data.records)) {
+      const stations = data.records;  // 提取 records 中的測站資料
+
+      const select = document.getElementById("stationSelect");
+      stations.forEach(station => {
+        const option = document.createElement("option");
+        option.value = JSON.stringify({county: station.county, sitename: station.sitename});
+        option.textContent = `${station.county} - ${station.sitename}`;
+        select.appendChild(option);
+      });
+
+      select.addEventListener("change", () => {
+        document.getElementById("sendButton").disabled = select.value === "";
+      });
+    } else {
+      console.error("測站資料格式錯誤或沒有 records 字段");
+    }
+  } catch (err) {
+    console.error("載入測站失敗", err);
+  }
+}
+
+async function sendMessage() {
+  const select = document.getElementById("stationSelect");
+  const status = document.getElementById("status");
+  
+  if (select.value === "") return;
+
+  const stationData = JSON.parse(select.value);
+  status.textContent = "⏳ 發送中...";
+
+  try {
+    const res = await fetch("/send_message", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(stationData)
+    });
+
+    const result = await res.json();
+    
+    if (res.ok) {
+      status.textContent = `${result.message}`;
+    } else {
+      status.textContent = `${result.detail}`;
+    }
+  } catch (err) {
+    console.error("發送失敗", err);
+    status.textContent = "發送過程中出錯";
+  }
+}
+
+document.getElementById("sendButton").addEventListener("click", sendMessage);
+
+// 頁面一載入就讀取測站
+loadStations();
+  </script>
+</body>
+</html>
