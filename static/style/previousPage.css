@@ -19,6 +19,7 @@ section{
 #chart-render{
     margin: 40px auto;
     color: var(--color-zinc-700);
+    /* display: none; */
 }
 
 #chart-frame{
