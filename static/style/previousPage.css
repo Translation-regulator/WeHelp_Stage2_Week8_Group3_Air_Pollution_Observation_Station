@@ -19,10 +19,11 @@ section{
 #chart-render{
     margin: 40px auto;
     color: var(--color-zinc-700);
-    /* display: none; */
+    display: none;
 }
 
 #chart-frame{
     max-width: 800px;
     height: auto;
+    padding-top: 24px;
 }
