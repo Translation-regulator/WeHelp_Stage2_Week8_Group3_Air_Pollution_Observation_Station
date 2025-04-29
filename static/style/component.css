@@ -4,6 +4,8 @@
     padding: 0 16px;
     border-radius: 12px;
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 4px;
     color: var(--color-zinc-700);
     max-width: 400px;
@@ -12,9 +14,6 @@
     text-overflow: ellipsis;
     border: none;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .btn-text-dark > .mdi{

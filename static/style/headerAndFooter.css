@@ -43,3 +43,16 @@ nav > div{
     display: flex;
     gap: 8px;
 }
+
+#previous-page-btn, #main-page-btn{
+    display: none;
+}
+
+footer{
+    width: 100vw;
+    min-height: 40px;
+    padding: 8px 40px;
+    text-align: end;
+    margin: auto;
+    background-color: var(--color-zinc-300);
+}
