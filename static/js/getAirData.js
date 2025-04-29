@@ -1,0 +1,57 @@
+async function getAirData(param) {
+  try {
+    let response = await fetch(
+      "https://data.moenv.gov.tw/api/v2/aqx_p_432?api_key=9e565f9a-84dd-4e79-9097-d403cae1ea75&limit=1000&sort=ImportDate%20desc&format=JSON"
+    );
+    let data = await response.json();
+
+    // 如果fetch到的資料包含所有測站資料，進行以下
+    if (data.include_total === true) {
+      let airData = data.records; //airData為一個陣列，包含所有測站的大氣資料
+
+      // 根據不同參數給出不同資料
+
+      // total，給出資料為縣市、監測站ID、監測站名稱、經緯度、狀態、aqi分數、時間
+      if (param === "total") {
+        let totalData = airData.map((item) => {
+          return {
+            siteId: item.siteid,
+            sitename: item.sitename,
+            county: item.county,
+            latitude: item.latitude,
+            longitude: item.longitude,
+            publishtime: item.publishtime,
+            status: item.status,
+            aqi: item.aqi,
+            // co: item.co,
+            // no: item.no,
+            // no2: item.no2,
+            // nox: item.nox,
+            // o3: item.o3,
+            // "pm2.5": item["pm2.5"],
+            // pm10: item.pm10,
+            // so2: item.so2,
+          };
+        });
+        return totalData;
+      } else if (typeof param === "object" && param.county && param.sitename) {
+        const targetData = airData.find(
+          (item) => item.county === param.county && item.sitename === param.sitename
+        );
+        return targetData || null;
+      } else {
+        throw new Error("無效的參數格式");
+      }
+    } else {
+      throw new Error("回傳資料不完整");
+    }
+  } catch (error) {
+    console.log({ error: true });
+    return { error: true };
+  }
+}
+
+
+console.log(getAirData("total"));
+console.log(getAirData({county:"基隆市",sitename:"基隆"}));
+
