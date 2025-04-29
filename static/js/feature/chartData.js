@@ -72,12 +72,12 @@ function renderChart(data){
             labels: data.monitordateData,
             datasets: [
                 {
-                    label: 'PM2.5 (μg/m³)',
-                    data: data.pm25subindex,
-                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    label: 'PM2.5 濃度 μg/m³',
+                    data: data.pm25subindexData,
+                    backgroundColor: '#08abae',
+                    borderColor: '#08a2a5',
                     tension: 0.4,
-                    fill: true,
+                    fill: false,
                     pointRadius: 4,
                     pointHoverRadius: 6,
                 }
@@ -105,15 +105,17 @@ function renderChart(data){
             scales: {
                 y: {
                     beginAtZero: true,
+                    min: 0, 
+                    max: 100, 
                     title: {
                         display: true,
-                        text: 'PM2.5 濃度 (μg/m³)'
+                        text: '(μg/m³)'
                     }
                 },
                 x: {
                     title: {
                         display: true,
-                        text: '日期'
+                        text: '日期',
                     }
                 }
             }

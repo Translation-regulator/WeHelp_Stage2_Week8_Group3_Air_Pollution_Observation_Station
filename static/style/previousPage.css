@@ -27,3 +27,8 @@ section{
     height: auto;
     padding-top: 24px;
 }
+
+#aqiChart{
+    width: 800px;
+    height: 400px;
+}
