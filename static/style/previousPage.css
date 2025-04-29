@@ -1,0 +1,27 @@
+main{
+    overflow: scroll;
+}
+
+section{
+    min-height: 120px;
+    max-width: 1280px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-bottom: 40px; 
+}
+
+#site-search{
+    background-color: var(--color-zinc-300);
+}
+
+#chart-render{
+    margin: 40px auto;
+    color: var(--color-zinc-700);
+}
+
+#chart-frame{
+    max-width: 800px;
+    height: auto;
+}

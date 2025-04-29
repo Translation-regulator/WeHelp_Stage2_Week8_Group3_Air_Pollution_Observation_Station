@@ -1,4 +1,5 @@
 import { renderHeaderAndFooter } from "./feature/headerAndFooter.js";
+import { renderChart } from "./feature/chartData.js";
 
 document.addEventListener('DOMContentLoaded', async() => {
     await renderHeaderAndFooter();
@@ -23,5 +24,8 @@ document.addEventListener('DOMContentLoaded', async() => {
         previousPageBtn.addEventListener('click', ()=>{
             window.location.href='/index.html';
         })
+
+        // 先 addeventListner 獲取站點資料
+        renderChart();
     }
 })

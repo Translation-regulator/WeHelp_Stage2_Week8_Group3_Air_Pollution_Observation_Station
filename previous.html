@@ -8,10 +8,21 @@
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
     <link rel="icon" href="/static/image/favicon-32X32.png" type="image/png">
     <title>空氣品質探測站</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <!-- <header></header> -->
-    <main></main>
+    <main>
+        <section id="site-search">
+            進階搜尋
+        </section>
+        <section id="chart-render">
+            <h3>近七日空氣品質指標</h3>
+            <div id="chart-frame">
+                <canvas id="aqiChart" width="600" height="400"></canvas>
+            </div>
+        </section>
+    </main>
     <!-- <footer></footer> -->
 </body>
 </html>
