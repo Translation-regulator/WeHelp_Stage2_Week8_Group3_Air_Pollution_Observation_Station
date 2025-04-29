@@ -1,0 +1,37 @@
+.btn-text-dark{
+    min-width: 80px;
+    min-height: 36px;
+    padding: 0 16px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-zinc-700);
+    max-width: 400px;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-text-dark > .mdi{
+    font-size: 20px; 
+    width: 20px;
+    height: 20px;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    border: none;
+}
+
+.btn-text-dark:hover{
+    color: var(--color-zinc-800);
+    background-color: var(--color-zinc900-5);
+}
+
+.btn-text-dark:active{
+    color: var(--color-zinc-800);
+    background-color: var(--color-zinc900-20);
+}
