@@ -1,5 +1,5 @@
 import { renderHeaderAndFooter } from "./feature/headerAndFooter.js";
-import { renderChart } from "./feature/chartData.js";
+import { getChart } from "./feature/chartData.js";
 
 document.addEventListener('DOMContentLoaded', async() => {
     await renderHeaderAndFooter();
@@ -26,6 +26,6 @@ document.addEventListener('DOMContentLoaded', async() => {
         })
 
         // 先 addeventListner 獲取站點資料
-        renderChart();
+        getChart();
     }
 })
