@@ -49,7 +49,7 @@ async def send_discord_message(data: dict):
 
     embed = {
         "title": "🌆 空氣品質快報",
-        "description": f"{city} 當前空氣品質數據如下，請參考健康建議並適當調整戶外活動。",
+        "description": f"{city} 當前空氣品質數據如下：",
         "url": "https://www.youtube.com/watch?v=MwOC8p-O2cA",  # 可換成實際數據來源
         "color": color,
         "timestamp": data.get("publishtime_iso", None),  
