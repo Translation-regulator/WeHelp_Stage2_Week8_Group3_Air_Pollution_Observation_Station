@@ -1,9 +1,9 @@
-export async function getChart(){
+export async function renderChartData(){
     await getChartData("6", "新北市"); //先寫死用新北市板橋的資料
 }
 
 // --------- 取得 chart 所需資料 --------- 
-async function getChartData(siteId, county) {
+async function getChartData(siteId, county, subindex) {
     const url = 'https://data.moenv.gov.tw/api/v2/aqx_p_434?api_key=1b814798-b98b-450b-afcb-d1e830d764d1';
     try {
         const response = await fetch(url);

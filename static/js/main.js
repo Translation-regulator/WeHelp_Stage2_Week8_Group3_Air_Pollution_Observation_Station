@@ -4,7 +4,6 @@ import { getCountyAndStation } from "./function/getCountyAndStation.js";
 import taiwanMap from "./feature/taiwanMap.js";
 import { createAirDataTable } from "./feature/createAirDataTable.js";
 import { sendMessage } from "./function/sendMessageToDiscord.js";
-import { getChart } from "./feature/renderChartData.js";
 import { createPreviousSelect } from "./feature/createPreviousSelect.js";
 import { confirmPreviousSelect } from "./feature/confirmPreviousSelect.js";
 
@@ -34,13 +33,10 @@ document.addEventListener('DOMContentLoaded', async() => {
         const previousPageBtn = document.getElementById('previous-page-btn');
         previousPageBtn.style.display = "flex";
         previousPageBtn.addEventListener('click', ()=>{
-            window.location.href='/index.html';
+            window.location.href='/';
         })
 
         createPreviousSelect(); //縣市觀測站渲染
         confirmPreviousSelect(); //送出圖表需求
-
-        // 先 addeventListner 獲取站點資料
-        getChart();
     }
 })
