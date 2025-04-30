@@ -37,6 +37,8 @@ section{
     justify-content: flex-start;
     align-items: center;
     gap: 8px;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .select-confirm-div{

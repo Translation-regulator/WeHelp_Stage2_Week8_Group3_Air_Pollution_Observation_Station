@@ -15,41 +15,39 @@ export async function createPreviousSelect(){
     });
 
     // 監聽選擇的縣市
-    newSearchSelect.addEventListener("change", async (event) => {
+    countySelect.addEventListener("change", async (event) => {
         // 取得縣市資料
         const selectedCounty = event.target.value;
         const stationData = await getCountyAndStation({ county: selectedCounty });
         console.log("該縣市的測站資料：", stationData);
 
         // 取得容器DOM
-        let airDataDOM = document.getElementById("airDataDom");
+        let siteSelect = document.getElementById("site-select");
 
-        // 若有舊的StationDom，要先移除
-        const oldStationDom = airDataDOM.querySelector(".airData__station");
-        if (oldStationDom) {
-            airDataDOM.removeChild(oldStationDom);
+        // 若有舊的SniteDom，要先移除
+        const oldSiteDom = siteSelect.querySelector(".site-select-option");
+        if (oldSiteDom) {
+            siteSelect.removeChild(oldSiteDom);
         }
 
         // 渲染該縣市的監測站
-        let newStationData = document.createElement("div");
-        newStationData.className = "airData__station";
-        document.getElementById("airDataDom").appendChild(newStationData);
+        let newSiteData = document.createElement("button");
+        newSiteData.className = "site-select-option";
         stationData.forEach((item) => {
-            let newStationBtn = document.createElement("button");
-            let newStationBtnText = document.createTextNode(item.sitename);
-            newStationBtn.appendChild(newStationBtnText);
-            newStationBtn.className = "airData__station__btn text-sm-500";
-            document.querySelector(".airData__station").appendChild(newStationBtn);
+            let newSiteData = document.createElement("button");
+            newSiteData.textContent = item.sitename;
+            newSiteData.className = "chip text-sm-500 site-select-option";
+            siteSelect.appendChild(newSiteData);
         });
     });
 
-    // 監聽點擊的監測站，並渲染資料
-    document
-        .getElementById("airDataDom")
-        .addEventListener("click", async (event) => {
-            if (event.target.classList.contains("airData__station__btn")) {
-                const stationName = event.target.textContent;
-                console.log("點擊監測站：", stationName);
-            }
-        });
+    // // 監聽點擊的監測站，並渲染資料
+    // document
+    //     .getElementById("airDataDom")
+    //     .addEventListener("click", async (event) => {
+    //         if (event.target.classList.contains("airData__station__btn")) {
+    //             const stationName = event.target.textContent;
+    //             console.log("點擊監測站：", stationName);
+    //         }
+    //     });
 }
