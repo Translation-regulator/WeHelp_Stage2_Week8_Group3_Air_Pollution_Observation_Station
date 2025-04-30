@@ -196,7 +196,7 @@ export const createAirDataTable = async () => {
         document
           .querySelector(".airData__stationDataHead__cross")
           .addEventListener("click", function () {
-            window.location.href = "/index.html";
+            window.location.href = "/";
           });
 
         // 渲染空污資料
