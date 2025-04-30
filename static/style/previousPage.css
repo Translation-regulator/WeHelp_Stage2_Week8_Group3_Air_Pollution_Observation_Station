@@ -24,12 +24,12 @@ section{
 }
 
 #chart-frame{
-    max-width: 800px;
+    max-width: 1200px;
     height: auto;
     padding-top: 24px;
 }
 
 #aqiChart{
-    width: 800px;
-    height: 400px;
+    width: 1200px;
+    height: 600px;
 }

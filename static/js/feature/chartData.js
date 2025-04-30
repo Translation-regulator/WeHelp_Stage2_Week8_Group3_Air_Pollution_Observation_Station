@@ -53,11 +53,49 @@ async function getAQIData(siteId, county) {
 }
 
 
+
 function renderChart(data){
     const chartRender = document.getElementById('chart-render');
     chartRender.style.display = 'flex';
     const chartTitle = document.querySelector('#chart-render h3');
     chartTitle.textContent = `${data.county}/${data.sitename} 近七日空氣品質指標`;
+    
+    // 自訂 Plugin：高亮對應 y 軸的 ticks 顏色
+    const highlightYAxisPlugin = {
+        id: 'customHighlightAxis',
+        afterDraw(chart) {
+            const tooltip = chart.tooltip;
+            const activeDataset = tooltip?.dataPoints?.[0]?.dataset;
+            const yAxisID = activeDataset?.yAxisID;
+        
+            // 所有 y 軸 ticks 預設顏色設回灰色
+            const scaleIds = ['y-aqi','y-μg/m3' , 'y-right', 'y-right-CO', 'y-ppb'];
+            let needUpdate = false;
+
+            scaleIds.forEach(id => {
+                const scale = chart.options.scales[id];
+                if (scale && scale.ticks.color !== '#888') {
+                    scale.ticks.color = '#888';
+                    needUpdate = true;
+                }
+            });
+        
+            // 將被 hover 的 y 軸 ticks 改為 dataset 對應的顏色
+            if (yAxisID && chart.options.scales[yAxisID]) {
+                const currentColor = chart.options.scales[yAxisID].ticks.color;
+                const targetColor = activeDataset.borderColor;
+        
+                if (currentColor !== targetColor) {
+                chart.options.scales[yAxisID].ticks.color = targetColor;
+                needUpdate = true;
+                }
+            }
+      
+            if (needUpdate) chart.update('none'); // 加 'none' 可避免動畫卡頓
+        }
+      };
+      
+    Chart.register(highlightYAxisPlugin);
 
     // 繪製圖表
     const ctx = document.getElementById('aqiChart').getContext('2d');
@@ -87,7 +125,7 @@ function renderChart(data){
                     backgroundColor: '#FDB45C',
                     fill: false,
                     tension: 0.4,
-                    yAxisID: 'y',
+                    yAxisID: 'y-μg/m3',
                 },
                 {
                     label: 'CO (ppm)',
@@ -141,20 +179,13 @@ function renderChart(data){
                     backgroundColor: '#FF6384',
                     fill: true,
                     tension: 0.4,
-                    
+                    yAxisID: 'y-aqi'
                 }
             ]
         },
         options: {
             responsive: true,
             plugins: {
-                // title: {
-                //     display: true,
-                //     text: `${data.county}/${data.sitename} 近七日空氣品質指標`,
-                //     font: {
-                //         size: 18
-                //     }
-                // },
                 legend: {
                     display: true,
                     position: 'top'
@@ -164,28 +195,39 @@ function renderChart(data){
                     intersect: false,
                     callbacks: {
                         label: function(context) {
-                          const label = context.dataset.label || '';
-                          const value = context.formattedValue;
-                          return `${label}: ${value}`;
+                            const label = context.dataset.label || '';
+                            const value = context.formattedValue;
+                            return `${label}: ${value}`;
+                        },
+                        labelColor: (tooltipItem) => {
+                            return {
+                                borderColor: tooltipItem.dataset.borderColor,
+                                backgroundColor: tooltipItem.dataset.borderColor,
+                            };
                         }
                     }
-                }
+                },
+                customHighlightAxis: {} // 啟用 plugin
             },
             scales: {
-                y: {
-                    beginAtZero: true,
-                    min: 0, 
-                    max: 500, 
-                    title: {
-                        display: true,
-                        text: 'AQI',
-                    }
-                },
                 x: {
                     title: {
                         display: true,
                         text: '日期',
                     }
+                },
+                'y-aqi': {
+                    type: 'linear',
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'AQI',
+                    },
+                    beginAtZero: true,
+                    min: 0, 
+                    max: 500, 
+                    ticks: { color: '#888' },
+                    grid: { drawOnChartArea: false }
                 },
                 'y-μg/m3': {
                     type: 'linear',
@@ -197,9 +239,8 @@ function renderChart(data){
                     beginAtZero: true,
                     min: 0, 
                     max: 650,
-                    grid: {
-                        drawOnChartArea: false,
-                    }
+                    ticks: { color: '#888' },
+                    grid: { drawOnChartArea: false }
                 },
                 'y-ppb': {
                     type: 'linear',
@@ -212,9 +253,8 @@ function renderChart(data){
                     min: 0, 
                     max: 100, 
                     offset: true,
-                    grid: {
-                        drawOnChartArea: false,
-                    }
+                    ticks: { color: '#888' },
+                    grid: { drawOnChartArea: false }
                 },
                 'y-right': {
                     type: 'linear',
@@ -226,9 +266,8 @@ function renderChart(data){
                     beginAtZero: true,
                     min: 0, 
                     max: 0.1, 
-                    grid: {
-                        drawOnChartArea: false,
-                    }
+                    ticks: { color: '#888' },
+                    grid: { drawOnChartArea: false }
                 },
                 'y-right-CO': {
                     type: 'linear',
@@ -240,9 +279,8 @@ function renderChart(data){
                     beginAtZero: true,
                     min: 0, 
                     max: 50, 
-                    grid: {
-                        drawOnChartArea: false,
-                    }
+                    ticks: { color: '#888' },
+                    grid: { drawOnChartArea: false }
                 }
             }
         }
