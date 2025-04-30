@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', async() => {
     console.log(path)
     if (path === "/index.html"){
         console.log("首頁的功能們")
-
+        //渲染右側縣市及觀測站空污資訊
+        createAirDataTable();
         const mainPageBtn = document.getElementById('main-page-btn');
         mainPageBtn.style.display = "flex";
         mainPageBtn.addEventListener('click', ()=>{

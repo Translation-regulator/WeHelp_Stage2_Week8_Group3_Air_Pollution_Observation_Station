@@ -7,7 +7,8 @@ export const createAirDataTable = async () => {
   let newAirDataTitleText = document.createTextNode("全國空氣指標即時觀測");
   let newAirSearchDiv = document.createElement("div");
   let newSearchTitle = document.createElement("div");
-  let newSearchTitleText = document.createTextNode("直接點擊地圖選擇觀測站或是");
+  let newSearchTitleText =
+    document.createTextNode("直接點擊地圖選擇觀測站或是");
   let newSearchSelect = document.createElement("select");
 
   // 設定id，加入class
@@ -75,25 +76,29 @@ export const createAirDataTable = async () => {
   });
 
   // 監聽點擊的監測站，並渲染資料
-  document.getElementById("airDataDom").addEventListener("click", async(event) => {
-    if (event.target.classList.contains("airData__station__btn")) {
-      const stationName = event.target.textContent;
-      console.log("點擊監測站：", stationName);
+  document
+    .getElementById("airDataDom")
+    .addEventListener("click", async (event) => {
+      if (event.target.classList.contains("airData__station__btn")) {
+        const stationName = event.target.textContent;
+        console.log("點擊監測站：", stationName);
 
-      //取得該監測站的空汙資料
-      let stationAirData = await getAirData({sitename:stationName});
-      console.log(stationAirData);
-      let AQIScore = stationAirData.aqi;
+        // 取得該監測站的空汙資料
+        let stationAirData = await getAirData({ sitename: stationName });
+        console.log(stationAirData);
+        let AQIScore = stationAirData.aqi;
 
-      // 取得容器DOM
-      let airDataDOM = document.getElementById("airDataDom");
-      airDataDOM.innerHTML="";
 
-      // 渲染監測站空汙資料
-      // 監測站名稱、分數
-      let newStationAirDataHeader = document.createElement("div");
-      newStationAirDataHeader.className = "airData__stationDataHead";
-      airDataDOM.appendChild(newStationAirDataHeader);
+
+        // 取得容器DOM
+        const airDataDOM = document.getElementById("airDataDom");
+        airDataDOM.innerHTML = "";
+
+        // 渲染監測站空汙資料
+        // 監測站名稱、分數
+        let newStationAirDataHeader = document.createElement("div");
+        newStationAirDataHeader.className = "airData__stationDataHead";
+        airDataDOM.appendChild(newStationAirDataHeader);
 
         // 概要框框
         let newStationSummary = document.createElement("div");
@@ -107,7 +112,9 @@ export const createAirDataTable = async () => {
 
         let newStationLocation = document.createElement("div");
         newStationLocation.className = "text-sm-700";
-        let newStationLocationText = document.createTextNode(`${stationAirData.county}/${stationAirData.sitename}`);
+        let newStationLocationText = document.createTextNode(
+          `${stationAirData.county}/${stationAirData.sitename}`
+        );
         newStationLocation.appendChild(newStationLocationText);
 
         let newStationAQI = document.createElement("div");
@@ -122,15 +129,20 @@ export const createAirDataTable = async () => {
         let newAQIStatus = document.createElement("div");
         newAQIStatus.className = "stationDataHead__summary__status";
         newStationSummary.appendChild(newAQIStatus);
-        
+
         let newStatusImg = document.createElement("img");
         newStatusImg.className = "summary__status__img";
         let imgUrl;
-        if(AQIScore<=50){imgUrl="../static/image/good.png"}
-        else if (51<=AQIScore<=100){imgUrl="../static/image/soso.png"}
-        else if (101<=AQIScore<=300){imgUrl="../static/image/bad.png"}
-        else{imgUrl="../static/image/popo.png"}
-        newStatusImg.src=imgUrl;
+        if (AQIScore <= 50) {
+          imgUrl = "../static/image/good.png";
+        } else if (51 <= AQIScore <= 100) {
+          imgUrl = "../static/image/soso.png";
+        } else if (101 <= AQIScore <= 300) {
+          imgUrl = "../static/image/bad.png";
+        } else {
+          imgUrl = "../static/image/popo.png";
+        }
+        newStatusImg.src = imgUrl;
         newAQIStatus.appendChild(newStatusImg);
 
         let newAQIScroe = document.createElement("div");
@@ -142,14 +154,59 @@ export const createAirDataTable = async () => {
         newAQIScroe.appendChild(newScore);
 
         let newStatus = document.createElement("div");
-        newStatus.className = "text-sm-500 status__AQI__status"
+        newStatus.className = "text-sm-500 status__AQI__status";
         let newStatusText = document.createTextNode(stationAirData.status);
         newStatus.appendChild(newStatusText);
         newAQIScroe.appendChild(newStatus);
 
         newAQIStatus.appendChild(newAQIScroe);
-    }
-  });
+
+        //新增時間
+        let newTimeDiv = document.createElement("div");
+        newTimeDiv.className = "airData__stationDataHead__time text-xs-500";
+        newTimeDiv.innerText = `偵測時間：${stationAirData.publishtime}`;
+        document
+          .querySelector(".airData__stationDataHead")
+          .appendChild(newTimeDiv);
+
+        //新增叉叉
+        let newCrossImg = document.createElement("img");
+        newCrossImg.className = "airData__stationDataHead__cross";
+        newCrossImg.src = "../static/image/cross.png";
+        document
+          .querySelector(".airData__stationDataHead")
+          .appendChild(newCrossImg);
+
+        //點擊叉叉回到選擇縣市畫面
+        document
+          .querySelector(".airData__stationDataHead__cross")
+          .addEventListener("click", function () {
+            window.location.href = "/index.html";
+          });
+
+        //渲染空污資料
+        let newAirDataContent = document.createElement("div");
+        newAirDataContent.className = "airData__content";
+        airDataDOM.appendChild(newAirDataContent);
+          
+        //Discord按鈕
+        let newDiscordDiv = document.createElement("div");
+        newDiscordDiv.className = "airData__discord";
+        airDataDOM.appendChild(newDiscordDiv);
+        let newDiscordBtn = document.createElement("button");
+        newDiscordBtn.className = "airData__discord__btn text-sm-500";
+        newDiscordBtn.innerText = "發送至Discord";
+        newDiscordDiv.appendChild(newDiscordBtn);
+        //discord圖片
+        let newDiscordImg = document.createElement("img");
+        newDiscordImg.className = "airData__discord__img";
+        newDiscordImg.src = "../static/image/discord.png";
+        newDiscordBtn.appendChild(newDiscordImg);
+
+        // 取得監測站ID，給Discord按鈕做連接使用
+        window.chooseSiteId = stationAirData.siteid;
+        console.log(window.chooseSiteId);
+      }
+    });
 };
 
-createAirDataTable();
