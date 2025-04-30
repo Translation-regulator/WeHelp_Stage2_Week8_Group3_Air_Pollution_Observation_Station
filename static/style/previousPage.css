@@ -1,9 +1,9 @@
 main{
     overflow: scroll;
+    flex-direction: column;
 }
 
 section{
-    min-height: 120px;
     max-width: 1280px; 
     padding-bottom: 40px; 
     margin: 0 auto;

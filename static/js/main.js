@@ -9,12 +9,15 @@ import { confirmPreviousSelect } from "./feature/confirmPreviousSelect.js";
 
 document.addEventListener('DOMContentLoaded', async() => {
     await renderHeaderAndFooter();
-    taiwanMap.init();
-
+    
     const path = window.location.pathname;
     console.log(path)
     if (path === "/"){
         console.log("首頁的功能們")
+
+        //渲染台灣地圖
+        taiwanMap.init();
+
         //渲染右側縣市及觀測站空污資訊
         createAirDataTable();
         const mainPageBtn = document.getElementById('main-page-btn');
@@ -24,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async() => {
         })
     }
     
-    if (path === "/previous"){
+    if (path === "/previous.html"){
         console.log("歷史監測資料")
 
         const previousPageBtn = document.getElementById('previous-page-btn');
