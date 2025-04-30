@@ -13,6 +13,10 @@ export function onStationListClick(allStations) {
     });
 }
 
+/** 渲染任一縣市的監測站按鈕
+ * @description 帶入縣市名即可渲染該縣市的監測站按鈕
+ * @param county 縣市名稱，例如"基隆市"、"新北市"
+ */
 export function renderCountyStations(county) {
   const allStations = window["allStations"];
   // 更新 select 選單的值
