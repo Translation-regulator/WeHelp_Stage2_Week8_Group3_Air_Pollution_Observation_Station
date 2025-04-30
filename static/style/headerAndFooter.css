@@ -33,7 +33,15 @@ header > nav{
     white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis;
-    cursor: pointer;
+    display: block;    
+}
+
+#header-logo:hover{
+    color: var(--color-primary-600);
+}
+
+#header-logo:active{
+    color: var(--color-primary-800);
 }
 
 i.mdi-clouds{
