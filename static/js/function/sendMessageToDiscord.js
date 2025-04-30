@@ -19,6 +19,3 @@ export async function sendMessage(stationData) {
         return { "ok": false, "error": err.message };
     }
 }
-
-  
-//   document.getElementById("airData__discord__btn").addEventListener("click", sendMessage);
