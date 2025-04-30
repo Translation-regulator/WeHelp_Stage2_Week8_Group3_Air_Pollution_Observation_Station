@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>空氣品質即時發送</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+    select, button { font-size: 18px; padding: 10px; margin: 10px; }
+    button { background-color: #4CAF50; color: white; border: none; border-radius: 5px; }
+    button:hover { background-color: #45a049; }
+    #status { margin-top: 20px; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>空氣品質即時發送 🌤️</h1>
+
+  <p id="status">正在偵測位置並推播最近測站...</p>
+
+  <div>
+    <select id="stationSelect">
+      <option value="">請選擇測站</option>
+    </select>
+  </div>
+
+  <button id="sendButton" disabled>手動發送選取測站</button>
+
+  <script>
+async function loadStations() {
+  try {
+    const res = await fetch("/stations");
+    const data = await res.json();
+
+    if (data.records && Array.isArray(data.records)) {
+      const select = document.getElementById("stationSelect");
+      data.records.forEach(station => {
+        const option = document.createElement("option");
+        option.value = JSON.stringify({ county: station.county, sitename: station.sitename });
+        option.textContent = `${station.county} - ${station.sitename}`;
+        select.appendChild(option);
+      });
+      select.addEventListener("change", () => {
+        document.getElementById("sendButton").disabled = select.value === "";
+      });
+    }
+  } catch (err) {
+    console.error("載入測站失敗", err);
+  }
+}
+
+async function sendMessage() {
+  const select = document.getElementById("stationSelect");
+  const status = document.getElementById("status");
+  if (select.value === "") return;
+  const stationData = JSON.parse(select.value);
+  status.textContent = "⏳ 手動發送中...";
+  try {
+    const res = await fetch("/send_message", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(stationData)
+    });
+    const result = await res.json();
+    status.textContent = res.ok ? result.message : result.detail;
+  } catch (err) {
+    console.error("發送失敗", err);
+    status.textContent = "手動發送時出錯";
+  }
+}
+
+document.getElementById("sendButton").addEventListener("click", sendMessage);
+
+// 自動定位與推播
+window.addEventListener("DOMContentLoaded", () => {
+  if (!navigator.geolocation) {
+    document.getElementById("status").textContent = "此瀏覽器不支援定位。";
+    loadStations();
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    ({ coords }) => {
+      const lat = coords.latitude;
+      const lon = coords.longitude;
+      document.getElementById("status").textContent =
+        `偵測到位置：${lat.toFixed(5)}, ${lon.toFixed(5)}，自動推播中...`;
+      fetch(`/auto_notify?lat=${lat}&lon=${lon}`)
+        .then(res => res.json())
+        .then(json => {
+          document.getElementById("status").textContent = json.message;
+        })
+        .catch(err => {
+          console.error(err);
+          document.getElementById("status").textContent = "自動推播失敗";
+        });
+      loadStations();
+    },
+    err => {
+      console.error(err);
+      document.getElementById("status").textContent = "無法取得位置，請允許定位。";
+      loadStations();
+    },
+    { enableHighAccuracy: true, timeout: 5000 }
+  );
+});
+  </script>
+</body>
+</html>
