@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const counties = await getCountyAndStation("county");
     const allStations = await getCountyAndStation({ county: "total" });
     const allStationAirData = await getAirData("total");
+    window["allStations"] = allStations;
     window["allStationAirData"] = allStationAirData;
     renderSearchCounty(counties); // 渲染縣市下拉選單
     onStationListClick(allStations); // 監聽縣市下拉選單並渲染監測站按鈕
