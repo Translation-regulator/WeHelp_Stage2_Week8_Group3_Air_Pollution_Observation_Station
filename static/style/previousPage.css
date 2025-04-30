@@ -5,19 +5,52 @@ main{
 section{
     min-height: 120px;
     max-width: 1280px; 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
     padding-bottom: 40px; 
     margin: 0 auto;
 }
 
+/* section id="site-search" */
 #site-search{
-    background-color: var(--color-zinc-300);
+    background-color: var(--color-primary-200);
+    border-radius: 24px;
+    margin-top: 24px;
+    padding: 24px 40px;
 }
 
+#site-search > div{
+    margin: 0 0 24px 0;
+    color: var(--color-zinc-700);
+}
+
+.select-county-div,
+.select-site-div,
+.select-subindex-div{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#site-select,
+#subindex-select{
+    min-height: 36px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+}
+
+.select-confirm-div{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* section id="chart-render" */
 #chart-render{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     margin: 40px auto;
     color: var(--color-zinc-700);
     display: none;

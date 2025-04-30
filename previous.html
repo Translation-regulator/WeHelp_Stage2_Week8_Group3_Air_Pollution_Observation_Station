@@ -14,7 +14,40 @@
     <!-- <header></header> -->
     <main>
         <section id="site-search">
-            進階搜尋
+            <div class="select-county-div">
+                <label for="county-select" class="text-base-500">縣市</label>
+                <select id="county-select" name="county-select" class="input-select text-base-400">
+                    <option value="placeholder-select" class="input-select-placeholder" disabled selected>請選擇縣市</option>
+                </select>
+            </div>
+            <div class="select-site-div">
+                <p class="text-base-500">觀測站</p>
+                <div id="site-select">
+                    <button class="chip text-sm-500">中壢</button>
+                    <button class="chip text-sm-500">中壢</button>
+                    <button class="chip-active text-sm-500">中壢</button>
+                    <button class="chip-active text-sm-500">中壢</button>
+                </div>
+            </div>
+            <div class="select-subindex-div">
+                <p class="text-base-500">監測項目</p>
+                <div id="subindex-select">
+                    <button class="chip text-sm-500">AQI 空氣品質指標</button>
+                    <button class="chip text-sm-500">CO</button>
+                    <button class="chip text-sm-500">O3</button>
+                    <button class="chip text-sm-500">O3 8小時</button>
+                    <button class="chip text-sm-500">PM10</button>
+                    <button class="chip text-sm-500">PM2.5</button>
+                    <button class="chip text-sm-500">No2</button>
+                    <button class="chip text-sm-500">Co2</button>
+                </div>
+            </div>
+            <div class="select-confirm-div">
+                <button class="btn-outline-primary">
+                    <i class="mdi mdi-magnify"></i>
+                    送出查詢
+                </button>
+            </div>
         </section>
         <section id="chart-render">
             <h3>近七日空氣品質指標</h3>

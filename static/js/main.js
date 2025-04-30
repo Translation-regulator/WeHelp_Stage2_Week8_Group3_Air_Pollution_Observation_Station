@@ -2,8 +2,8 @@ import { renderHeaderAndFooter } from "./feature/headerAndFooter.js";
 import { getAirData } from "./function/getAirData.js";
 import { getCountyAndStation } from "./function/getCountyAndStation.js";
 import { createAirDataTable } from "./feature/createAirDataTable.js";
-import { getChart } from "./feature/chartData.js";
-
+import { getChart } from "./feature/renderChartData.js";
+import { createPreviousSelect } from "./feature/createPreviousSelect.js";
 
 
 document.addEventListener('DOMContentLoaded', async() => {
@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', async() => {
         previousPageBtn.addEventListener('click', ()=>{
             window.location.href='/index.html';
         })
+
+        createPreviousSelect();
 
         // 先 addeventListner 獲取站點資料
         getChart();

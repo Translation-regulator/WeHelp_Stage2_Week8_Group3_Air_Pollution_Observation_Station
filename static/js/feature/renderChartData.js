@@ -1,16 +1,17 @@
 export async function getChart(){
-    await getAQIData("6", "新北市"); //先寫死用新北市板橋的資料
+    await getChartData("6", "新北市"); //先寫死用新北市板橋的資料
 }
 
-async function getAQIData(siteId, county) {
+// --------- 取得 chart 所需資料 --------- 
+async function getChartData(siteId, county) {
     const url = 'https://data.moenv.gov.tw/api/v2/aqx_p_434?api_key=b68831b5-fc06-4223-879c-9d92b9d4d293';
     try {
         const response = await fetch(url);
         const result = await response.json();
         const records = result.records;
-        console.log(records)
+        // console.log(records)
         
-        // 取出資料陣列
+        // 只取資料前七筆，並以時間做陣列
         const siteIdRecords = [];
         for (const item of records){
             if (item.siteid === siteId){
@@ -20,6 +21,7 @@ async function getAQIData(siteId, county) {
         }
         siteIdRecords.sort((a,b) => new Date(a.monitordate) - new Date(b.monitordate))
         
+        // chart 需要 array 值，所以將上述七筆資料調整成 chart 的需求
         const siteIdForChart ={
             county: county,
             sitename: siteIdRecords[0].sitename,
@@ -45,7 +47,8 @@ async function getAQIData(siteId, county) {
             siteIdForChart.pm25subindexData.push(Number(item.pm25subindex || 0));
             siteIdForChart.so2subindexData.push(Number(item.so2subindex || 0));
         });
-        console.log(siteIdForChart)
+        console.log(siteIdForChart);
+
         renderChart(siteIdForChart);
     } catch (error) {
         console.error('抓取 AQI 資料失敗:', error);
@@ -53,7 +56,7 @@ async function getAQIData(siteId, county) {
 }
 
 
-
+// --------- 渲染 chart --------- 
 function renderChart(data){
     const chartRender = document.getElementById('chart-render');
     chartRender.style.display = 'flex';
