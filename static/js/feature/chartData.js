@@ -8,7 +8,7 @@ async function getAQIData(siteId, county) {
         const response = await fetch(url);
         const result = await response.json();
         const records = result.records;
-        // console.log(records)
+        console.log(records)
         
         // 取出資料陣列
         const siteIdRecords = [];
@@ -25,13 +25,13 @@ async function getAQIData(siteId, county) {
             sitename: siteIdRecords[0].sitename,
             monitordateData : [], //日期
             aqiData : [], //空氣品質指標
-            cosubindexData : [], //一氧化碳副指標
-            no2subindexData : [], //二氧化氮副指標
-            o3subindexData : [], //臭氧副指標
-            o38subindexData : [], //臭氧8小時副指標
-            pm10subindexData : [], //懸浮微粒副指標
-            pm25subindexData : [], //細懸浮微粒副指標
-            so2subindexData : [], //二氧化硫副指標
+            cosubindexData : [], //一氧化碳副指標 (ppm)
+            o3subindexData : [], //臭氧副指標(ppm)
+            o38subindexData : [], //臭氧8小時副指標(ppm)
+            pm10subindexData : [], //懸浮微粒副指標(μg/m3 )
+            pm25subindexData : [], //細懸浮微粒副指標(μg/m3 )
+            no2subindexData : [], //二氧化氮副指標(ppb)
+            so2subindexData : [], //二氧化硫副指標(ppb)
         }
 
         siteIdRecords.forEach(item => {
@@ -39,7 +39,7 @@ async function getAQIData(siteId, county) {
             siteIdForChart.aqiData.push(Number(item.aqi || 0));
             siteIdForChart.cosubindexData.push(Number(item.cosubindex || 0));
             siteIdForChart.no2subindexData.push(Number(item.no2subindex || 0));
-            siteIdForChart.o3subindexData.push(Number(item.o3subindex || 0)); // 有些為空字串
+            siteIdForChart.o3subindexData.push(Number(item.o3subindex || 0)); 
             siteIdForChart.o38subindexData.push(Number(item.o38subindex || 0));
             siteIdForChart.pm10subindexData.push(Number(item.pm10subindex || 0));
             siteIdForChart.pm25subindexData.push(Number(item.pm25subindex || 0));
@@ -70,16 +70,78 @@ function renderChart(data){
         type: 'line',
         data: {
             labels: data.monitordateData,
-            datasets: [
+            datasets:[
                 {
-                    label: 'PM2.5 濃度 μg/m³',
+                    label: 'PM2.5 (μg/m³)',
                     data: data.pm25subindexData,
-                    backgroundColor: '#08abae',
                     borderColor: '#08a2a5',
-                    tension: 0.4,
+                    backgroundColor: '#08abae',
                     fill: false,
-                    pointRadius: 4,
-                    pointHoverRadius: 6,
+                    tension: 0.4,
+                    yAxisID: 'y-μg/m3',
+                },
+                {
+                    label: 'PM10 (μg/m³)',
+                    data: data.pm10subindexData,
+                    borderColor: '#FDB45C',
+                    backgroundColor: '#FDB45C',
+                    fill: false,
+                    tension: 0.4,
+                    yAxisID: 'y',
+                },
+                {
+                    label: 'CO (ppm)',
+                    data: data.cosubindexData,
+                    borderColor: '#4BC0C0',
+                    backgroundColor: '#4BC0C0',
+                    fill: false,
+                    tension: 0.4,
+                    yAxisID: 'y-right-CO',
+                },
+                {
+                    label: 'O₃ (ppm)',
+                    data: data.o3subindexData,
+                    borderColor: '#C9CBCF',
+                    backgroundColor: '#C9CBCF',
+                    fill: false,
+                    tension: 0.4,
+                    yAxisID: 'y-right',
+                },
+                {
+                    label: 'O₃ 8hr (ppm)',
+                    data: data.o38subindexData,
+                    borderColor: '#FF9F40',
+                    backgroundColor: '#FF9F40',
+                    fill: false,
+                    tension: 0.4,
+                    yAxisID: 'y-right',
+                },
+                {
+                    label: 'NO₂ (ppb)',
+                    data: data.no2subindexData,
+                    borderColor: '#9966FF',
+                    backgroundColor: '#9966FF',
+                    fill: false,
+                    tension: 0.4,
+                    yAxisID: 'y-ppb',
+                },
+                {
+                    label: 'SO₂ (ppb)',
+                    data: data.so2subindexData,
+                    borderColor: '#36A2EB',
+                    backgroundColor: '#36A2EB',
+                    fill: false,
+                    tension: 0.4,
+                    yAxisID: 'y-ppb',
+                },
+                {
+                    label: 'AQI 指標',
+                    data: data.aqiData,
+                    borderColor: '#FF6384',
+                    backgroundColor: '#FF6384',
+                    fill: true,
+                    tension: 0.4,
+                    
                 }
             ]
         },
@@ -106,10 +168,10 @@ function renderChart(data){
                 y: {
                     beginAtZero: true,
                     min: 0, 
-                    max: 100, 
+                    max: 500, 
                     title: {
                         display: true,
-                        text: '(μg/m³)'
+                        text: 'AQI',
                     }
                 },
                 x: {
@@ -117,8 +179,66 @@ function renderChart(data){
                         display: true,
                         text: '日期',
                     }
+                },
+                'y-μg/m3': {
+                    type: 'linear',
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: '濃度 (μg/m³)',
+                    },
+                    beginAtZero: true,
+                    min: 0, 
+                    max: 650,
+                    grid: {
+                        drawOnChartArea: false,
+                    }
+                },
+                'y-ppb': {
+                    type: 'linear',
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: '濃度 (ppb)',
+                    },
+                    beginAtZero: true,
+                    min: 0, 
+                    max: 100, 
+                    offset: true,
+                    grid: {
+                        drawOnChartArea: false,
+                    }
+                },
+                'y-right': {
+                    type: 'linear',
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: '濃度 (ppm)',
+                    },
+                    beginAtZero: true,
+                    min: 0, 
+                    max: 0.1, 
+                    grid: {
+                        drawOnChartArea: false,
+                    }
+                },
+                'y-right-CO': {
+                    type: 'linear',
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: '濃度 (ppm)',
+                    },
+                    beginAtZero: true,
+                    min: 0, 
+                    max: 50, 
+                    grid: {
+                        drawOnChartArea: false,
+                    }
                 }
             }
         }
     });
 }
+
