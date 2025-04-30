@@ -43,4 +43,5 @@ main{
   display: flex;
   height: auto;
   flex-direction: row;
+  overflow: visible;
 }
