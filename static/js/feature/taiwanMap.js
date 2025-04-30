@@ -178,16 +178,26 @@ function taiwanMap() {
       });
       dom.appendChild(ul);
     },
-    createStation: (lon, lat, status) => {
-      console.log(lon, lat, status);
-      const [x, y] = model.d3.projection([lon, lat]);
+    createStation: (stationData, status) => {
+      // console.log(obj);
+      const [x, y] = model.d3.projection([
+        stationData.twd97lon,
+        stationData.twd97lat,
+      ]);
       model.d3.svg
         .append("circle")
         .attr("class", "taiwan-map-station")
         .attr("cx", x)
         .attr("cy", y)
         .attr("r", 8)
-        .attr("fill", model.statusColor[status]);
+        .attr("data-stationCounty", stationData.county)
+        .attr("data-stationSitename", stationData.sitename)
+        .attr("fill", model.statusColor[status])
+        .on("click", function () {
+          const county = this.dataset.stationCounty;
+          const siteName = this.dataset.stationSitename;
+          console.log(county, siteName);
+        });
     },
   };
   const controller = {
@@ -210,8 +220,9 @@ function taiwanMap() {
         e.stopPropagation();
         // console.log(e.target);
         if (e.target.dataset.county) {
-          console.log(model.clickCountry);
-          console.log(e.target.dataset.county);
+          // console.log(e.target.dataset.county);
+          model.d3.svg.selectAll("*").classed("taiwan-map-select", false);
+          model.clickCountry.attr("class", "taiwan-map-select");
           model.d3.svg.selectAll("circle.taiwan-map-station").remove();
           let stationData = await getCountyAndStation({
             county: e.target.dataset.county,
@@ -219,7 +230,7 @@ function taiwanMap() {
           stationData.forEach(async (el) => {
             console.log(el);
             const siteData = await getAirData({ sitename: el.sitename });
-            view.createStation(el.twd97lon, el.twd97lat, siteData.status);
+            view.createStation(el, siteData.status);
           });
           // console.log(stationData);
           // d3.select(e.target).attr("fill", "var(--color-zinc-600)");
