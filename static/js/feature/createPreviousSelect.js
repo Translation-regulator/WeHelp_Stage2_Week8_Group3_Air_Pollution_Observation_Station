@@ -45,6 +45,8 @@ async function renderSiteChip(event){
         newSiteData.className = "chip text-sm-500 site-select-option";
         siteSelect.appendChild(newSiteData);
     });
+    const firstSiteSelect = siteSelect.querySelector(".chip");
+    firstSiteSelect.classList.add('chip-active');
 }
 
 
