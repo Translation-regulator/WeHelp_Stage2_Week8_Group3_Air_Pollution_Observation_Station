@@ -2,6 +2,7 @@
 @import url("headerAndFooter.css");
 @import url("component.css");
 @import url("global.css");
+@import url("airDataTable.css");
 
 *, *::before, *::after{
     box-sizing: border-box;
