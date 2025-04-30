@@ -160,8 +160,15 @@ function renderChart(data){
                     position: 'top'
                 },
                 tooltip: {
-                    mode: 'index',
+                    mode: 'nearest',
                     intersect: false,
+                    callbacks: {
+                        label: function(context) {
+                          const label = context.dataset.label || '';
+                          const value = context.formattedValue;
+                          return `${label}: ${value}`;
+                        }
+                    }
                 }
             },
             scales: {
