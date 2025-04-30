@@ -1,6 +1,6 @@
 import { getCountyAndStation } from "../function/getCountyAndStation.js";
 import { getAirData } from "../function/getAirData.js";
-
+import { sendMessage } from "../function/sendMessageToDiscord.js"
 export const createAirDataTable = async () => {
   let newAirDataDom = document.createElement("div");
   let newAirDataTitle = document.createElement("div");
@@ -51,7 +51,7 @@ export const createAirDataTable = async () => {
     // 取得縣市資料
     const selectedCounty = event.target.value;
     const stationData = await getCountyAndStation({ county: selectedCounty });
-    console.log("該縣市的測站資料：", stationData);
+    // console.log("該縣市的測站資料：", stationData);
 
     // 取得容器DOM
     let airDataDOM = document.getElementById("airDataDom");
@@ -81,14 +81,12 @@ export const createAirDataTable = async () => {
     .addEventListener("click", async (event) => {
       if (event.target.classList.contains("airData__station__btn")) {
         const stationName = event.target.textContent;
-        console.log("點擊監測站：", stationName);
+        // console.log("點擊監測站：", stationName);
 
         // 取得該監測站的空汙資料
         let stationAirData = await getAirData({ sitename: stationName });
-        console.log(stationAirData);
+        // console.log(stationAirData);
         let AQIScore = stationAirData.aqi;
-
-
 
         // 取得容器DOM
         const airDataDOM = document.getElementById("airDataDom");
@@ -99,6 +97,19 @@ export const createAirDataTable = async () => {
         let newStationAirDataHeader = document.createElement("div");
         newStationAirDataHeader.className = "airData__stationDataHead";
         airDataDOM.appendChild(newStationAirDataHeader);
+        if (AQIScore <= 50) {
+          newStationAirDataHeader.classList.add("airData__stationDataHead--lightGreen");
+        } else if (51 <= AQIScore <= 100) {
+          newStationAirDataHeader.classList.add("airData__stationDataHead--darkGreen");
+        } else if (101 <= AQIScore <= 150) {
+          newStationAirDataHeader.classList.add("airData__stationDataHead--lightYellow");
+        } else if (151 <= AQIScore <= 200) {
+          newStationAirDataHeader.classList.add("airData__stationDataHead--darkYellow");
+        }else if (201 <= AQIScore <= 300) {
+          newStationAirDataHeader.classList.add("airData__stationDataHead--lightRed");
+        } else {
+          newStationAirDataHeader.classList.add("airData__stationDataHead--darkRed");
+        }
 
         // 概要框框
         let newStationSummary = document.createElement("div");
@@ -137,7 +148,11 @@ export const createAirDataTable = async () => {
           imgUrl = "../static/image/good.png";
         } else if (51 <= AQIScore <= 100) {
           imgUrl = "../static/image/soso.png";
-        } else if (101 <= AQIScore <= 300) {
+        } else if (101 <= AQIScore <= 150) {
+          imgUrl = "../static/image/bad.png";
+        } else if (151 <= AQIScore <= 200) {
+          imgUrl = "../static/image/bad.png";
+        }else if (201 <= AQIScore <= 300) {
           imgUrl = "../static/image/bad.png";
         } else {
           imgUrl = "../static/image/popo.png";
@@ -169,7 +184,7 @@ export const createAirDataTable = async () => {
           .querySelector(".airData__stationDataHead")
           .appendChild(newTimeDiv);
 
-        //新增叉叉
+        // 新增叉叉
         let newCrossImg = document.createElement("img");
         newCrossImg.className = "airData__stationDataHead__cross";
         newCrossImg.src = "../static/image/cross.png";
@@ -177,19 +192,131 @@ export const createAirDataTable = async () => {
           .querySelector(".airData__stationDataHead")
           .appendChild(newCrossImg);
 
-        //點擊叉叉回到選擇縣市畫面
+        // 點擊叉叉回到選擇縣市畫面
         document
           .querySelector(".airData__stationDataHead__cross")
           .addEventListener("click", function () {
-            window.location.href = "/index.html";
+            window.location.href = "/";
           });
 
-        //渲染空污資料
+        // 渲染空污資料
         let newAirDataContent = document.createElement("div");
         newAirDataContent.className = "airData__content";
         airDataDOM.appendChild(newAirDataContent);
-          
-        //Discord按鈕
+
+        // 整理空汙資料的順序&格式
+        let airDataAnalyze = [
+          {
+            key: "O3",
+            subtitle: "臭氧",
+            concen: stationAirData.o3,
+            unit: "ppb",
+            avgKey: "o3_8hr",
+            avgTitle: "8 小時平均濃度",
+            avgConcen: stationAirData.o3_8hr,
+          },
+          {
+            key: "PM2.5",
+            subtitle: "細懸浮微粒",
+            concen: stationAirData["pm2.5"],
+            unit: "μg/m3",
+            avgKey: "pm2.5_avg",
+            avgTitle: "平均濃度",
+            avgConcen: stationAirData["pm2.5_avg"],
+          },
+          {
+            key: "PM10",
+            subtitle: "懸浮微粒",
+            concen: stationAirData.pm10,
+            unit: "μg/m3",
+            avgKey: "pm10_avg",
+            avgTitle: "平均濃度",
+            avgConcen: stationAirData.pm10_avg,
+          },
+          {
+            key: "CO",
+            subtitle: "一氧化碳",
+            concen: stationAirData.co,
+            unit: "ppb",
+            avgKey: "co_8hr",
+            avgTitle: "8 小時平均濃度",
+            avgConcen: stationAirData.co_8hr,
+          },
+          {
+            key: "SO2",
+            subtitle: "二氧化硫",
+            concen: stationAirData.so2,
+            unit: "ppb",
+            avgKey: "so2_avg",
+            avgTitle: "平均濃度",
+            avgConcen: stationAirData.so2_avg,
+          },
+          {
+            key: "NO",
+            subtitle: "一氧化氮",
+            concen: stationAirData.no,
+            unit: "ppb",
+          },
+          {
+            key: "NO2",
+            subtitle: "二氧化氮",
+            concen: stationAirData.no2,
+            unit: "ppb",
+          },
+        ];
+        // 建立渲染的html格式
+        let airDataHTML = "";
+        airDataAnalyze.forEach((item, index) => {
+          let airDataClass =
+            index % 2 === 0
+              ? "airData__content__item--even"
+              : "airData__content__item--odd";
+
+          if (item.avgKey) {
+            airDataHTML += `
+                <div class="${airDataClass}">
+                    <div class="item__title">
+                        <p class="item__title__EngTitle text-2xl-700">${item.key}</sub></p>
+                        <p class="item__title__ChiTitle text-base-500">${item.subtitle}</p>
+                    </div>
+                    <div class="item__data">
+                        <div class="item__data__row">
+                            <p class="row__title text-base-500">${item.avgTitle}</p>
+                            <p class="row__score text-2xl-700">${item.avgConcen}</p>
+                            <p class="row__unit text-sm-500">${item.unit}</p>
+                        </div>
+                        <div class="item__data__hr"></div>
+                        <div class="item__data__row">
+                            <p class="row__title text-base-500">小時濃度</p>
+                            <p class="row__score text-2xl-700">${item.concen}</p>
+                            <p class="row__unit text-sm-500">${item.unit}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+          } else {
+            airDataHTML += `
+                <div class="${airDataClass}">
+                    <div class="item__title">
+                        <p class="item__title__EngTitle text-2xl-700">${item.key}</sub></p>
+                        <p class="item__title__ChiTitle text-base-500">${item.subtitle}</p>
+                    </div>
+                    <div class="item__data">
+                        <div class="item__data__row">
+                            <p class="row__title text-base-500">小時濃度</p>
+                            <p class="row__score text-2xl-700">${item.concen}</p>
+                            <p class="row__unit text-sm-500">${item.unit}</p>
+                        </div>
+                    </div>
+                </div>
+            
+            
+            `;
+          }
+        });
+        newAirDataContent.innerHTML=airDataHTML;
+
+        // Discord按鈕
         let newDiscordDiv = document.createElement("div");
         newDiscordDiv.className = "airData__discord";
         airDataDOM.appendChild(newDiscordDiv);
@@ -197,16 +324,20 @@ export const createAirDataTable = async () => {
         newDiscordBtn.className = "airData__discord__btn text-sm-500";
         newDiscordBtn.innerText = "發送至Discord";
         newDiscordDiv.appendChild(newDiscordBtn);
-        //discord圖片
+        // discord圖片
         let newDiscordImg = document.createElement("img");
         newDiscordImg.className = "airData__discord__img";
         newDiscordImg.src = "../static/image/discord.png";
         newDiscordBtn.appendChild(newDiscordImg);
 
-        // 取得監測站ID，給Discord按鈕做連接使用
-        window.chooseSiteId = stationAirData.siteid;
-        console.log(window.chooseSiteId);
+        // 取得監測站縣市及名稱，供discord button 使用
+        // console.log(stationAirData);
+        let sendStationData = {county:stationAirData.county,sitename:stationAirData.sitename};
+        console.log(sendStationData);
+        // let discrodBtn = querySelector(".airData__discord__btn");
+        newDiscordBtn.addEventListener('click',function(){
+          sendMessage(sendStationData);
+        });
       }
     });
 };
-
