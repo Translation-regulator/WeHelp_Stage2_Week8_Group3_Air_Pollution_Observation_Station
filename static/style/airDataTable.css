@@ -1,6 +1,6 @@
 .airData{
     width: 400px;
-    height: 656px;
+    height: 752px;
     position: relative;
 }
 
@@ -135,6 +135,59 @@
 
 .status__AQI__status{
     text-align: center;
+}
+
+.airData__stationDataHead__time{
+    color: var(--color-zinc-100);
+}
+
+.airData__stationDataHead__cross{
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    right:9.5px;
+    top: 10.5px;
+    cursor: pointer;
+}
+
+
+/* 空污資訊部分 */
+.airData__content{
+    width: 100%;
+    height: 576px;
+    background-color: aquamarine;
+    overflow-y: scroll;
+}
+
+
+/* Discord按鈕部分 */
+.airData__discord{
+    width: 100%;
+    height: 60px;
+    background-color: var(--color-white-100);
+    border-radius: 0 0 24px 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.airData__discord__btn{
+    width: 352px;
+    height: 36px;
+    border-radius: 12px;
+    color: var(--color-white-100);
+    background-color: var(--color-primary-500);
+    border: 1px solid var(--color-primary-500);
+    cursor: pointer;
+    position: relative;
+}
+
+.airData__discord__img{
+    width: 24px;
+    height: 18.58px;
+    position: absolute;
+    top: 8.67px;
+    left: 16px;
 }
 
 
