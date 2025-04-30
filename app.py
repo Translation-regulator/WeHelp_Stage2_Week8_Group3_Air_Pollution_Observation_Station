@@ -6,7 +6,8 @@ from typing import List
 import httpx
 import requests
 from fastapi import FastAPI, HTTPException, Query
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse,FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from dotenv import load_dotenv
@@ -28,6 +29,8 @@ async def lifespan(app: FastAPI):
     # （若需 shutdown 清理，可在這裡加入）
 
 app = FastAPI(lifespan=lifespan)
+
+app.mount("/", StaticFiles(directory=".", html=True), name="static")
 
 # 用來記錄最新 ImportDate
 _last_import: str = None
@@ -148,9 +151,22 @@ def start_scheduler():
     sched.start()
 
 # --------- FastAPI 路由 ---------
+# 根目錄對應 index.html
 @app.get("/", response_class=HTMLResponse)
-async def root():
-    return open("test-index.html", encoding="utf-8").read()
+async def serve_index():
+    return FileResponse("index.html")
+
+@app.get("/previous", response_class=HTMLResponse)
+async def serve_index():
+    return FileResponse("previous.html")
+
+# 通用路由：讓 /xxx 對應 xxx.html（例如 /previous -> previous.html）
+@app.get("/{page_name}", response_class=HTMLResponse)
+async def serve_page(page_name: str):
+    filename = f"{page_name}.html"
+    if os.path.exists(filename):
+        return FileResponse(filename)
+    raise HTTPException(status_code=404, detail="Page not found")
 
 @app.get("/stations")
 async def stations():
