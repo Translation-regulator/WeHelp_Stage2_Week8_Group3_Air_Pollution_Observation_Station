@@ -2,12 +2,14 @@ import { renderHeaderAndFooter } from "./feature/headerAndFooter.js";
 import { getAirData } from "./function/getAirData.js";
 import { getCountyAndStation } from "./function/getCountyAndStation.js";
 import taiwanMap from "./feature/taiwanMap.js";
-import { getChart } from "./feature/renderChartData.js";
 import { createPreviousSelect } from "./feature/createPreviousSelect.js";
 import { confirmPreviousSelect } from "./feature/confirmPreviousSelect.js";
 import { renderSearchCounty } from "./feature/renderSearchConty.js";
 import { onStationListClick } from "./feature/onStationListClick.js";
 import { onAirDataDomClick } from "./feature/renderStationAirData.js";
+import { createPreviousSelect } from "./feature/createPreviousSelect.js";
+import { confirmPreviousSelect } from "./feature/confirmPreviousSelect.js";
+import { revisePreviousPage } from "./feature/revisePreviousPage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   await renderHeaderAndFooter();
@@ -29,10 +31,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     onStationListClick(allStations); // 監聽縣市下拉選單並渲染監測站按鈕
     onAirDataDomClick(); //監聽監測站按鈕
 
-
-    const mainPageBtn = document.getElementById("main-page-btn");
-    mainPageBtn.style.display = "flex";
-    mainPageBtn.addEventListener("click", () => {
+    const previousPageBtn = document.getElementById("previous-page-btn");
+    previousPageBtn.style.display = "flex";
+    previousPageBtn.addEventListener("click", () => {
       window.location.href = "/previous.html";
     });
   }
@@ -40,16 +41,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (path === "/previous.html") {
     console.log("歷史監測資料");
 
-    const previousPageBtn = document.getElementById("previous-page-btn");
-    previousPageBtn.style.display = "flex";
-    previousPageBtn.addEventListener("click", () => {
-      window.location.href = "/index.html";
-    });
-
+    revisePreviousPage(); //頁面調整
     createPreviousSelect(); //縣市觀測站渲染
     confirmPreviousSelect(); //送出圖表需求
-
-    // 先 addeventListner 獲取站點資料
-    getChart();
   }
 });
