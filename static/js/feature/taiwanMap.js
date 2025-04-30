@@ -5,9 +5,11 @@ import { getAirData } from "../function/getAirData.js";
 
 function taiwanMap() {
   const model = {
-    hoverCountry: "",
+    hoverCountry: {},
     clickCountry: {},
-    d3: { svg: {}, topoData: {}, geoData: {}, projection: {} },
+    d3: { svg: {}, topoData: {}, geoData: {}, projection: {}, path: {} },
+    allStationData: {},
+    stationDataByCountry: {},
     statusColor: {
       良好: "var(--color-primary-400)",
       普通: "var(--color-primary-600)",
@@ -18,34 +20,13 @@ function taiwanMap() {
       偵測中: "var(--color-zinc-600)",
       undefined: "var(--color-zinc-600)",
     },
-    getStatusStyle: async (countyName) => {
-      const site = await getCountyAndStation({ county: `${countyName}` });
-      const data = await getAirData({
-        county: `${countyName}`,
-        sitename: `${site}`,
+    organizeStationData: function () {
+      model.allStationData.forEach((stationData) => {
+        const exit = this.stationDataByCountry[stationData.county];
+        exit
+          ? this.stationDataByCountry[stationData.county].push(stationData)
+          : (this.stationDataByCountry[stationData.county] = [stationData]);
       });
-      let style = "";
-      switch (data.status) {
-        case "良好":
-          style = "var(--color-primary-400)";
-          break;
-        case "普通":
-          style = "var(--color-primary-600)";
-          break;
-        case "對敏感族群不健康":
-          style = "var(--color-yellow-400)";
-          break;
-        case "對所有族群不健康":
-          style = "var(--color-yellow-600)";
-          break;
-        case "不健康":
-          style = "var(--color-red-400)";
-          break;
-        case "危險":
-          style = "var(--color-red-800)";
-          break;
-      }
-      return style;
     },
   };
   const view = {
@@ -76,32 +57,32 @@ function taiwanMap() {
         .translate([width / 1.5, height / 2]);
 
       // .geoPath()將地理資料轉換成SVG使用的d屬性字串
-      const path = d3.geoPath().projection(model.d3.projection);
+      model.d3.path = d3.geoPath().projection(model.d3.projection);
 
       model.d3.svg
         .selectAll("path")
         .data(model.d3.geoData.features)
         .enter()
         .append("path")
-        .attr("d", path)
+        .attr("d", model.d3.path)
         .attr("data-county", (d) => d.properties.COUNTYNAME)
         .style("fill", "var(--color-zinc-400)")
         .style("stroke", "white")
         .style("stroke-width", 1)
         .on("mouseover", function (event) {
           const countyName = this.dataset.county;
-          model.hoverCountry = countyName;
+          model.hoverCountry = d3.select(this);
           d3.select(this).style("fill", "var(--color-zinc-500)");
-          //   d3.select(this).style("fill", status);
+          // view.createCountryName(model.hoverCountry);
         })
         .on("mouseout", function () {
           d3.select(this).style("fill", "var(--color-zinc-400)");
-          model.hoverCountry = "";
+          // model.d3.svg.selectAll(".taiwan-map-country-name").remove();
+          // model.d3.svg.selectAll(".taiwan-map-name-bg").remove();
+          model.hoverCountry = {};
         })
         .on("click", function () {
-          const countyName = this.dataset.county;
-          // d3.select(this).style("fill", "var(--color-zinc-600)");
-          // model.clickCountry = countyName;
+          // const countyName = this.dataset.county;
           model.clickCountry = d3.select(this);
         });
 
@@ -138,17 +119,18 @@ function taiwanMap() {
           .style("fill", "transparent")
           .on("mouseover", function (event) {
             const countyName = this.dataset.county;
-            model.hoverCountry = `${nodeName}縣`;
+            // model.hoverCountry = `${nodeName}縣`;
+            model.hoverCountry = d3.select(this);
             d3.select(this).style("fill", "var(--color-zinc-500)");
-            //   d3.select(this).style("fill", status);
+            // view.createCountryName(hoverCountry);
           })
           .on("mouseout", function () {
             d3.select(this).style("fill", "transparent");
-            model.hoverCountry = "";
+            // model.d3.svg.selectAll(".taiwan-map-country-name").remove();
+            // model.d3.svg.selectAll(".taiwan-map-name-bg").remove();
+            model.hoverCountry = {};
           })
           .on("click", function () {
-            // d3.select(this).style("fill", "var(--color-zinc-600)");
-            // model.clickCountry = `${nodeName}縣`;
             model.clickCountry = d3.select(this);
           });
 
@@ -159,6 +141,7 @@ function taiwanMap() {
     },
     createHint: (dom) => {
       const ul = document.createElement("ul");
+      ul.style.padding = "12px";
       const data = [
         ["偵測中", model.statusColor["偵測中"]],
         ["危險", model.statusColor["危險"]],
@@ -179,10 +162,9 @@ function taiwanMap() {
       dom.appendChild(ul);
     },
     createStation: (stationData, status) => {
-      // console.log(obj);
       const [x, y] = model.d3.projection([
-        stationData.twd97lon,
-        stationData.twd97lat,
+        stationData.longitude,
+        stationData.latitude,
       ]);
       model.d3.svg
         .append("circle")
@@ -192,16 +174,81 @@ function taiwanMap() {
         .attr("r", 8)
         .attr("data-stationCounty", stationData.county)
         .attr("data-stationSitename", stationData.sitename)
+        .attr("data-stationsiteId", stationData.siteId)
+        .attr("data-stationSitename", stationData.sitename)
         .attr("fill", model.statusColor[status])
         .on("click", function () {
           const county = this.dataset.stationCounty;
           const siteName = this.dataset.stationSitename;
-          console.log(county, siteName);
+          const siteId = this.dataset.stationsiteId;
+          console.log(county, siteId, siteName);
         });
+    },
+    createCountryName: (d3Select) => {
+      const bbox = d3Select.node().getBBox();
+      let textNode = null;
+      if (d3Select.node().dataset.county === "高雄市") {
+        const bounds = model.d3.path.bounds(
+          model.d3.geoData.features.find(
+            (f) => f.properties.COUNTYNAME === "高雄市"
+          )
+        );
+        console.log(bounds);
+        const [x0, y0] = bounds[0];
+        const [x1, y1] = bounds[1];
+
+        textNode = model.d3.svg
+          .append("text")
+          .attr("class", "taiwan-map-country-name")
+          .attr("x", x1 / 1.5 - 20)
+          .attr("y", y0 * 1.2 + 10)
+          .text(d3Select.node().dataset.county)
+          .attr("font-size", "12px")
+          .style("fill", "var(--color-primary-500)");
+      } else if (d3Select.node().dataset.county === "宜蘭縣") {
+        textNode = model.d3.svg
+          .append("text")
+          .attr("class", "taiwan-map-country-name")
+          .attr("x", bbox.x + bbox.width / 5)
+          .attr("y", bbox.y + bbox.height / 1.2)
+          .text(d3Select.node().dataset.county)
+          .attr("font-size", "12px")
+          .style("fill", "var(--color-primary-500)");
+      }else if (d3Select.node().dataset.county === "金門縣") {
+        textNode = model.d3.svg
+          .append("text")
+          .attr("class", "taiwan-map-country-name")
+          .attr("x", bbox.x + bbox.width/2)
+          .attr("y", bbox.y + bbox.height / 1.2)
+          .text(d3Select.node().dataset.county)
+          .attr("font-size", "12px")
+          .style("fill", "var(--color-primary-500)");
+      } else {
+        textNode = model.d3.svg
+          .append("text")
+          .attr("class", "taiwan-map-country-name")
+          .attr("x", bbox.x + bbox.width / 1.5 + 10)
+          .attr("y", bbox.y + bbox.height / 1.5)
+          .text(d3Select.node().dataset.county)
+          .attr("font-size", "12px")
+          .style("fill", "var(--color-primary-500)");
+      }
+      const textbbox = textNode.node().getBBox();
+
+      model.d3.svg
+        .insert("rect", "text")
+        .attr("class", "taiwan-map-name-bg")
+        .attr("x", textbbox.x - 4)
+        .attr("y", textbbox.y - 2)
+        .attr("width", textbbox.width + 8)
+        .attr("height", textbbox.height + 4)
+        .style("fill", "var(--color-zinc900-60)")
+        .attr("rx", 8);
     },
   };
   const controller = {
     init: async () => {
+      console.log(window.innerHeight);
       const main = document.querySelector("main");
       const container = view.createDiv(main);
       container.classList.add("taiwan-map-container");
@@ -211,29 +258,25 @@ function taiwanMap() {
       hint.classList.add("taiwan-map-hint");
       view.createHint(hint);
       view.createTaiwan(taiwanContainer);
-
-      taiwanContainer.addEventListener("mouseover", (e) => {
-        // console.log(model.hoverCountry);
+      model.allStationData = await getAirData("total");
+      model.organizeStationData();
+      model.allStationData.forEach((el) => {
+        view.createStation(el, el.status);
       });
 
       taiwanContainer.addEventListener("click", async (e) => {
         e.stopPropagation();
-        // console.log(e.target);
         if (e.target.dataset.county) {
-          // console.log(e.target.dataset.county);
+          model.d3.svg.selectAll(".taiwan-map-country-name").remove();
+          model.d3.svg.selectAll(".taiwan-map-name-bg").remove();
+          view.createCountryName(model.clickCountry);
           model.d3.svg.selectAll("*").classed("taiwan-map-select", false);
           model.clickCountry.attr("class", "taiwan-map-select");
           model.d3.svg.selectAll("circle.taiwan-map-station").remove();
-          let stationData = await getCountyAndStation({
-            county: e.target.dataset.county,
-          });
+          let stationData = model.stationDataByCountry[e.target.dataset.county];
           stationData.forEach(async (el) => {
-            console.log(el);
-            const siteData = await getAirData({ sitename: el.sitename });
-            view.createStation(el, siteData.status);
+            view.createStation(el, el.status);
           });
-          // console.log(stationData);
-          // d3.select(e.target).attr("fill", "var(--color-zinc-600)");
         }
       });
     },
