@@ -1,4 +1,8 @@
 import { renderHeaderAndFooter } from "./feature/headerAndFooter.js";
+import { getAirData } from "./function/getAirData.js";
+import { getCountyAndStation } from "./function/getCountyAndStation.js";
+import { createAirDataTable } from "./feature/createAirDataTable.js";
+
 
 document.addEventListener('DOMContentLoaded', async() => {
     await renderHeaderAndFooter();

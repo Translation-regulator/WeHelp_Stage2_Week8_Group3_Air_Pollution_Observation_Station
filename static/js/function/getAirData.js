@@ -6,17 +6,20 @@ export async function getAirData(param) {
       "https://data.moenv.gov.tw/api/v2/aqx_p_432?api_key=9e565f9a-84dd-4e79-9097-d403cae1ea75&limit=1000&sort=ImportDate%20desc&format=JSON"
     );
     let data = await response.json();
-    let stationData = getCountyAndStation({county:"total"}); // 取得監測站資料
-
+    
     // 如果fetch到的資料包含所有測站資料，進行以下
     if (data.include_total === true) {
       let airData = data.records; //airData為一個陣列，包含所有測站的大氣資料
 
-      // 根據不同參數給出不同資料
+      // 過濾多餘的監測站資料
+      let stationData =await getCountyAndStation({county:"total"}); // 取得監測站資料
+      const siteNamesInStationData = stationData.map(item=>item.sitename);
+      const filterAirtData = airData.filter(item=>siteNamesInStationData.includes(item.sitename));
 
+      // 根據不同參數給出不同資料
       // total，給出資料為縣市、監測站ID、監測站名稱、經緯度、狀態、aqi分數、時間
       if (param === "total") {
-        let totalData = airData.map((item) => {
+        let totalData = filterAirtData.map((item) => {
           return {
             siteId: item.siteid,
             sitename: item.sitename,
@@ -38,7 +41,7 @@ export async function getAirData(param) {
         });
         return totalData;
       } else if (typeof param === "object"  && param.sitename) {
-        const targetData = airData.find(
+        const targetData = filterAirtData.find(
           (item) =>  item.sitename === param.sitename
         );
         return targetData || null;
@@ -53,8 +56,7 @@ export async function getAirData(param) {
   }
 }
 
-// console.log(getCountyAndStation({county:"total"}));
 // console.log(getAirData("total"));
-// console.log(getAirData({county:"基隆市",sitename:"基隆"}));
-// console.log(getCountyAndStation({ county: "新北市" }));
+// console.log(getAirData({sitename:"基隆"}));
+
 

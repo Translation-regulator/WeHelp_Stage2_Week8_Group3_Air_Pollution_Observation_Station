@@ -48,4 +48,3 @@ export const getCountyAndStation = async (param) => {
 // console.log(getCountyAndStation("county"));
 // console.log(getCountyAndStation({ county: "新北市" }));
 // console.log(getCountyAndStation({ county: "total" }))
-// console.log(getCountyAndStation("嘉義"));

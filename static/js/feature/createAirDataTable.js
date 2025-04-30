@@ -1,7 +1,7 @@
-import { getCountyAndStation } from "./getCountyAndStation.js";
-import { getAirData } from "./getAirData.js";
+import { getCountyAndStation } from "../function/getCountyAndStation.js";
+import { getAirData } from "../function/getAirData.js";
 
-const createAirDataTable = async () => {
+export const createAirDataTable = async () => {
   let newAirDataDom = document.createElement("div");
   let newAirDataTitle = document.createElement("div");
   let newAirDataTitleText = document.createTextNode("全國空氣指標即時觀測");
