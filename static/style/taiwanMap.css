@@ -6,11 +6,20 @@ svg {
 }
 
 .taiwan-map-container{
-    width: 60%;
     padding: 15px;
     margin-bottom: 20px;
     display: flex;
     flex: 1;
+    margin-right: 20px;
+    max-height: calc(100vh - 56px - 40px);
+    flex-direction: column;
+}
+
+@media screen and (min-width:992px) {
+  .taiwan-map-container {
+    width: 60%;
+    flex-direction: row;
+  }
 }
 
 .taiwan-map-taiwan{
