@@ -1,3 +1,14 @@
+.display-none{
+    display: none;
+}
+
+.airDataWrapper{
+    width: 400px;
+    height: 752px;
+    position: relative;
+
+}
+
 .airData{
     width: 400px;
     height: 752px;
@@ -121,6 +132,7 @@
     position: absolute;
     top: 20px;
     left: 0;
+    color: var(--color-white-100);
 }
 
 .stationDataHead__summary__status{
@@ -144,6 +156,7 @@
     position: absolute;
     top:8px;
     right: 24px;
+    color: var(--color-white-100);
 }
 
 .status__AQI__score{

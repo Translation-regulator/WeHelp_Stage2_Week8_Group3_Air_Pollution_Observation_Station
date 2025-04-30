@@ -3,7 +3,8 @@ import { getCountyAndStation } from "./getCountyAndStation.js"
 export async function getAirData(param) {
   try {
     let response = await fetch(
-      "https://data.moenv.gov.tw/api/v2/aqx_p_432?api_key=9e565f9a-84dd-4e79-9097-d403cae1ea75&limit=1000&sort=ImportDate%20desc&format=JSON"
+      // "https://data.moenv.gov.tw/api/v2/aqx_p_432?api_key=9e565f9a-84dd-4e79-9097-d403cae1ea75&limit=1000&sort=ImportDate%20desc&format=JSON"
+      "https://data.moenv.gov.tw/api/v2/aqx_p_432?api_key=1b814798-b98b-450b-afcb-d1e830d764d1&sort=ImportDate%20desc&format=JSON"
     );
     let data = await response.json();
     
@@ -19,27 +20,7 @@ export async function getAirData(param) {
       // 根據不同參數給出不同資料
       // total，給出資料為縣市、監測站ID、監測站名稱、經緯度、狀態、aqi分數、時間
       if (param === "total") {
-        let totalData = filterAirtData.map((item) => {
-          return {
-            siteId: item.siteid,
-            sitename: item.sitename,
-            county: item.county,
-            latitude: item.latitude,
-            longitude: item.longitude,
-            publishtime: item.publishtime,
-            status: item.status,
-            aqi: item.aqi,
-            // co: item.co,
-            // no: item.no,
-            // no2: item.no2,
-            // nox: item.nox,
-            // o3: item.o3,
-            // "pm2.5": item["pm2.5"],
-            // pm10: item.pm10,
-            // so2: item.so2,
-          };
-        });
-        return totalData;
+        return filterAirtData
       } else if (typeof param === "object"  && param.sitename) {
         const targetData = filterAirtData.find(
           (item) =>  item.sitename === param.sitename
