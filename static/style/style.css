@@ -3,6 +3,7 @@
 @import url("previousPage.css");
 @import url("component.css");
 @import url("global.css");
+@import url("airDataTable.css");
 
 *, *::before, *::after{
     box-sizing: border-box;
