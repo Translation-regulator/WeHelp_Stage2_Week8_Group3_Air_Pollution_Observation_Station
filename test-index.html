@@ -13,7 +13,9 @@
   </style>
 </head>
 <body>
-  <h1>選擇測站並發送到 Discord！</h1>
+  <h1>空氣品質即時發送 🌤️</h1>
+
+  <p id="status">正在偵測位置並推播最近測站...</p>
 
   <div>
     <select id="stationSelect">
@@ -21,32 +23,25 @@
     </select>
   </div>
 
-  <button id="sendButton" disabled>發送訊息</button>
-
-  <p id="status"></p>
+  <button id="sendButton" disabled>手動發送選取測站</button>
 
   <script>
 async function loadStations() {
   try {
     const res = await fetch("/stations");
-    const data = await res.json();  // 取得完整的資料
+    const data = await res.json();
 
-    if (data && data.records && Array.isArray(data.records)) {
-      const stations = data.records;  // 提取 records 中的測站資料
-
+    if (data.records && Array.isArray(data.records)) {
       const select = document.getElementById("stationSelect");
-      stations.forEach(station => {
+      data.records.forEach(station => {
         const option = document.createElement("option");
-        option.value = JSON.stringify({county: station.county, sitename: station.sitename});
+        option.value = JSON.stringify({ county: station.county, sitename: station.sitename });
         option.textContent = `${station.county} - ${station.sitename}`;
         select.appendChild(option);
       });
-
       select.addEventListener("change", () => {
         document.getElementById("sendButton").disabled = select.value === "";
       });
-    } else {
-      console.error("測站資料格式錯誤或沒有 records 字段");
     }
   } catch (err) {
     console.error("載入測站失敗", err);
@@ -56,36 +51,57 @@ async function loadStations() {
 async function sendMessage() {
   const select = document.getElementById("stationSelect");
   const status = document.getElementById("status");
-  
   if (select.value === "") return;
-
   const stationData = JSON.parse(select.value);
-  status.textContent = "⏳ 發送中...";
-
+  status.textContent = "⏳ 手動發送中...";
   try {
     const res = await fetch("/send_message", {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(stationData)
     });
-
     const result = await res.json();
-    
-    if (res.ok) {
-      status.textContent = `${result.message}`;
-    } else {
-      status.textContent = `${result.detail}`;
-    }
+    status.textContent = res.ok ? result.message : result.detail;
   } catch (err) {
     console.error("發送失敗", err);
-    status.textContent = "發送過程中出錯";
+    status.textContent = "手動發送時出錯";
   }
 }
 
 document.getElementById("sendButton").addEventListener("click", sendMessage);
 
-// 頁面一載入就讀取測站
-loadStations();
+// 自動定位與推播
+window.addEventListener("DOMContentLoaded", () => {
+  if (!navigator.geolocation) {
+    document.getElementById("status").textContent = "此瀏覽器不支援定位。";
+    loadStations();
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    ({ coords }) => {
+      const lat = coords.latitude;
+      const lon = coords.longitude;
+      document.getElementById("status").textContent =
+        `偵測到位置：${lat.toFixed(5)}, ${lon.toFixed(5)}，自動推播中...`;
+      fetch(`/auto_notify?lat=${lat}&lon=${lon}`)
+        .then(res => res.json())
+        .then(json => {
+          document.getElementById("status").textContent = json.message;
+        })
+        .catch(err => {
+          console.error(err);
+          document.getElementById("status").textContent = "自動推播失敗";
+        });
+      loadStations();
+    },
+    err => {
+      console.error(err);
+      document.getElementById("status").textContent = "無法取得位置，請允許定位。";
+      loadStations();
+    },
+    { enableHighAccuracy: true, timeout: 5000 }
+  );
+});
   </script>
 </body>
 </html>
