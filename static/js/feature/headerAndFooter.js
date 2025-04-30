@@ -17,6 +17,6 @@ export async function renderHeaderAndFooter(){
     document.body.appendChild(footer);
 
     document.querySelector('header nav h3').addEventListener('click', ()=>{
-        window.location.href='/index.html';
+        window.location.href='/';
     })
 }

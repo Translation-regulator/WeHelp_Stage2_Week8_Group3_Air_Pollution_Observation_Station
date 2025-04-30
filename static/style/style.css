@@ -3,7 +3,9 @@
 @import url("previousPage.css");
 @import url("component.css");
 @import url("global.css");
+@import url("taiwanMap.css");
 @import url("airDataTable.css");
+@import url("taiwanMap.css");
 
 *, *::before, *::after{
     box-sizing: border-box;
@@ -26,4 +28,19 @@ ul, ol{
 main{
     height: calc(100vh - 56px - 40px);
     margin-top: 56px;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+main {
+    height: calc(100vh - 56px - 40px);
+    margin-top: 56px;
+    width: 100%;
+    max-width: 1280px;
+    display: flex;
 }
