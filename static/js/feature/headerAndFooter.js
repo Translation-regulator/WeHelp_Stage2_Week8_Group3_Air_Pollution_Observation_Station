@@ -19,4 +19,18 @@ export async function renderHeaderAndFooter(){
     document.querySelector('header nav h3').addEventListener('click', ()=>{
         window.location.href='/';
     })
+
+    rwdHeader();
 }
+
+function rwdHeader(){
+    const hideHeaderText = document.querySelector('#header-logo h3');
+    const isMobileScreen = window.matchMedia('(max-width: 601px)').matches;
+    if (isMobileScreen){
+        hideHeaderText.style.display = 'none';
+    }else{
+        hideHeaderText.style.display = 'block';
+    }
+}
+
+window.addEventListener('resize', rwdHeader);
