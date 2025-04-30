@@ -18,6 +18,10 @@ svg {
     flex: 1;    
 }
 
+.taiwan-map-select {
+  fill: var(--color-zinc-600)!important;
+}
+
 .taiwan-map-hint {
   display: flex;
   align-items: end;
