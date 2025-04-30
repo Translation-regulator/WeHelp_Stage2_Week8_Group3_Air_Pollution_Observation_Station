@@ -31,7 +31,6 @@ function rwdHeader(){
     }else{
         hideHeaderText.style.display = 'block';
     }
-    console.log('working')
 }
 
 window.addEventListener('resize', rwdHeader);

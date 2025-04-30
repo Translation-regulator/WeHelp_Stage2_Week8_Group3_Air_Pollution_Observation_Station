@@ -46,6 +46,10 @@ export async function getChartData(county, siteId, subindex) {  //新北市, 9 ,
         console.log('siteid 七日數值',siteIdForChart);
 
         renderChart(siteIdForChart, subindex);
+
+        // 顯示圖表區塊，並平滑捲動過去
+        const chartSection = document.querySelector('#chart-render');
+        chartSection.scrollIntoView({ behavior: 'smooth' });
     } catch (error) {
         console.error('抓取 AQI 資料失敗:', error);
     }
