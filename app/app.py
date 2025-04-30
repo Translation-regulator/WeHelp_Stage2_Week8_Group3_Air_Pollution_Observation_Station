@@ -149,11 +149,6 @@ def start_scheduler():
     sched.start()
 
 # --------- FastAPI 路由 ---------
-
-@app.get("/previous", response_class=HTMLResponse)
-async def previous():
-    return FileResponse("previous.html")
-
 @app.get("/stations")
 async def stations():
     recs = await fetch_all_records()
