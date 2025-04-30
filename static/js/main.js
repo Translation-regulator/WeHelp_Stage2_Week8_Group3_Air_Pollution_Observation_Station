@@ -21,9 +21,9 @@ document.addEventListener('DOMContentLoaded', async() => {
 
         //渲染右側縣市及觀測站空污資訊
         createAirDataTable();
-        const mainPageBtn = document.getElementById('main-page-btn');
-        mainPageBtn.style.display = "flex";
-        mainPageBtn.addEventListener('click', ()=>{
+        const previousPageBtn = document.getElementById('previous-page-btn');
+        previousPageBtn.style.display = "flex";
+        previousPageBtn.addEventListener('click', ()=>{
             window.location.href='/previous.html';
         })
     }
