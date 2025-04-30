@@ -59,12 +59,12 @@ section{
 }
 
 #chart-frame{
-    max-width: 1200px;
+    max-width: 800px;
     height: auto;
     padding-top: 24px;
 }
 
 #aqiChart{
-    width: 1200px;
-    height: 600px;
+    width: 800px;
+    height: 400px;
 }

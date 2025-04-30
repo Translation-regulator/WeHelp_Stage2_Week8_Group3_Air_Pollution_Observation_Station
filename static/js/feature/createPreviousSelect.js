@@ -41,6 +41,7 @@ async function renderSiteChip(event){
     stationData.forEach((item) => {
         let newSiteData = document.createElement("button");
         newSiteData.textContent = item.sitename;
+        newSiteData.id = `site-select-${item.siteid}`;
         newSiteData.className = "chip text-sm-500 site-select-option";
         siteSelect.appendChild(newSiteData);
     });

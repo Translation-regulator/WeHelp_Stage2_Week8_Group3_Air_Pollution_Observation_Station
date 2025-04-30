@@ -4,7 +4,7 @@ import { getCountyAndStation } from "./function/getCountyAndStation.js";
 import { createAirDataTable } from "./feature/createAirDataTable.js";
 import { getChart } from "./feature/renderChartData.js";
 import { createPreviousSelect } from "./feature/createPreviousSelect.js";
-
+import { confirmPreviousSelect } from "./feature/confirmPreviousSelect.js";
 
 document.addEventListener('DOMContentLoaded', async() => {
     await renderHeaderAndFooter();
@@ -31,7 +31,8 @@ document.addEventListener('DOMContentLoaded', async() => {
             window.location.href='/index.html';
         })
 
-        createPreviousSelect();
+        createPreviousSelect(); //縣市觀測站渲染
+        confirmPreviousSelect(); //送出圖表需求
 
         // 先 addeventListner 獲取站點資料
         getChart();
