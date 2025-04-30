@@ -43,7 +43,7 @@ export async function getChartData(county, siteId, subindex) {  //新北市, 9 ,
             siteIdForChart.pm25subindexData.push(Number(item.pm25subindex || 0));
             siteIdForChart.so2subindexData.push(Number(item.so2subindex || 0));
         });
-        console.log('siteid 七日數值',siteIdForChart);
+        // console.log('siteid 七日數值',siteIdForChart);
 
         renderChart(siteIdForChart, subindex);
 
@@ -283,7 +283,7 @@ function renderChart(data, subindex){
         };
     }).reverse();
     
-    console.log('datasets for chart',datasets)
+    // console.log('datasets for chart',datasets)
     
     // 動態產出 scaleY object
     let scales = {};
@@ -305,7 +305,7 @@ function renderChart(data, subindex){
     }
     scales["x"] = allScale["x"];
     
-    console.log('scales for chart',scales)
+    // console.log('scales for chart',scales)
     
     // 自訂 Plugin：高亮對應 y 軸的 ticks 顏色
     const highlightYAxisPlugin = {
