@@ -84,11 +84,28 @@
 .airData__stationDataHead{
     width: 100%;
     height: 116px;
-    background-color: var(--color-red-800);
     border-radius: 24px 24px 0 0 ;
     padding: 12px 24px;
     box-sizing: border-box;
-    
+}
+/* 根據分數顯示顏色 */
+.airData__stationDataHead--lightGreen{
+    background-color: var(--color-primary-400);
+}
+.airData__stationDataHead--darkGreen{
+    background-color: var(--color-primary-600);
+}
+.airData__stationDataHead--lightYellow{
+    background-color: var(--color-yellow-400);
+}
+.airData__stationDataHead--darkYellow{
+    background-color: var(--color-yellow-600);
+}
+.airData__stationDataHead--lightRed{
+    background-color: var( --color-red-400);
+}
+.airData__stationDataHead--darkRed{
+    background-color: var(--color-red-600);
 }
 
 .airData__stationDataHead__summary{
@@ -155,9 +172,115 @@
 .airData__content{
     width: 100%;
     height: 576px;
-    background-color: aquamarine;
-    overflow-y: scroll;
+    background-color: var(--color-white-100);
+    /* overflow-y: scroll; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
+.airData__content__item--even{
+    width: 100%;
+    height: 96px;
+    display: flex;
+    align-items: center;
+    background-color: var(--color-zinc-50);
+    border-bottom: 1px solid var(--color-zinc-200);
+}
+
+.airData__content__item--odd{
+    width: 100%;
+    height: 96px;
+    display: flex;
+    align-items: center;
+    background-color: var(--color-zinc-200);
+}
+
+.item__title{
+    width: 80px;
+    height: 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--color-zinc-700);
+}
+
+.item__title__EngTitle{
+    text-align: center;
+    color: var(--color-zinc-700);
+}
+
+.item__title__ChiTitle{
+    text-align: center;
+    color: var(--color-zinc-700);
+
+}
+
+.item__data{
+    width: 300px;
+    height: 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.item__data__row{
+    width: 100%;
+    height: 32px;
+    display: flex;
+    align-items: center;
+}
+
+.item__data__hr{
+    width: 100%;
+    height: 1px;
+    border: 1px solid var(--color-zinc-400);
+}
+
+.row__title{
+    width: 178px;
+    text-align: center;
+    color: var(--color-zinc-700);
+}
+
+.row__score{
+    width: 64px;
+    text-align: right;
+    color: var(--color-primary-500);
+}
+
+.row__unit{
+    width: 50px;
+    height: 20px;
+    margin-left: 6px;
+    color: var(--color-zinc-700);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* Discord按鈕部分 */
@@ -189,6 +312,7 @@
     top: 8.67px;
     left: 16px;
 }
+
 
 
 
