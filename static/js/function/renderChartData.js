@@ -1,9 +1,5 @@
-export async function renderChartData(){
-    await getChartData("6", "新北市"); //先寫死用新北市板橋的資料
-}
-
 // --------- 取得 chart 所需資料 --------- 
-async function getChartData(siteId, county, subindex) {
+export async function getChartData(county, siteId, subindex) {  //新北市, 9 ,['AQI', 'PM25', 'NO2']
     const url = 'https://data.moenv.gov.tw/api/v2/aqx_p_434?api_key=1b814798-b98b-450b-afcb-d1e830d764d1';
     try {
         const response = await fetch(url);
@@ -47,9 +43,9 @@ async function getChartData(siteId, county, subindex) {
             siteIdForChart.pm25subindexData.push(Number(item.pm25subindex || 0));
             siteIdForChart.so2subindexData.push(Number(item.so2subindex || 0));
         });
-        console.log(siteIdForChart);
+        console.log('siteid 七日數值',siteIdForChart);
 
-        renderChart(siteIdForChart);
+        renderChart(siteIdForChart, subindex);
     } catch (error) {
         console.error('抓取 AQI 資料失敗:', error);
     }
@@ -57,11 +53,255 @@ async function getChartData(siteId, county, subindex) {
 
 
 // --------- 渲染 chart --------- 
-function renderChart(data){
+function renderChart(data, subindex){
     const chartRender = document.getElementById('chart-render');
     chartRender.style.display = 'flex';
     const chartTitle = document.querySelector('#chart-render h3');
     chartTitle.textContent = `${data.county}/${data.sitename} 近七日空氣品質指標`;
+    
+    
+    const allDatasets = {
+        'PM25':{
+            label: 'PM2.5 (μg/m³)',
+            data: data.pm25subindexData,
+            borderColor: '#ef5e4a',
+            backgroundColor: '#ef5e4a',
+            fill: false,
+            tension: 0.4,
+            yAxisID: 'y-μg/m3',
+        },
+        'PM10':{
+            label: 'PM10 (μg/m³)',
+            data: data.pm10subindexData,
+            borderColor: '#fb9e3e',
+            backgroundColor: '#fb9e3e',
+            fill: false,
+            tension: 0.4,
+            yAxisID: 'y-μg/m3',
+        },
+        'CO':{
+            label: 'CO (ppm)',
+            data: data.cosubindexData,
+            borderColor: '#4BC0C0',
+            backgroundColor: '#4BC0C0',
+            fill: false,
+            tension: 0.4,
+            yAxisID: 'y-right-CO',
+        },
+        'O3':{
+            label: 'O₃ (ppm)',
+            data: data.o3subindexData,
+            borderColor: '#D67BA8',
+            backgroundColor: '#D67BA8',
+            fill: false,
+            tension: 0.4,
+            yAxisID: 'y-right-O3',
+        },
+        'O38':{
+            label: 'O₃ 8hr (ppm)',
+            data: data.o38subindexData,
+            borderColor: '#C0B558',
+            backgroundColor: '#C0B558',
+            fill: false,
+            tension: 0.4,
+            yAxisID: 'y-right-O3',
+        },
+        'NO2':{
+            label: 'NO₂ (ppb)',
+            data: data.no2subindexData,
+            borderColor: '#9966FF',
+            backgroundColor: '#9966FF',
+            fill: false,
+            tension: 0.4,
+            yAxisID: 'y-ppb',
+        },
+        'SO2':{
+            label: 'SO₂ (ppb)',
+            data: data.so2subindexData,
+            borderColor: '#36A2EB',
+            backgroundColor: '#36A2EB',
+            fill: false,
+            tension: 0.4,
+            yAxisID: 'y-ppb',
+        },
+        'AQI':{
+            label: 'AQI 指標',
+            data: data.aqiData,
+            borderColor: '#08abae',
+            backgroundColor: '#ceeeef',
+            fill: true,
+            tension: 0.4,
+            yAxisID: 'y-aqi'
+        }
+    }
+    
+    const allScale = {
+        x: {
+            title: {
+                display: true,
+                text: '日期',
+                font: {
+                    weight: 'bold',
+                    size: 14,
+                }
+            }
+        },
+        'y-aqi': {
+            type: 'linear',
+            position: 'left',
+            title: {
+                display: true,
+                text: 'AQI',
+                color: '#888' ,
+                font: {
+                    weight: 'regular',
+                    size: 14,
+                }
+            },
+            beginAtZero: true,
+            min: 0, 
+            max: 500, 
+            ticks: { 
+                color: '#888',
+                font: {
+                    weight: 'regular',
+                    size: 14,
+                }
+            },
+            grid: { drawOnChartArea: false }
+        },
+        'y-μg/m3': {
+            type: 'linear',
+            position: 'left',
+            title: {
+                display: true,
+                text: '濃度 (μg/m³)',
+                color: '#888',
+                font: {
+                    weight: 'regular',
+                    size: 14,
+                }
+            },
+            beginAtZero: true,
+            min: 0, 
+            max: 200,
+            ticks: { 
+                color: '#888',
+                font: {
+                    weight: 'regular',
+                    size: 14,
+                } 
+            },
+            grid: { drawOnChartArea: false }
+        },
+        'y-ppb': {
+            type: 'linear',
+            position: 'left',
+            title: {
+                display: true,
+                text: '濃度 (ppb)',
+                color: '#888',
+                font: {
+                    weight: 'regular',
+                    size: 14,
+                }
+            },
+            beginAtZero: true,
+            min: 0, 
+            max: 100, 
+            offset: true,
+            ticks: { 
+                color: '#888',
+                font: {
+                    weight: 'regular',
+                    size: 14,
+                }
+            },
+            grid: { drawOnChartArea: false }
+        },
+        'y-right-O3': {
+            type: 'linear',
+            position: 'right',
+            title: {
+                display: true,
+                text: '濃度 (ppm)',
+                color: '#888',
+                font: {
+                    weight: 'regular',
+                    size: 14,
+                }
+            },
+            beginAtZero: true,
+            min: 0, 
+            max: 150, 
+            ticks: { 
+                color: '#888',
+                font: {
+                    weight: 'regular',
+                    size: 14,
+                }
+            },
+            grid: { drawOnChartArea: false }
+        },
+        'y-right-CO': {
+            type: 'linear',
+            position: 'right',
+            title: {
+                display: true,
+                text: '濃度 (ppm)',
+                color: '#888',
+                font: {
+                    weight: 'regular',
+                    size: 14,
+                } 
+            },
+            beginAtZero: true,
+            min: 0, 
+            max: 10, 
+            ticks: { 
+                color: '#888',
+                font: {
+                    weight: 'regular',
+                    size: 14,
+                } 
+            },
+            grid: { drawOnChartArea: false }
+        }
+    }
+    
+    // 動態產出 datasets array
+    const datasets = subindex.map(key => {
+        const config = allDatasets[key];
+        return {
+            ...config,
+            fill: config.fill || false,
+            tension: 0.4
+        };
+    }).reverse();
+    
+    console.log('datasets for chart',datasets)
+    
+    // 動態產出 scaleY object
+    let scales = {};
+    const subindexSet = new Set(subindex); // 加速查找效率
+    if (subindexSet.has('PM25') || subindexSet.has('PM10')) {
+        scales["y-μg/m3"] = allScale["y-μg/m3"];
+    }
+    if (subindexSet.has('CO')) {
+        scales["y-right-CO"] = allScale["y-right-CO"];
+    }
+    if (subindexSet.has('O3') || subindexSet.has('O38')) {
+        scales["y-right-O3"] = allScale["y-right-O3"];
+    }
+    if (subindexSet.has('NO2') || subindexSet.has('SO2')) {
+        scales["y-ppb"] = allScale["y-ppb"];
+    }
+    if (subindexSet.has('AQI')) {
+        scales["y-aqi"] = allScale["y-aqi"];
+    }
+    scales["x"] = allScale["x"];
+    
+    console.log('scales for chart',scales)
     
     // 自訂 Plugin：高亮對應 y 軸的 ticks 顏色
     const highlightYAxisPlugin = {
@@ -98,11 +338,10 @@ function renderChart(data){
                 chart.options.scales[yAxisID].title.font.weight = 'bold';
                 needUpdate = true;
                 }
-            }
-      
+            }      
             if (needUpdate) chart.update('none'); // 加 'none' 可避免動畫卡頓
         }
-      };
+    };
       
     Chart.register(highlightYAxisPlugin);
 
@@ -117,80 +356,7 @@ function renderChart(data){
         type: 'line',
         data: {
             labels: data.monitordateData,
-            datasets:[
-                {
-                    label: 'PM2.5 (μg/m³)',
-                    data: data.pm25subindexData,
-                    borderColor: '#ef5e4a',
-                    backgroundColor: '#ef5e4a',
-                    fill: false,
-                    tension: 0.4,
-                    yAxisID: 'y-μg/m3',
-                },
-                {
-                    label: 'PM10 (μg/m³)',
-                    data: data.pm10subindexData,
-                    borderColor: '#fb9e3e',
-                    backgroundColor: '#fb9e3e',
-                    fill: false,
-                    tension: 0.4,
-                    yAxisID: 'y-μg/m3',
-                },
-                {
-                    label: 'CO (ppm)',
-                    data: data.cosubindexData,
-                    borderColor: '#4BC0C0',
-                    backgroundColor: '#4BC0C0',
-                    fill: false,
-                    tension: 0.4,
-                    yAxisID: 'y-right-CO',
-                },
-                {
-                    label: 'O₃ (ppm)',
-                    data: data.o3subindexData,
-                    borderColor: '#D67BA8',
-                    backgroundColor: '#D67BA8',
-                    fill: false,
-                    tension: 0.4,
-                    yAxisID: 'y-right-O3',
-                },
-                {
-                    label: 'O₃ 8hr (ppm)',
-                    data: data.o38subindexData,
-                    borderColor: '#C0B558',
-                    backgroundColor: '#C0B558',
-                    fill: false,
-                    tension: 0.4,
-                    yAxisID: 'y-right-O3',
-                },
-                {
-                    label: 'NO₂ (ppb)',
-                    data: data.no2subindexData,
-                    borderColor: '#9966FF',
-                    backgroundColor: '#9966FF',
-                    fill: false,
-                    tension: 0.4,
-                    yAxisID: 'y-ppb',
-                },
-                {
-                    label: 'SO₂ (ppb)',
-                    data: data.so2subindexData,
-                    borderColor: '#36A2EB',
-                    backgroundColor: '#36A2EB',
-                    fill: false,
-                    tension: 0.4,
-                    yAxisID: 'y-ppb',
-                },
-                {
-                    label: 'AQI 指標',
-                    data: data.aqiData,
-                    borderColor: '#08abae',
-                    backgroundColor: '#ceeeef',
-                    fill: true,
-                    tension: 0.4,
-                    yAxisID: 'y-aqi'
-                }
-            ]
+            datasets:datasets
         },
         options: {
             responsive: true,
@@ -218,139 +384,7 @@ function renderChart(data){
                 },
                 customHighlightAxis: {} // 啟用 plugin
             },
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: '日期',
-                        font: {
-                            weight: 'bold',
-                            size: 14,
-                        }
-                    }
-                },
-                'y-aqi': {
-                    type: 'linear',
-                    position: 'left',
-                    title: {
-                        display: true,
-                        text: 'AQI',
-                        color: '#888' ,
-                        font: {
-                            weight: 'regular',
-                            size: 14,
-                        }
-                    },
-                    beginAtZero: true,
-                    min: 0, 
-                    max: 500, 
-                    ticks: { 
-                        color: '#888',
-                        font: {
-                            weight: 'regular',
-                            size: 14,
-                        }
-                    },
-                    grid: { drawOnChartArea: false }
-                },
-                'y-μg/m3': {
-                    type: 'linear',
-                    position: 'left',
-                    title: {
-                        display: true,
-                        text: '濃度 (μg/m³)',
-                        color: '#888',
-                        font: {
-                            weight: 'regular',
-                            size: 14,
-                        }
-                    },
-                    beginAtZero: true,
-                    min: 0, 
-                    max: 200,
-                    ticks: { 
-                        color: '#888',
-                        font: {
-                            weight: 'regular',
-                            size: 14,
-                        } 
-                    },
-                    grid: { drawOnChartArea: false }
-                },
-                'y-ppb': {
-                    type: 'linear',
-                    position: 'left',
-                    title: {
-                        display: true,
-                        text: '濃度 (ppb)',
-                        color: '#888',
-                        font: {
-                            weight: 'regular',
-                            size: 14,
-                        }
-                    },
-                    beginAtZero: true,
-                    min: 0, 
-                    max: 100, 
-                    offset: true,
-                    ticks: { 
-                        color: '#888',
-                        font: {
-                            weight: 'regular',
-                            size: 14,
-                        }
-                    },
-                    grid: { drawOnChartArea: false }
-                },
-                'y-right-O3': {
-                    type: 'linear',
-                    position: 'right',
-                    title: {
-                        display: true,
-                        text: '濃度 (ppm)',
-                        color: '#888',
-                        font: {
-                            weight: 'regular',
-                            size: 14,
-                        }
-                    },
-                    beginAtZero: true,
-                    min: 0, 
-                    max: 150, 
-                    ticks: { 
-                        color: '#888',
-                        font: {
-                            weight: 'regular',
-                            size: 14,
-                        }
-                    },
-                    grid: { drawOnChartArea: false }
-                },
-                'y-right-CO': {
-                    type: 'linear',
-                    position: 'right',
-                    title: {
-                        display: true,
-                        text: '濃度 (ppm)',
-                        color: '#888',
-                        font: {
-                            weight: 'regular',
-                            size: 14,
-                        } 
-                    },
-                    beginAtZero: true,
-                    min: 0, 
-                    max: 10, 
-                    ticks: { 
-                        color: '#888',
-                        font: {
-                            weight: 'regular',
-                            size: 14,
-                        } 
-                    },
-                    grid: { drawOnChartArea: false }
-                }
-            }
+            scales: scales
         }
     });
 }

@@ -1,4 +1,4 @@
-import { renderChartData } from "../function/renderChartData.js";
+import { getChartData } from "../function/renderChartData.js";
 
 export function confirmPreviousSelect(){
     initSiteChips();
@@ -62,5 +62,5 @@ function collectSelect(){
     const subindexFinalIds = Array.from(subindexFinalSelect).map((item) => item.id.split('-')[2]);
     console.log(countyFinalSelect, siteFinalId, subindexFinalIds); 
 
-    renderChartData(countyFinalSelect, siteFinalId, subindexFinalIds); //南投縣 36 (3) ['AQI', 'O38', 'PM10']
+    getChartData(countyFinalSelect, siteFinalId, subindexFinalIds);//新北市, 9 ,['AQI', 'PM25', 'NO2']
 }
