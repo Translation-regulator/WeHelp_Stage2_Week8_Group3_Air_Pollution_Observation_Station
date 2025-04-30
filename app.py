@@ -153,11 +153,11 @@ def start_scheduler():
 # --------- FastAPI 路由 ---------
 # 根目錄對應 index.html
 @app.get("/", response_class=HTMLResponse)
-async def serve_index():
+async def index():
     return FileResponse("index.html")
 
 @app.get("/previous", response_class=HTMLResponse)
-async def serve_index():
+async def previous():
     return FileResponse("previous.html")
 
 # 通用路由：讓 /xxx 對應 xxx.html（例如 /previous -> previous.html）
