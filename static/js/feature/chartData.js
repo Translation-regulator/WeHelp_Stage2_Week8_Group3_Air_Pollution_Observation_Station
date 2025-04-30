@@ -175,8 +175,8 @@ function renderChart(data){
                 {
                     label: 'AQI 指標',
                     data: data.aqiData,
-                    borderColor: '#FF6384',
-                    backgroundColor: '#FF6384',
+                    borderColor: '#08abae',
+                    backgroundColor: '#ceeeef',
                     fill: true,
                     tension: 0.4,
                     yAxisID: 'y-aqi'
