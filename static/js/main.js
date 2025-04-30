@@ -1,11 +1,13 @@
 import { renderHeaderAndFooter } from "./feature/headerAndFooter.js";
 import { getAirData } from "./function/getAirData.js";
 import { getCountyAndStation } from "./function/getCountyAndStation.js";
+import taiwanMap from "./feature/taiwanMap.js";
 import { createAirDataTable } from "./feature/createAirDataTable.js";
 
 
 document.addEventListener('DOMContentLoaded', async() => {
     await renderHeaderAndFooter();
+    taiwanMap.init();
 
     const path = window.location.pathname;
     console.log(path)
