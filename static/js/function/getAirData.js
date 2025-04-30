@@ -19,27 +19,7 @@ export async function getAirData(param) {
       // 根據不同參數給出不同資料
       // total，給出資料為縣市、監測站ID、監測站名稱、經緯度、狀態、aqi分數、時間
       if (param === "total") {
-        let totalData = filterAirtData.map((item) => {
-          return {
-            siteId: item.siteid,
-            sitename: item.sitename,
-            county: item.county,
-            latitude: item.latitude,
-            longitude: item.longitude,
-            publishtime: item.publishtime,
-            status: item.status,
-            aqi: item.aqi,
-            // co: item.co,
-            // no: item.no,
-            // no2: item.no2,
-            // nox: item.nox,
-            // o3: item.o3,
-            // "pm2.5": item["pm2.5"],
-            // pm10: item.pm10,
-            // so2: item.so2,
-          };
-        });
-        return totalData;
+        return filterAirtData
       } else if (typeof param === "object"  && param.sitename) {
         const targetData = filterAirtData.find(
           (item) =>  item.sitename === param.sitename
