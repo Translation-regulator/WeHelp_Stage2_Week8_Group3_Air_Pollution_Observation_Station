@@ -69,24 +69,30 @@ function renderChart(data){
             const yAxisID = activeDataset?.yAxisID;
         
             // 所有 y 軸 ticks 預設顏色設回灰色
-            const scaleIds = ['y-aqi','y-μg/m3' , 'y-right', 'y-right-CO', 'y-ppb'];
+            const scaleIds = ['y-aqi','y-μg/m3' , 'y-right-O3', 'y-right-CO', 'y-ppb'];
             let needUpdate = false;
 
             scaleIds.forEach(id => {
                 const scale = chart.options.scales[id];
                 if (scale && scale.ticks.color !== '#888') {
                     scale.ticks.color = '#888';
+                    scale.title.color = '#888';
+                    scale.ticks.font.weight = 'regular';
+                    scale.title.font.weight = 'regular';                    
                     needUpdate = true;
                 }
             });
         
             // 將被 hover 的 y 軸 ticks 改為 dataset 對應的顏色
             if (yAxisID && chart.options.scales[yAxisID]) {
-                const currentColor = chart.options.scales[yAxisID].ticks.color;
+                const currentTicksColor = chart.options.scales[yAxisID].ticks.color;
                 const targetColor = activeDataset.borderColor;
         
-                if (currentColor !== targetColor) {
+                if (currentTicksColor !== targetColor) {
                 chart.options.scales[yAxisID].ticks.color = targetColor;
+                chart.options.scales[yAxisID].title.color = targetColor;
+                chart.options.scales[yAxisID].ticks.font.weight = 'bold';
+                chart.options.scales[yAxisID].title.font.weight = 'bold';
                 needUpdate = true;
                 }
             }
@@ -112,8 +118,8 @@ function renderChart(data){
                 {
                     label: 'PM2.5 (μg/m³)',
                     data: data.pm25subindexData,
-                    borderColor: '#08a2a5',
-                    backgroundColor: '#08abae',
+                    borderColor: '#ef5e4a',
+                    backgroundColor: '#ef5e4a',
                     fill: false,
                     tension: 0.4,
                     yAxisID: 'y-μg/m3',
@@ -121,8 +127,8 @@ function renderChart(data){
                 {
                     label: 'PM10 (μg/m³)',
                     data: data.pm10subindexData,
-                    borderColor: '#FDB45C',
-                    backgroundColor: '#FDB45C',
+                    borderColor: '#fb9e3e',
+                    backgroundColor: '#fb9e3e',
                     fill: false,
                     tension: 0.4,
                     yAxisID: 'y-μg/m3',
@@ -139,20 +145,20 @@ function renderChart(data){
                 {
                     label: 'O₃ (ppm)',
                     data: data.o3subindexData,
-                    borderColor: '#C9CBCF',
-                    backgroundColor: '#C9CBCF',
+                    borderColor: '#D67BA8',
+                    backgroundColor: '#D67BA8',
                     fill: false,
                     tension: 0.4,
-                    yAxisID: 'y-right',
+                    yAxisID: 'y-right-O3',
                 },
                 {
                     label: 'O₃ 8hr (ppm)',
                     data: data.o38subindexData,
-                    borderColor: '#FF9F40',
-                    backgroundColor: '#FF9F40',
+                    borderColor: '#C0B558',
+                    backgroundColor: '#C0B558',
                     fill: false,
                     tension: 0.4,
-                    yAxisID: 'y-right',
+                    yAxisID: 'y-right-O3',
                 },
                 {
                     label: 'NO₂ (ppb)',
@@ -214,6 +220,10 @@ function renderChart(data){
                     title: {
                         display: true,
                         text: '日期',
+                        font: {
+                            weight: 'bold',
+                            size: 14,
+                        }
                     }
                 },
                 'y-aqi': {
@@ -222,11 +232,22 @@ function renderChart(data){
                     title: {
                         display: true,
                         text: 'AQI',
+                        color: '#888' ,
+                        font: {
+                            weight: 'regular',
+                            size: 14,
+                        }
                     },
                     beginAtZero: true,
                     min: 0, 
                     max: 500, 
-                    ticks: { color: '#888' },
+                    ticks: { 
+                        color: '#888',
+                        font: {
+                            weight: 'regular',
+                            size: 14,
+                        }
+                    },
                     grid: { drawOnChartArea: false }
                 },
                 'y-μg/m3': {
@@ -235,11 +256,22 @@ function renderChart(data){
                     title: {
                         display: true,
                         text: '濃度 (μg/m³)',
+                        color: '#888',
+                        font: {
+                            weight: 'regular',
+                            size: 14,
+                        }
                     },
                     beginAtZero: true,
                     min: 0, 
-                    max: 650,
-                    ticks: { color: '#888' },
+                    max: 200,
+                    ticks: { 
+                        color: '#888',
+                        font: {
+                            weight: 'regular',
+                            size: 14,
+                        } 
+                    },
                     grid: { drawOnChartArea: false }
                 },
                 'y-ppb': {
@@ -248,25 +280,47 @@ function renderChart(data){
                     title: {
                         display: true,
                         text: '濃度 (ppb)',
+                        color: '#888',
+                        font: {
+                            weight: 'regular',
+                            size: 14,
+                        }
                     },
                     beginAtZero: true,
                     min: 0, 
                     max: 100, 
                     offset: true,
-                    ticks: { color: '#888' },
+                    ticks: { 
+                        color: '#888',
+                        font: {
+                            weight: 'regular',
+                            size: 14,
+                        }
+                    },
                     grid: { drawOnChartArea: false }
                 },
-                'y-right': {
+                'y-right-O3': {
                     type: 'linear',
                     position: 'right',
                     title: {
                         display: true,
                         text: '濃度 (ppm)',
+                        color: '#888',
+                        font: {
+                            weight: 'regular',
+                            size: 14,
+                        }
                     },
                     beginAtZero: true,
                     min: 0, 
-                    max: 0.1, 
-                    ticks: { color: '#888' },
+                    max: 150, 
+                    ticks: { 
+                        color: '#888',
+                        font: {
+                            weight: 'regular',
+                            size: 14,
+                        }
+                    },
                     grid: { drawOnChartArea: false }
                 },
                 'y-right-CO': {
@@ -275,11 +329,22 @@ function renderChart(data){
                     title: {
                         display: true,
                         text: '濃度 (ppm)',
+                        color: '#888',
+                        font: {
+                            weight: 'regular',
+                            size: 14,
+                        } 
                     },
                     beginAtZero: true,
                     min: 0, 
-                    max: 50, 
-                    ticks: { color: '#888' },
+                    max: 10, 
+                    ticks: { 
+                        color: '#888',
+                        font: {
+                            weight: 'regular',
+                            size: 14,
+                        } 
+                    },
                     grid: { drawOnChartArea: false }
                 }
             }
