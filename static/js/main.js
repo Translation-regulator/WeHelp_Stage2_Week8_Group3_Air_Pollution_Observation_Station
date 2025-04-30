@@ -7,8 +7,6 @@ import { confirmPreviousSelect } from "./feature/confirmPreviousSelect.js";
 import { renderSearchCounty } from "./feature/renderSearchConty.js";
 import { onStationListClick } from "./feature/onStationListClick.js";
 import { onAirDataDomClick } from "./feature/renderStationAirData.js";
-import { createPreviousSelect } from "./feature/createPreviousSelect.js";
-import { confirmPreviousSelect } from "./feature/confirmPreviousSelect.js";
 import { revisePreviousPage } from "./feature/revisePreviousPage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
