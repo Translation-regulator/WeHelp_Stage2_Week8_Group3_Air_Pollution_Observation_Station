@@ -3,7 +3,7 @@ import { getAirData } from "./function/getAirData.js";
 import { getCountyAndStation } from "./function/getCountyAndStation.js";
 import taiwanMap from "./feature/taiwanMap.js";
 import { createAirDataTable } from "./feature/createAirDataTable.js";
-
+import { sendMessage } from "./function/sendMessageToDiscord.js";
 
 document.addEventListener('DOMContentLoaded', async() => {
     await renderHeaderAndFooter();

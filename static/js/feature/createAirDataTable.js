@@ -1,6 +1,6 @@
 import { getCountyAndStation } from "../function/getCountyAndStation.js";
 import { getAirData } from "../function/getAirData.js";
-
+import { sendMessage } from "../function/sendMessageToDiscord.js"
 export const createAirDataTable = async () => {
   let newAirDataDom = document.createElement("div");
   let newAirDataTitle = document.createElement("div");
@@ -330,9 +330,14 @@ export const createAirDataTable = async () => {
         newDiscordImg.src = "../static/image/discord.png";
         newDiscordBtn.appendChild(newDiscordImg);
 
-        // 取得監測站ID，給Discord按鈕做連接使用
-        window.chooseSiteId = stationAirData.siteid;
-        // console.log(window.chooseSiteId);
+        // 取得監測站縣市及名稱，供discord button 使用
+        // console.log(stationAirData);
+        let sendStationData = {county:stationAirData.county,sitename:stationAirData.sitename};
+        console.log(sendStationData);
+        // let discrodBtn = querySelector(".airData__discord__btn");
+        newDiscordBtn.addEventListener('click',function(){
+          sendMessage(sendStationData);
+        });
       }
     });
 };
