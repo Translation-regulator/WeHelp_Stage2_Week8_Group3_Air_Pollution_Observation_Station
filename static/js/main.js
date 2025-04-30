@@ -20,27 +20,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 渲染台灣地圖
     taiwanMap.init();
 
-    // 渲染縣市及觀測站選單 & 空污資訊
-    const counties = await getCountyAndStation("county");
-    const allStations = await getCountyAndStation({ county: "total" });
-    const allStationAirData = await getAirData("total");
-    window["allStationAirData"] = allStationAirData;
-    renderSearchCounty(counties); // 渲染縣市下拉選單
-    onStationListClick(allStations); // 監聽縣市下拉選單並渲染監測站按鈕
-    onAirDataDomClick(); //監聽監測站按鈕
-
-    const previousPageBtn = document.getElementById("previous-page-btn");
-    previousPageBtn.style.display = "flex";
-    previousPageBtn.addEventListener("click", () => {
-      window.location.href = "/previous.html";
-    });
-  }
-
-  if (path === "/previous.html") {
-    console.log("歷史監測資料");
-
-    revisePreviousPage(); //頁面調整
-    createPreviousSelect(); //縣市觀測站渲染
-    confirmPreviousSelect(); //送出圖表需求
-  }
-});
+        //渲染右側縣市及觀測站空污資訊
+        createAirDataTable();
+        const previousPageBtn = document.getElementById('previous-page-btn');
+        previousPageBtn.style.display = "flex";
+        previousPageBtn.addEventListener('click', ()=>{
+            window.location.href='/previous.html';
+        })
+    }
+    
+    if (path === "/previous.html"){
+        console.log("歷史監測資料")
+        
+        revisePreviousPage(); //頁面調整
+        createPreviousSelect(); //縣市觀測站渲染
+        confirmPreviousSelect(); //送出圖表需求
+    }
+})

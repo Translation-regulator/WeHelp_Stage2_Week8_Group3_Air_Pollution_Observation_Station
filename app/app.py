@@ -30,8 +30,6 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.mount("/", StaticFiles(directory=".", html=True), name="static")
-
 # 用來記錄最新 ImportDate
 _last_import: str = None
 
@@ -151,23 +149,6 @@ def start_scheduler():
     sched.start()
 
 # --------- FastAPI 路由 ---------
-# 根目錄對應 index.html
-@app.get("/", response_class=HTMLResponse)
-async def index():
-    return FileResponse("index.html")
-
-@app.get("/previous", response_class=HTMLResponse)
-async def previous():
-    return FileResponse("previous.html")
-
-# 通用路由：讓 /xxx 對應 xxx.html（例如 /previous -> previous.html）
-@app.get("/{page_name}", response_class=HTMLResponse)
-async def serve_page(page_name: str):
-    filename = f"{page_name}.html"
-    if os.path.exists(filename):
-        return FileResponse(filename)
-    raise HTTPException(status_code=404, detail="Page not found")
-
 @app.get("/stations")
 async def stations():
     recs = await fetch_all_records()
@@ -201,6 +182,7 @@ async def auto_notify(lat: float = Query(...), lon: float = Query(...), km: floa
 
 @app.post("/send_message")
 async def send_message(data: SiteSelection):
+    # print(data)
     recs = await fetch_all_records()
     match = next((r for r in recs if r["county"] == data.county and r["sitename"] == data.sitename), None)
     if not match:
@@ -208,3 +190,28 @@ async def send_message(data: SiteSelection):
     payload = build_embed(match)
     send_to_discord(payload)
     return JSONResponse({"message": f"已推播 {data.county}/{data.sitename} AQI {match.get('aqi','N/A')}"})
+
+@app.post("/test")
+def test(data: SiteSelection):
+    print (data)
+    if (data):
+        return {"ok":True}
+    
+#  ----------- Static Pages -----------
+
+# 根目錄對應 index.html
+@app.get("/", response_class=HTMLResponse)
+async def index():
+    return FileResponse("./static/index.html")
+
+# 通用路由：讓 /xxx 對應 xxx.html（例如 /previous -> ./static/previous.html）
+@app.get("/{page_name}", response_class=HTMLResponse)
+async def serve_page(page_name: str):
+    filename = f"./static/{page_name}.html"
+    print(f"Requested file: {filename}")
+    if os.path.exists(filename):
+        return FileResponse(filename)
+    raise HTTPException(status_code=404, detail="Page not found")
+
+# app.mount("/", StaticFiles(directory=".", html=True), name="static")
+app.mount("/static", StaticFiles(directory="static", html=True), name="static")
