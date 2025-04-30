@@ -148,7 +148,7 @@
     -moz-appearance: none; /* 針對 Firefox */
     background:url(../image/down-arrow.png) no-repeat right 12px center;
     background-size: 16px 9px;
-    width: 320px;
+    max-width: 320px;
     height: 36px;
     max-height: 150px;
     border-radius:12px ;

@@ -16,15 +16,23 @@ header > nav{
     gap: 16px;
 }
 
-nav > h3{
+#header-logo{
+    cursor: pointer;
     color: var(--color-primary-500);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis;
-    border: none;
+    cursor: pointer;
+}
+
+#header-logo > h3{
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
     cursor: pointer;
 }
 
@@ -39,7 +47,7 @@ i.mdi-clouds{
     border: none;
 }
 
-nav > div{
+#nav-btn{
     display: flex;
     gap: 8px;
 }

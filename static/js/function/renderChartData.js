@@ -360,6 +360,7 @@ function renderChart(data, subindex){
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false, // 不要維持預設比例（例如 2:1）
             plugins: {
                 legend: {
                     display: true,
