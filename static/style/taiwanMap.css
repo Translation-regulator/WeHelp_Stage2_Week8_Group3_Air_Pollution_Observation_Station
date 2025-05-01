@@ -11,7 +11,6 @@ svg {
     display: flex;
     flex: 1;
     margin-right: 20px;
-    max-height: calc(100vh - 56px - 40px);
     flex-direction: column;
     position: relative;
 }
@@ -20,6 +19,7 @@ svg {
   .taiwan-map-container {
     width: 60%;
     flex-direction: row;
+    max-height: calc(100vh - 56px - 40px);
   }
 }
 
