@@ -11,7 +11,7 @@ import { revisePreviousPage } from "./feature/revisePreviousPage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   await renderHeaderAndFooter();
-  await getGeolocation();
+  const locationData = await getGeolocation();//最近的監測站和即時 aqi，{sitename: '豐原', county: '臺中市', siteid: '28', aqi: '73'}
 
   const path = window.location.pathname;
   console.log(path);

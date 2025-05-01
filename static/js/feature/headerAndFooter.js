@@ -45,11 +45,21 @@ export function getGeolocation(){
             const lat = coords.latitude;
             const lon = coords.longitude;
             document.getElementById("status").textContent =
-            `偵測到位置：${lat.toFixed(5)}, ${lon.toFixed(5)}，自動推播中...`;
+            `偵測到位置：${lat.toFixed(5)}, ${lon.toFixed(5)}，自動搜尋中...`;
             fetch(`/auto_notify?lat=${lat}&lon=${lon}`)
             .then(res => res.json())
             .then(json => {
-                document.getElementById("status").textContent = json.message;
+                console.log(json.data);
+                const county = json.data.county || "";
+                const sitename = json.data.sitename || "";
+                const aqi = json.data.aqi || "";
+                if (aqi){
+                    document.getElementById("status").textContent = 
+                        `已自動推播最近測站：${county}/${sitename}，AQI: ${aqi}`;
+                }else{
+                    document.getElementById("status").textContent = 
+                    `已自動推播最近測站：${county}/${sitename}`;
+                }
             })
             .catch(err => {
                 console.error(err);
@@ -64,7 +74,7 @@ export function getGeolocation(){
         },
         { enableHighAccuracy: true, timeout: 5000 }
     );
-
+    return county; //{sitename: '豐原', county: '臺中市', siteid: '28', aqi: '73'}
 }
 
 
