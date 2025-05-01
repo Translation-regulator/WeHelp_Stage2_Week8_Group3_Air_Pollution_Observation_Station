@@ -402,19 +402,6 @@
   background-color: var(--color-primary-800);
   border: 1px solid var(--color-primary-800);
 }
-/* discord按鈕背景顏色 */
-.airData__discord__btn--lightGreen{
-    background-color: var(--color-primary-400);
-    border: 1px solid var(--color-primary-400);
-}
-.airData__discord__btn--lightGreen:hover{
-    background-color: var(--color-primary-500);
-    border: 1px solid var(--color-primary-500);
-}
-.airData__discord__btn--lightGreen:active{
-    background-color: var(--color-primary-800);
-    border: 1px solid var(--color-primary-800);
-}
 
 .airData__discord__btn--darkGreen {
   background-color: var(--color-primary-600);
@@ -472,11 +459,11 @@
   background-color: var(--color-red-600);
   border: 1px solid var(--color-red-600);
 }
-.airData__discord__btn--darkRed {
+.airData__discord__btn--darkRed:hover {
   background-color: var(--color-red-800);
   border: 1px solid var(--color-red-800);
 }
-.airData__discord__btn--darkRed {
+.airData__discord__btn--darkRed:active {
   background-color: #9f4034;
   border: 1px solid #9f4034;
 }
