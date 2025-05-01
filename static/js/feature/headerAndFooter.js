@@ -57,7 +57,7 @@ export function getGeolocation(){
                     const aqi = locationData.aqi || "";
                     if (aqi){
                         document.getElementById("status").textContent = 
-                            `最近測站：${county}/${sitename}，AQI: ${aqi}`;
+                            `最近測站：${county}/${sitename}，當前 AQI: ${aqi}`;
                     }else{
                         document.getElementById("status").textContent = 
                         `最近測站：${county}/${sitename}`;
@@ -68,8 +68,6 @@ export function getGeolocation(){
                 .catch(err => {
                     // console.error(err);
                     document.getElementById("status").textContent = "自動偵測失敗，請手動選取探測站";
-                    let siteSelect = document.getElementById("site-select");
-                    siteSelect.innerHTML = "";
                     resolve(null);
                 });
 

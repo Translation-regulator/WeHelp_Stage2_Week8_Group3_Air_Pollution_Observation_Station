@@ -18,7 +18,7 @@ export async function createPreviousSelect(currentData = false){
     siteSelect.innerHTML = "";
 
     // 預選縣市
-    console.log("資料",currentData)
+    // console.log("資料",currentData)
     const defaultCounty = currentData ? currentData.county : '新北市';
     countySelect.value = defaultCounty;
     await renderSiteChip(currentData, { target: { value: defaultCounty } });
