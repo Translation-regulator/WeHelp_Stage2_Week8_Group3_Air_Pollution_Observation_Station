@@ -31,11 +31,20 @@
 5. AWS EC2 網站佈署
 
 #### 宜昀：
+1. 功能發想，分工討論
+2. 介面規格設計及定義設計規範，css guideline 編寫
+3. Chart.js 研究及實作
+4. 串接當前位置功能到畫面並帶入預設值
+5. 協助 UI/UX 優化及 debug
+```javascript
+    getGeolocation() //return {sitename: '豐原', county: '臺中市', siteid: '28', aqi: '73'}
+    getChartData(county, siteId, subindex)  //新北市, 9 ,['AQI', 'PM25', 'NO2']
+```
 
 #### 意惠：
 1. 功能發想，分工討論
 2. 站點 API 、即時空氣品質 API 串接與資料整理
-3. 探選單頁面、即時資料表格動態生成，並依空氣品質分級顯示不同顏色
+3. 縣市選單頁面、即時資料表格動態生成，並依空氣品質分級顯示不同顏色
 4. discord button 串接後端路由
 5. 提供共用function供組員使用 
 ```js
@@ -45,3 +54,6 @@ renderCountyStations("新北市")
 renderStationAirDataDom("三重")
 ```
 #### 妤甄：
+1. 結合 D3 與地理資料繪製台灣地圖
+2. 使用D3.js與JS實現互動式視覺效果
+3. 串接組員function實現觀測站點位置渲染及即時依空氣品質分級顏色渲染

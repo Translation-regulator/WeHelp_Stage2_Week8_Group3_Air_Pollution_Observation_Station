@@ -1,6 +1,6 @@
 // --------- 取得 chart 所需資料 --------- 
 export async function getChartData(county, siteId, subindex) {  //新北市, 9 ,['AQI', 'PM25', 'NO2']
-    const url = 'https://data.moenv.gov.tw/api/v2/aqx_p_434?api_key=1b814798-b98b-450b-afcb-d1e830d764d1';
+    const url = 'https://data.moenv.gov.tw/api/v2/aqx_p_434?api_key=b68831b5-fc06-4223-879c-9d92b9d4d293';
     try {
         const response = await fetch(url);
         const result = await response.json();
