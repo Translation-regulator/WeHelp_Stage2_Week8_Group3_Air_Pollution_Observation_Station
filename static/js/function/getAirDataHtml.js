@@ -1,3 +1,5 @@
+import { getAqiColor } from "./getAqiColorAndImgUrl.js";
+
 export function getAirDataHtml(airDataAnalyze) {
   let airDataHTML = "";
   airDataAnalyze.forEach((item, index) => {
@@ -16,13 +18,13 @@ export function getAirDataHtml(airDataAnalyze) {
                   <div class="item__data">
                       <div class="item__data__row">
                           <p class="row__title text-base-500">${item.avgTitle}</p>
-                          <p class="row__score text-2xl-700">${item.avgConcen}</p>
+                          <p class="row__score text-2xl-700 ${getAqiColor(item.key, item.avgConcen)}" >${item.avgConcen}</p>
                           <p class="row__unit text-sm-500">${item.unit}</p>
                       </div>
                       <div class="item__data__hr"></div>
                       <div class="item__data__row">
                           <p class="row__title text-base-500">小時濃度</p>
-                          <p class="row__score text-2xl-700">${item.concen}</p>
+                          <p class="row__score text-2xl-700 ${getAqiColor(item.key, item.concen)}">${item.concen}</p>
                           <p class="row__unit text-sm-500">${item.unit}</p>
                       </div>
                   </div>
@@ -38,7 +40,7 @@ export function getAirDataHtml(airDataAnalyze) {
                   <div class="item__data">
                       <div class="item__data__row">
                           <p class="row__title text-base-500">小時濃度</p>
-                          <p class="row__score text-2xl-700">${item.concen}</p>
+                          <p class="row__score text-2xl-700 ${getAqiColor(item.key, item.concen)}">${item.concen}</p>
                           <p class="row__unit text-sm-500">${item.unit}</p>
                       </div>
                   </div>

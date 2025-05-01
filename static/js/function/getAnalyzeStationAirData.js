@@ -31,7 +31,7 @@ export function getAnaylyzeStationAirData(stationAirData) {
       key: "CO",
       subtitle: "一氧化碳",
       concen: stationAirData.co,
-      unit: "ppb",
+      unit: "ppm",
       avgKey: "co_8hr",
       avgTitle: "8 小時平均濃度",
       avgConcen: stationAirData.co_8hr,
@@ -45,12 +45,12 @@ export function getAnaylyzeStationAirData(stationAirData) {
       avgTitle: "平均濃度",
       avgConcen: stationAirData.so2_avg,
     },
-    {
-      key: "NO",
-      subtitle: "一氧化氮",
-      concen: stationAirData.no,
-      unit: "ppb",
-    },
+    // {
+    //   key: "NO",
+    //   subtitle: "一氧化氮",
+    //   concen: stationAirData.no,
+    //   unit: "ppb",
+    // },
     {
       key: "NO2",
       subtitle: "二氧化氮",
