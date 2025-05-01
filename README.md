@@ -24,15 +24,18 @@
 
 ### 組員分工方式
 #### 兆丞：
+1. 安排會議時間
+2. Discord 後端路由撰寫
+3. 協調 pull request 檔案合併衝突問題
 
 #### 宜昀：
 
 #### 意惠：
-1. 功能發想, 分工討論
+1. 功能發想，分工討論
 2. 站點 API 、即時空氣品質 API 串接與資料整理
 3. 探選單頁面、即時資料表格動態生成，並依空氣品質分級顯示不同顏色
 4. discord button 串接後端路由
-4. 提供共用function供組員使用 
+5. 提供共用function供組員使用 
 ```js
 getAirData("tottal")
 getCountyAndStation("新北市")
