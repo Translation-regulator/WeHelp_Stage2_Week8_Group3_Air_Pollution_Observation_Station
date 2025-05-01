@@ -43,3 +43,11 @@ svg {
   bottom: 12px;
   right: 12px;
 }
+
+@media screen and (min-width:992px) {
+  .taiwan-map-hint{
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+  }
+}

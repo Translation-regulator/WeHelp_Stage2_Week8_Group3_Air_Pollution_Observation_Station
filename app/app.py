@@ -84,18 +84,17 @@ def build_embed(data: dict) -> dict:
     if aqi_val is None:
         remark, color = "無資料", 0x808080
     elif aqi_val <= 50:
-        remark, color = "👍 空氣品質良好，適合戶外活動!", 0x008000
+        remark, color = "👍 空氣品質良好，適合戶外活動!", 0x39BCBE
     elif aqi_val <= 100:
-        remark, color = "👌 普通，長時間戶外要注意體感。", 0xFFFF00
+        remark, color = "👌 普通，長時間戶外要注意體感。", 0x08A2A5
     elif aqi_val <= 150:
-        remark, color = "⚠️ 對敏感族群不佳，請減少戶外活動。", 0xFFA500
+        remark, color = "⚠️ 對敏感族群不佳，請減少戶外活動。", 0xFCB165
     elif aqi_val <= 200:
-        remark, color = "⚠️ 對所有族群不健康，建議減少外出。", 0xFF0000
+        remark, color = "⚠️ 對所有族群不健康，建議減少外出。", 0xEE963B
     elif aqi_val <= 300:
-        remark, color = "🚨 非常不健康，建議避免外出。", 0x800080
+        remark, color = "🚨 非常不健康，建議避免外出。", 0xF27E6E
     else:
-        remark, color = "☠️ 危害健康，應留在室內並採取防護措施。", 0xA52A2A
-
+        remark, color = "☠️ 危害健康，應留在室內並採取防護措施。", 0xBF4B3B
     city = f"{data['county']} / {data['sitename']}"
     return {
         "username": "空氣小幫手 🌤️",
@@ -120,7 +119,10 @@ def build_embed(data: dict) -> dict:
                 {"name": "更新時間", "value": data.get("publishtime","N/A"), "inline": False},
                 {"name": "📝 建議活動", "value": remark, "inline": False},
             ],
-            "footer": {"text": "由彭大帥團隊開發中"}
+            "footer": {
+                "text": "資料來源：環境部環境資料平台",
+                "icon_url":"https://cdn-icons-png.flaticon.com/128/8635/8635653.png"  
+}
         }]
     }
 
