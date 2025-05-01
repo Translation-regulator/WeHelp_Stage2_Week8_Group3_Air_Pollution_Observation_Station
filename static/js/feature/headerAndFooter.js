@@ -47,7 +47,7 @@ export function getGeolocation(){
                 const lat = coords.latitude;
                 const lon = coords.longitude;
                 document.getElementById("status").textContent =
-                `偵測到位置：${lat.toFixed(5)}, ${lon.toFixed(5)}，自動搜尋中...`;
+                `偵測到位置：${lat.toFixed(5)}, ${lon.toFixed(5)}，搜尋中...`;
                 fetch(`/auto_notify?lat=${lat}&lon=${lon}`)
                 .then(res => res.json())
                 .then(json => {
@@ -57,17 +57,17 @@ export function getGeolocation(){
                     const aqi = locationData.aqi || "";
                     if (aqi){
                         document.getElementById("status").textContent = 
-                            `已自動推播最近測站：${county}/${sitename}，AQI: ${aqi}`;
+                            `最近測站：${county}/${sitename}，AQI: ${aqi}`;
                     }else{
                         document.getElementById("status").textContent = 
-                        `已自動推播最近測站：${county}/${sitename}`;
+                        `最近測站：${county}/${sitename}`;
                     }
                     // console.log("get locationData",locationData)
                     resolve(locationData); //{sitename: '豐原', county: '臺中市', siteid: '28', aqi: '73'}
                 })
                 .catch(err => {
                     console.error(err);
-                    document.getElementById("status").textContent = "自動推播失敗";
+                    document.getElementById("status").textContent = "自動偵測失敗";
                     resolve(null);
                 });
 
