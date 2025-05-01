@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 渲染台灣地圖
     taiwanMap.init();
 
-    // 渲染縣市及觀測站選單 & 空污資訊
+    // 渲染縣市及探測站選單 & 空污資訊
     const counties = await getCountyAndStation("county");
     const allStations = await getCountyAndStation({ county: "total" });
     const allStationAirData = await getAirData("total");
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // console.log("歷史監測資料");
 
     revisePreviousPage(); //頁面調整
-    createPreviousSelect(currentLocationData); //縣市觀測站渲染
+    createPreviousSelect(currentLocationData); //縣市探測站渲染
     confirmPreviousSelect(); //送出圖表需求
   }
 });

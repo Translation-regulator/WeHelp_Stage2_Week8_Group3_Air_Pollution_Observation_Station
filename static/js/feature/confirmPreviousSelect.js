@@ -11,7 +11,7 @@ let initSiteChipsIsListening = false;
 let initSiteChipsAllIsListening = false;
 
 
-// 選擇觀測站（chip 單選）
+// 選擇探測站（chip 單選）
 function initSiteChips() {
     const siteSelect = document.getElementById('site-select');
   
