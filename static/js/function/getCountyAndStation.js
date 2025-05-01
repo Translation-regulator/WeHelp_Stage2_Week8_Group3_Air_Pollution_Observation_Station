@@ -1,7 +1,7 @@
 export const getCountyAndStation = async (param) => {
   try {
     let response = await fetch(
-      "https://data.moenv.gov.tw/api/v2/aqx_p_07?api_key=1b814798-b98b-450b-afcb-d1e830d764d1"
+      "https://data.moenv.gov.tw/api/v2/aqx_p_07?api_key=b68831b5-fc06-4223-879c-9d92b9d4d293"
     );
     let data = await response.json();
 

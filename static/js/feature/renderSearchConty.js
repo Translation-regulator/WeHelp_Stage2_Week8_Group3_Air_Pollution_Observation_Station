@@ -11,7 +11,7 @@ export const renderSearchCounty = async (counties) => {
   let newAirSearchDiv = document.createElement("div");
   let newSearchTitle = document.createElement("div");
   let newSearchTitleText =
-    document.createTextNode("直接點擊地圖選擇觀測站或是");
+    document.createTextNode("直接點擊地圖選擇探測站或是");
   let newSearchSelect = document.createElement("select");
 
   // 設定id，加入class

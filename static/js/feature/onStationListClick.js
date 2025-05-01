@@ -1,15 +1,17 @@
+import taiwanMap from "./taiwanMap.js";
+
 /** 縣市下拉選單監聽
  * @description 監聽縣市下拉選單，點擊可渲染該縣市監測站
- * @param allStations 所有的站點資料，由getCountyAndStation({ county: "total" })取得
  */
-export function onStationListClick(allStations) {
+export function onStationListClick() {
   document
     .getElementById("countySelect")
     .addEventListener("change", async (event) => {
       // 取得點擊的縣市資料
       const selectedCounty = event.target.value;
-      // console.log(selectedCounty)
+      // console.log(selectedCounty);
       renderCountyStations(selectedCounty);
+      taiwanMap.clickHandler(selectedCounty);
     });
 }
 
@@ -18,6 +20,14 @@ export function onStationListClick(allStations) {
  * @param county 縣市名稱，例如"基隆市"、"新北市"
  */
 export function renderCountyStations(county) {
+  
+  // 如果目前有監測站的空汙資訊，直接移除並渲染該縣市的監測站
+  let airDataWrapper = document.querySelector(".airDataWrapper");
+  if(airDataWrapper!==null){
+    document.querySelector("main").removeChild(airDataWrapper);
+    document.getElementById("airDataDom").classList.remove("display-none");
+  }
+
   const allStations = window["allStations"];
   // 更新 select 選單的值
   document.getElementById("countySelect").value = county;
