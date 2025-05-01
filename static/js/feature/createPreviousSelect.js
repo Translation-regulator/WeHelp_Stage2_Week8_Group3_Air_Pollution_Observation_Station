@@ -14,9 +14,12 @@ export async function createPreviousSelect(currentData = false){
         countySelect.appendChild(option);
     });
 
+    let siteSelect = document.getElementById("site-select");
+    siteSelect.innerHTML = "";
+
     // 預選縣市
-    // console.log("資料",currentData)
-    const defaultCounty = currentData.county ? currentData.county : '新北市';
+    console.log("資料",currentData)
+    const defaultCounty = currentData ? currentData.county : '新北市';
     countySelect.value = defaultCounty;
     await renderSiteChip(currentData, { target: { value: defaultCounty } });
 
@@ -28,7 +31,7 @@ export async function createPreviousSelect(currentData = false){
 
 }
 
-async function renderSiteChip(currentData, event){
+async function renderSiteChip(currentData = false, event){
     // 取得縣市資料
     const selectedCounty = event.target.value;
     const stationData = await getCountyAndStation({ county: selectedCounty });
@@ -48,7 +51,7 @@ async function renderSiteChip(currentData, event){
         newSiteData.className = "chip text-sm-500 site-select-option";
         siteSelect.appendChild(newSiteData);
     });
-    if (currentData.siteid){
+    if (currentData){
         const currentSiteId = document.getElementById(`site-select-${currentData.siteid}`);
         currentSiteId.classList.add('chip-active');
     }else{
