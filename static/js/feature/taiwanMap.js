@@ -264,7 +264,7 @@ function taiwanMap() {
         if (e.target.dataset.county) {
           const countyName = e.target.dataset.county;
           controller.clickHandler(countyName);
-          const countySelect =  document.getElementById("countySelect");
+          const countySelect = document.getElementById("countySelect");
           countySelect.value = countyName;
           renderCountyStations(countyName);
         }
@@ -272,6 +272,7 @@ function taiwanMap() {
     },
     clickHandler: (county) => {
       const path = d3.select(`path[data-county="${county}"]`);
+      console.log(path);
       if (path) {
         model.d3.svg.selectAll(".taiwan-map-country-name").remove();
         model.d3.svg.selectAll(".taiwan-map-name-bg").remove();
@@ -283,8 +284,26 @@ function taiwanMap() {
         stationData.forEach(async (el) => {
           view.createStation(el, el.status);
         });
-      }else{
-        console.log("county輸入錯誤")
+        if (window.innerWidth < 992) {
+          let target = document.querySelector(".airData");
+          let targetDisplay = target.classList.contains("display-none");
+          const summary = document.querySelector(
+            ".airData__stationDataHead__summary"
+          );
+          if (!target | targetDisplay) {
+            target = document.querySelector(".airDataWrapper");
+          }
+          if (summary) {
+            document.querySelector(".airData").classList.remove("display-none");
+            document
+              .querySelector("main")
+              .removeChild(document.querySelector(".airDataWrapper"));
+            target = document.querySelector(".airData");
+          }
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      } else {
+        console.log("county輸入錯誤");
       }
     },
   };
