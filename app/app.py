@@ -176,10 +176,18 @@ async def auto_notify(lat: float = Query(...), lon: float = Query(...), km: floa
     if not near:
         raise HTTPException(404, f"範圍 {km}km 內找不到任何測站")
     station = near[0]
-    payload = build_embed(station)
-    send_to_discord(payload)
+    # print("資料一", station)
+    # payload = build_embed(station)
+    # print(payload)
+    # send_to_discord(payload)
     return JSONResponse({
-        "message": f"已自動推播最近測站：{station['county']}/{station['sitename']}，AQI {station.get('aqi','N/A')}"
+        "data":{
+            'sitename': station["sitename"], 
+            'county': station["county"],
+            'siteid': station["siteid"],
+            'aqi': station["aqi"]
+        }
+        # "message": f"已自動推播最近測站：{station['county']}/{station['sitename']}，AQI {station.get('aqi','N/A')}"
     })
 
 @app.post("/send_message")
@@ -192,12 +200,6 @@ async def send_message(data: SiteSelection):
     payload = build_embed(match)
     send_to_discord(payload)
     return JSONResponse({"message": f"已推播 {data.county}/{data.sitename} AQI {match.get('aqi','N/A')}"})
-
-@app.post("/test")
-def test(data: SiteSelection):
-    print (data)
-    if (data):
-        return {"ok":True}
     
 #  ----------- Static Pages -----------
 

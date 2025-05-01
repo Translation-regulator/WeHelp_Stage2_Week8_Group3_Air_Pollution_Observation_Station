@@ -41,6 +41,11 @@ section{
     flex-wrap: wrap;
 }
 
+img{
+    width: 60px;
+    height: 60px;
+}
+
 #subindex-select-group{
     display: flex;
     align-items: center;

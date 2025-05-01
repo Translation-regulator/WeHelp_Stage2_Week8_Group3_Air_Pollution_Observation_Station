@@ -64,11 +64,15 @@ i.mdi-clouds{
     display: none;
 }
 
-footer{
+.footer-text{
     width: 100vw;
     min-height: 40px;
     padding: 8px 40px;
-    text-align: end;
     margin: auto;
     background-color: var(--color-zinc-300);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    color: var(--color-zinc-700);
 }

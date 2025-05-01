@@ -1,4 +1,4 @@
-import { renderHeaderAndFooter } from "./feature/headerAndFooter.js";
+import { renderHeaderAndFooter, getGeolocation } from "./feature/headerAndFooter.js";
 import { getAirData } from "./function/getAirData.js";
 import { getCountyAndStation } from "./function/getCountyAndStation.js";
 import taiwanMap from "./feature/taiwanMap.js";
@@ -11,6 +11,7 @@ import { revisePreviousPage } from "./feature/revisePreviousPage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   await renderHeaderAndFooter();
+  const currentLocationData = await getGeolocation();//最近的監測站和即時 aqi，{sitename: '豐原', county: '臺中市', siteid: '28', aqi: '73'}
 
   const path = window.location.pathname;
   console.log(path);
@@ -20,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 渲染台灣地圖
     taiwanMap.init();
 
-    // 渲染縣市及觀測站選單 & 空污資訊
+    // 渲染縣市及探測站選單 & 空污資訊
     const counties = await getCountyAndStation("county");
     const allStations = await getCountyAndStation({ county: "total" });
     const allStationAirData = await getAirData("total");
@@ -41,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // console.log("歷史監測資料");
 
     revisePreviousPage(); //頁面調整
-    createPreviousSelect(); //縣市觀測站渲染
+    createPreviousSelect(currentLocationData); //縣市探測站渲染
     confirmPreviousSelect(); //送出圖表需求
   }
 });
