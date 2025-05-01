@@ -40,11 +40,27 @@ section{
     flex-wrap: wrap;
 }
 
+#subindex-select-group{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+}
+
+.line {
+    width: 1px;
+    height: 36px;
+    background-color: var(--color-zinc-400);
+    margin: 0 4px;
+}
+
 .select-confirm-div{
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
+
+
 
 /* section id="chart-render" */
 #chart-render{
