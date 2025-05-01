@@ -129,6 +129,7 @@
 }
 
 /* 根據分數顯示背景顏色 */
+<<<<<<< HEAD
 .backgroundColor--lightGreen {
   background-color: var(--color-primary-400);
 }
@@ -179,6 +180,59 @@
   align-items: center;
   gap: 8px;
   padding: 12px 12px 12px 0;
+=======
+.backgroundColor--lightGreen{
+    background-color: var(--color-primary-400);
+}
+.backgroundColor--darkGreen{
+    background-color: var(--color-primary-600);
+}
+.backgroundColor--lightYellow{
+    background-color: var(--color-yellow-400);
+}
+.backgroundColor--darkYellow{
+    background-color: var(--color-yellow-600);
+}
+.backgroundColor--lightRed{
+    background-color: var( --color-red-400);
+}
+.backgroundColor--darkRed{
+    background-color: var(--color-red-600);
+}
+
+/* 根據分數顯示顏色 */
+.color--lightGreen{
+    color: var(--color-primary-400);
+}
+.color--darkGreen{
+    color: var(--color-primary-600);
+}
+.color--lightYellow{
+    color: var(--color-yellow-400);
+}
+.color--darkYellow{
+    color: var(--color-yellow-600);
+}
+.color--lightRed{
+    color: var( --color-red-400);
+}
+.color--darkRed{
+    color: var(--color-red-600);
+}
+
+
+.airData__stationDataHead__summary{
+    /* width: 352px; */
+    /* height: 76px; */
+    color: var(--color-white-100);
+    /* position: relative; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 12px 12px 0 ;
+>>>>>>> 865b78d66cfedb14822015c830092ee826a75d83
 }
 
 /* .stationDataHead__summary__title{
@@ -336,6 +390,7 @@
   text-overflow: ellipsis;
 }
 
+<<<<<<< HEAD
 @media (max-width: 340px) {
   .item__title__EngTitle {
     font-size: 1.125rem;
@@ -351,6 +406,12 @@
   .row__score {
     font-size: 1.125rem;
   }
+=======
+.row__score{
+    width: 64px;
+    text-align: right;
+    /* color: var(--color-primary-500); */
+>>>>>>> 865b78d66cfedb14822015c830092ee826a75d83
 }
 
 .row__score {
@@ -359,6 +420,7 @@
   /* color: var(--color-primary-500); */
 }
 
+<<<<<<< HEAD
 .row__unit {
   width: 50px;
   height: 20px;
@@ -366,6 +428,8 @@
   color: var(--color-zinc-700);
 }
 
+=======
+>>>>>>> 865b78d66cfedb14822015c830092ee826a75d83
 /* Discord按鈕部分 */
 .airData__discord {
   width: 100%;
@@ -378,6 +442,7 @@
   padding: 24px 12px;
 }
 
+<<<<<<< HEAD
 .airData__discord__btn {
   /* width: 352px; */
   width: 100%;
@@ -401,8 +466,34 @@
 .airData__discord__btn--lightGreen:active {
   background-color: var(--color-primary-800);
   border: 1px solid var(--color-primary-800);
+=======
+.airData__discord__btn{
+    /* width: 352px; */
+    width: 100%;
+    height: 36px;
+    border-radius: 12px;
+    color: var(--color-white-100);
+    /* background-color: var(--color-primary-500);
+    border: 1px solid var(--color-primary-500); */
+    cursor: pointer;
+    position: relative;
+>>>>>>> 865b78d66cfedb14822015c830092ee826a75d83
+}
+/* discord按鈕背景顏色 */
+.airData__discord__btn--lightGreen{
+    background-color: var(--color-primary-400);
+    border: 1px solid var(--color-primary-400);
+}
+.airData__discord__btn--lightGreen:hover{
+    background-color: var(--color-primary-500);
+    border: 1px solid var(--color-primary-500);
+}
+.airData__discord__btn--lightGreen:active{
+    background-color: var(--color-primary-800);
+    border: 1px solid var(--color-primary-800);
 }
 
+<<<<<<< HEAD
 .airData__discord__btn--darkGreen {
   background-color: var(--color-primary-600);
   border: 1px solid var(--color-primary-600);
@@ -468,6 +559,80 @@
   border: 1px solid #9f4034;
 }
 
+=======
+
+.airData__discord__btn--darkGreen{
+    background-color: var(--color-primary-600);
+    border: 1px solid var(--color-primary-600);
+}
+.airData__discord__btn--darkGreen:hover{
+    background-color: var(--color-primary-800);
+    border: 1px solid var(--color-primary-800);
+}
+.airData__discord__btn--darkGreen:active{
+    background-color: #046b6d;
+    border: 1px solid #046b6d;
+}
+
+
+.airData__discord__btn--lightYellow{
+    background-color: var(--color-yellow-400);
+    border: 1px solid var(--color-yellow-400);
+}
+.airData__discord__btn--lightYellow:hover{
+    background-color: var(--color-yellow-500);
+    border: 1px solid var(--color-yellow-500);
+}
+.airData__discord__btn--lightYellow:active{
+    background-color: var(--color-yellow-800);
+    border: 1px solid var(--color-yellow-800);
+}
+
+
+
+.airData__discord__btn--darkYellow{
+    background-color: var(--color-yellow-600);
+    border: 1px solid var(--color-yellow-600);
+}
+.airData__discord__btn--darkYellow:hover{
+    background-color: var(--color-yellow-800);
+    border: 1px solid var(--color-yellow-800);
+}
+.airData__discord__btn--darkYellow:active{
+    background-color: #a66626;
+    border: 1px solid #a66626;
+}
+
+
+.airData__discord__btn--lightRed{
+    background-color: var(--color-red-400);
+    border: 1px solid var(--color-red-400);
+}
+.airData__discord__btn--lightRed:hover{
+    background-color: var(--color-red-500);
+    border: 1px solid var(--color-red-500);
+}
+.airData__discord__btn--lightRed:active{
+    background-color: var(--color-red-800);
+    border: 1px solid var(--color-red-800);
+}
+
+
+.airData__discord__btn--darkRed{
+    background-color: var(--color-red-600);
+    border: 1px solid var(--color-red-600);
+}
+.airData__discord__btn--darkRed{
+    background-color: var(--color-red-800);
+    border: 1px solid var(--color-red-800);
+}
+.airData__discord__btn--darkRed{
+    background-color: #9f4034;
+    border: 1px solid #9f4034;
+}
+
+
+>>>>>>> 865b78d66cfedb14822015c830092ee826a75d83
 /* .airData__discord__btn:hover{
     background-color: var(--color-primary-600);
     border: 1px solid var(--color-primary-600);
@@ -478,6 +643,7 @@
     border: 1px solid var(--color-primary-800);
 } */
 
+<<<<<<< HEAD
 .airData__discord__img {
   width: 24px;
   height: 18.58px;
@@ -485,3 +651,16 @@
   top: 8.67px;
   left: 16px;
 }
+=======
+.airData__discord__img{
+    width: 24px;
+    height: 18.58px;
+    position: absolute;
+    top: 8.67px;
+    left: 16px;
+}
+
+
+
+
+>>>>>>> 865b78d66cfedb14822015c830092ee826a75d83
