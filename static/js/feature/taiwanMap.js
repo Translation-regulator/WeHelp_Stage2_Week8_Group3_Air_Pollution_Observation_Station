@@ -3,6 +3,7 @@ import * as topojson from "https://cdn.jsdelivr.net/npm/topojson@3/+esm";
 import { getCountyAndStation } from "../function/getCountyAndStation.js";
 import { getAirData } from "../function/getAirData.js";
 import { renderStationAirDataDom } from "./renderStationAirData.js";
+import { renderCountyStations } from "./onStationListClick.js";
 
 function taiwanMap() {
   const model = {
@@ -261,7 +262,11 @@ function taiwanMap() {
       taiwanContainer.addEventListener("click", async (e) => {
         e.stopPropagation();
         if (e.target.dataset.county) {
-          controller.clickHandler(e.target.dataset.county);
+          const countyName = e.target.dataset.county;
+          controller.clickHandler(countyName);
+          const countySelect =  document.getElementById("countySelect");
+          countySelect.value = countyName;
+          renderCountyStations(countyName);
         }
       });
     },
