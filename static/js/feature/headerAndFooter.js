@@ -77,8 +77,6 @@ export function getGeolocation(){
             err => {
                 console.error(err);
                 document.getElementById("status").textContent = "無法取得位置，請允許定位或手動選取探測站。";
-                let siteSelect = document.getElementById("site-select");
-                siteSelect.innerHTML = "";
                 resolve(null);
             },
             { enableHighAccuracy: true, timeout: 5000 }
