@@ -43,6 +43,10 @@ async function renderSiteChip(currentData = false, event){
     // 若有舊的SiteDom，要先移除
     siteSelect.innerHTML = "";
 
+    // console.log(stationData)
+    // console.log(currentData)
+
+    let isCurrentSiteInList = false 
     // 渲染該縣市的監測站
     stationData.forEach((item) => {
         let newSiteData = document.createElement("button");
@@ -50,13 +54,21 @@ async function renderSiteChip(currentData = false, event){
         newSiteData.id = `site-select-${item.siteid}`;
         newSiteData.className = "chip text-sm-500 site-select-option";
         siteSelect.appendChild(newSiteData);
+        if (currentData && currentData.siteid === item.siteid){
+            isCurrentSiteInList = true
+        }
     });
-    if (currentData){
+    if (isCurrentSiteInList){
         const currentSiteId = document.getElementById(`site-select-${currentData.siteid}`);
         currentSiteId.classList.add('chip-active');
+        if (currentSiteId) {
+            currentSiteId.classList.add("chip-active");
+        }
     }else{
         const firstSiteSelect = siteSelect.querySelector(".chip");
-        firstSiteSelect.classList.add('chip-active');
+        if (firstSiteSelect) {
+            firstSiteSelect.classList.add("chip-active");
+        }
     }
 }
 
