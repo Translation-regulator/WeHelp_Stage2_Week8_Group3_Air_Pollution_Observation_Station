@@ -51,7 +51,7 @@ export function getGeolocation(){
                 fetch(`/auto_notify?lat=${lat}&lon=${lon}`)
                 .then(res => res.json())
                 .then(json => {
-                    const locationData = json.data || {};
+                    const locationData = json.data;
                     const county = locationData.county || "";
                     const sitename = locationData.sitename || "";
                     const aqi = locationData.aqi || "";
@@ -66,7 +66,7 @@ export function getGeolocation(){
                     resolve(locationData); //{sitename: '豐原', county: '臺中市', siteid: '28', aqi: '73'}
                 })
                 .catch(err => {
-                    console.error(err);
+                    // console.error(err);
                     document.getElementById("status").textContent = "自動偵測失敗，請手動選取探測站";
                     let siteSelect = document.getElementById("site-select");
                     siteSelect.innerHTML = "";
@@ -75,7 +75,7 @@ export function getGeolocation(){
 
             },
             err => {
-                console.error(err);
+                // console.error(err);
                 document.getElementById("status").textContent = "無法取得位置，請允許定位或手動選取探測站。";
                 resolve(null);
             },
