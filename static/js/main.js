@@ -33,11 +33,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const previousPageBtn = document.getElementById("previous-page-btn");
     previousPageBtn.style.display = "flex";
     previousPageBtn.addEventListener("click", () => {
-      window.location.href = "/previous.html";
+      window.location.href = "/previous";
     });
   }
 
-  if (path === "/previous.html") {
+  if (path === "/previous") {
     console.log("歷史監測資料");
 
     revisePreviousPage(); //頁面調整
