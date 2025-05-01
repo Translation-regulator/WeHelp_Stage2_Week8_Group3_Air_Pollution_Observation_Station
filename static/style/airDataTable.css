@@ -173,6 +173,7 @@
     /* position: absolute; */
     /* right: 0; */
     /* top:12px; */
+    max-width: 160px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
