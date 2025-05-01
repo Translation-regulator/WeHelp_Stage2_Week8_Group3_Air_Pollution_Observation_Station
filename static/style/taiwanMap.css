@@ -31,6 +31,10 @@ svg {
   fill: var(--color-zinc-600)!important;
 }
 
+.taiwan-map-station {
+  cursor: pointer;
+}
+
 .taiwan-map-hint {
   display: flex;
   align-items: end;
