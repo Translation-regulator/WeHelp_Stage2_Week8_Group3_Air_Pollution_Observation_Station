@@ -20,6 +20,14 @@ export function onStationListClick() {
  * @param county 縣市名稱，例如"基隆市"、"新北市"
  */
 export function renderCountyStations(county) {
+  
+  // 如果目前有監測站的空汙資訊，直接移除並渲染該縣市的監測站
+  let airDataWrapper = document.querySelector(".airDataWrapper");
+  if(airDataWrapper!==null){
+    document.querySelector("main").removeChild(airDataWrapper);
+    document.getElementById("airDataDom").classList.remove("display-none");
+  }
+
   const allStations = window["allStations"];
   // 更新 select 選單的值
   document.getElementById("countySelect").value = county;
