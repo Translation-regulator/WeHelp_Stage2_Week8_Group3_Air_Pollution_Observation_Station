@@ -159,17 +159,20 @@
 .airData__stationDataHead__summary {
   color: var(--color-white-100);
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   justify-content: space-between;
   align-items: center;
   gap: 8px;
   padding: 12px 12px 12px 0;
 }
 
-
+.stationDataHead__summary__title{
+  min-width: fit-content;
+}
 
 .stationDataHead__summary__status {
   max-width: 160px;
+  min-width: 108px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -183,6 +186,7 @@
 .summary__status__AQI {
   color: var(--color-white-100);
   padding: 4px 8px;
+  min-width: fit-content;
 }
 
 .status__AQI__score {
@@ -417,9 +421,16 @@
 }
 
 @media(max-width:992px){
-  .airData,
+  .airData {
+    max-width: 80%;
+    min-height: fit-content;
+  }
+
   .airDataWrapper {
     max-width: 80%;
+  }
+  .airData__Title{
+    margin-top: 0;
   }
 
   .airData__search{
@@ -433,14 +444,33 @@
   }
 }
 
-@media(max-width:464px){
+@media(max-width:523px){
   .airData,
   .airDataWrapper {
     max-width: 95%;
   }
+  .airData__stationDataHead__summary{
+    flex-direction: column;
+    align-items: baseline;
+    gap:5px;
+    padding: 6px 12px 6px 0;
+  }
+  .stationDataHead__summary__status{
+    display: flex;
+    align-items: center;
+  }
+  .summary__status__img{
+    height: 30px;
+    width: 30px;
+  }
+  .summary__status__AQI{
+    display: flex;
+    align-items: center;
+    gap:5px;
+  }
 }
 
-@media (max-width: 410px) {
+@media (max-width: 415px) {
   .item__title__EngTitle {
     font-size: 1.125rem;
   }
