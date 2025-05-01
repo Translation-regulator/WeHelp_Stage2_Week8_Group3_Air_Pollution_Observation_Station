@@ -1,15 +1,17 @@
+import taiwanMap from "./taiwanMap.js";
+
 /** 縣市下拉選單監聽
  * @description 監聽縣市下拉選單，點擊可渲染該縣市監測站
- * @param allStations 所有的站點資料，由getCountyAndStation({ county: "total" })取得
  */
-export function onStationListClick(allStations) {
+export function onStationListClick() {
   document
     .getElementById("countySelect")
     .addEventListener("change", async (event) => {
       // 取得點擊的縣市資料
       const selectedCounty = event.target.value;
-      // console.log(selectedCounty)
+      // console.log(selectedCounty);
       renderCountyStations(selectedCounty);
+      taiwanMap.clickHandler(selectedCounty);
     });
 }
 

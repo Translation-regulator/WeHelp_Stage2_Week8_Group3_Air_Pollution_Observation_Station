@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     window["allStations"] = allStations;
     window["allStationAirData"] = allStationAirData;
     renderSearchCounty(counties); // 渲染縣市下拉選單
-    onStationListClick(allStations); // 監聽縣市下拉選單並渲染監測站按鈕
+    onStationListClick(); // 監聽縣市下拉選單並渲染監測站按鈕
     onAirDataDomClick(); //監聽監測站按鈕
 
     const previousPageBtn = document.getElementById("previous-page-btn");
