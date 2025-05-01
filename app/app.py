@@ -176,7 +176,7 @@ async def auto_notify(lat: float = Query(...), lon: float = Query(...), km: floa
     if not near:
         raise HTTPException(404, f"範圍 {km}km 內找不到任何測站")
     station = near[0]
-    print("資料一", station)
+    # print("資料一", station)
     # payload = build_embed(station)
     # print(payload)
     # send_to_discord(payload)
