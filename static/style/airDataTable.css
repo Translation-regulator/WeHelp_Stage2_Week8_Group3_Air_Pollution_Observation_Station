@@ -125,25 +125,47 @@
     padding: 12px 24px;
     box-sizing: border-box;
 }
-/* 根據分數顯示顏色 */
-.airData__stationDataHead--lightGreen{
+
+/* 根據分數顯示背景顏色 */
+.backgroundColor--lightGreen{
     background-color: var(--color-primary-400);
 }
-.airData__stationDataHead--darkGreen{
+.backgroundColor--darkGreen{
     background-color: var(--color-primary-600);
 }
-.airData__stationDataHead--lightYellow{
+.backgroundColor--lightYellow{
     background-color: var(--color-yellow-400);
 }
-.airData__stationDataHead--darkYellow{
+.backgroundColor--darkYellow{
     background-color: var(--color-yellow-600);
 }
-.airData__stationDataHead--lightRed{
+.backgroundColor--lightRed{
     background-color: var( --color-red-400);
 }
-.airData__stationDataHead--darkRed{
+.backgroundColor--darkRed{
     background-color: var(--color-red-600);
 }
+
+/* 根據分數顯示顏色 */
+.color--lightGreen{
+    color: var(--color-primary-400);
+}
+.color--darkGreen{
+    color: var(--color-primary-600);
+}
+.color--lightYellow{
+    color: var(--color-yellow-400);
+}
+.color--darkYellow{
+    color: var(--color-yellow-600);
+}
+.color--lightRed{
+    color: var( --color-red-400);
+}
+.color--darkRed{
+    color: var(--color-red-600);
+}
+
 
 .airData__stationDataHead__summary{
     /* width: 352px; */
@@ -317,7 +339,7 @@
 .row__score{
     width: 64px;
     text-align: right;
-    color: var(--color-primary-500);
+    /* color: var(--color-primary-500); */
 }
 
 .row__unit{
@@ -326,33 +348,6 @@
     margin-left: 6px;
     color: var(--color-zinc-700);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* Discord按鈕部分 */
 .airData__discord{
@@ -372,13 +367,98 @@
     height: 36px;
     border-radius: 12px;
     color: var(--color-white-100);
-    background-color: var(--color-primary-500);
-    border: 1px solid var(--color-primary-500);
+    /* background-color: var(--color-primary-500);
+    border: 1px solid var(--color-primary-500); */
     cursor: pointer;
     position: relative;
 }
+/* discord按鈕背景顏色 */
+.airData__discord__btn--lightGreen{
+    background-color: var(--color-primary-400);
+    border: 1px solid var(--color-primary-400);
+}
+.airData__discord__btn--lightGreen:hover{
+    background-color: var(--color-primary-500);
+    border: 1px solid var(--color-primary-500);
+}
+.airData__discord__btn--lightGreen:active{
+    background-color: var(--color-primary-800);
+    border: 1px solid var(--color-primary-800);
+}
 
-.airData__discord__btn:hover{
+
+.airData__discord__btn--darkGreen{
+    background-color: var(--color-primary-600);
+    border: 1px solid var(--color-primary-600);
+}
+.airData__discord__btn--darkGreen:hover{
+    background-color: var(--color-primary-800);
+    border: 1px solid var(--color-primary-800);
+}
+.airData__discord__btn--darkGreen:active{
+    background-color: #046b6d;
+    border: 1px solid #046b6d;
+}
+
+
+.airData__discord__btn--lightYellow{
+    background-color: var(--color-yellow-400);
+    border: 1px solid var(--color-yellow-400);
+}
+.airData__discord__btn--lightYellow:hover{
+    background-color: var(--color-yellow-500);
+    border: 1px solid var(--color-yellow-500);
+}
+.airData__discord__btn--lightYellow:active{
+    background-color: var(--color-yellow-800);
+    border: 1px solid var(--color-yellow-800);
+}
+
+
+
+.airData__discord__btn--darkYellow{
+    background-color: var(--color-yellow-600);
+    border: 1px solid var(--color-yellow-600);
+}
+.airData__discord__btn--darkYellow:hover{
+    background-color: var(--color-yellow-800);
+    border: 1px solid var(--color-yellow-800);
+}
+.airData__discord__btn--darkYellow:active{
+    background-color: #a66626;
+    border: 1px solid #a66626;
+}
+
+
+.airData__discord__btn--lightRed{
+    background-color: var(--color-red-400);
+    border: 1px solid var(--color-red-400);
+}
+.airData__discord__btn--lightRed:hover{
+    background-color: var(--color-red-500);
+    border: 1px solid var(--color-red-500);
+}
+.airData__discord__btn--lightRed:active{
+    background-color: var(--color-red-800);
+    border: 1px solid var(--color-red-800);
+}
+
+
+.airData__discord__btn--darkRed{
+    background-color: var(--color-red-600);
+    border: 1px solid var(--color-red-600);
+}
+.airData__discord__btn--darkRed{
+    background-color: var(--color-red-800);
+    border: 1px solid var(--color-red-800);
+}
+.airData__discord__btn--darkRed{
+    background-color: #9f4034;
+    border: 1px solid #9f4034;
+}
+
+
+/* .airData__discord__btn:hover{
     background-color: var(--color-primary-600);
     border: 1px solid var(--color-primary-600);
 }
@@ -386,7 +466,7 @@
 .airData__discord__btn:active{
     background-color: var(--color-primary-800);
     border: 1px solid var(--color-primary-800);
-}
+} */
 
 .airData__discord__img{
     width: 24px;

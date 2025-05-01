@@ -1,5 +1,4 @@
-import { getAqiColor } from "../function/getAqiColorAndImgUrl.js";
-import { getAqiImgUrl } from "../function/getAqiColorAndImgUrl.js";
+import { getAqiBackgroundColor,getAqiDisdordBackgroundColor, getAqiImgUrl } from "../function/getAqiColorAndImgUrl.js";
 import { getAnaylyzeStationAirData } from "../function/getAnalyzeStationAirData.js";
 import { getAirDataHtml } from "../function/getAirDataHtml.js";
 import { sendMessage } from "../function/sendMessageToDiscord.js";
@@ -14,8 +13,8 @@ export function renderStationAirDataDom(stationName) {
   let stationAirData = allStationAirData.find(
     (item) => item.sitename === stationName
   );
-//   console.log(stationAirData);
-  let AQIScore = stationAirData.aqi;
+  //   console.log(stationAirData);
+  const AQIScore = stationAirData.aqi;
 
   // 確認是否已有監測站的空屋資料畫面，如果有則先移除
   let oldAirDataWrapper = document.querySelector(".airDataWrapper");
@@ -40,7 +39,7 @@ export function renderStationAirDataDom(stationName) {
 
   airDataWrapper.appendChild(newStationAirDataHeader);
   // airDataDOM.appendChild(newStationAirDataHeader);
-  newStationAirDataHeader.classList.add(getAqiColor(AQIScore)); //呼叫getAqiColor
+  newStationAirDataHeader.classList.add(getAqiBackgroundColor(AQIScore)); //呼叫getAqiColor
 
   // 概要框框
   let newStationSummary = document.createElement("div");
@@ -112,7 +111,7 @@ export function renderStationAirDataDom(stationName) {
 
   // 取得用來建立資料表的資料格式
   let airDataAnalyze = getAnaylyzeStationAirData(stationAirData);
-//   console.log({ 此站資料: stationAirData });
+  // console.log({ 此站資料: stationAirData });
 
   // 取得html格式
   let airDataHTML = getAirDataHtml(airDataAnalyze);
@@ -123,7 +122,8 @@ export function renderStationAirDataDom(stationName) {
   newDiscordDiv.className = "airData__discord";
   airDataWrapper.appendChild(newDiscordDiv);
   let newDiscordBtn = document.createElement("button");
-  newDiscordBtn.className = "airData__discord__btn text-sm-500";
+  let discordBtnColorClass = getAqiDisdordBackgroundColor(AQIScore);
+  newDiscordBtn.className = `airData__discord__btn text-sm-500 ${discordBtnColorClass}`;
   newDiscordBtn.innerText = "發送至Discord";
   newDiscordDiv.appendChild(newDiscordBtn);
 
