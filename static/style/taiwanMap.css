@@ -13,6 +13,7 @@ svg {
     margin-right: 20px;
     max-height: calc(100vh - 56px - 40px);
     flex-direction: column;
+    position: relative;
 }
 
 @media screen and (min-width:992px) {
@@ -38,4 +39,12 @@ svg {
 .taiwan-map-hint {
   display: flex;
   align-items: end;
+}
+
+@media screen and (min-width:992px) {
+  .taiwan-map-hint{
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+  }
 }

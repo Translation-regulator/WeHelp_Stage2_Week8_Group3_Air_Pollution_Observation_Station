@@ -176,6 +176,8 @@ function taiwanMap() {
         .attr("data-stationCounty", stationData.county)
         .attr("data-stationSitename", stationData.sitename)
         .attr("fill", model.statusColor[status])
+        .attr("stroke", "white")
+        .attr("stroke-width", 2)
         .each(function (d) {
           d3.select(this).append("title").text(stationData.sitename);
         })
