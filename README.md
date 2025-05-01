@@ -28,5 +28,15 @@
 #### 宜昀：
 
 #### 意惠：
-
+1. 功能發想, 分工討論
+2. 站點 API 、即時空氣品質 API 串接與資料整理
+3. 觀測站選單頁面、即時資料表格動態生成，並依空氣品質分級顯示不同顏色
+4. discord button 串接後端路由
+4. 提供共用function供組員使用 
+```js
+getAirData("tottal")
+getCountyAndStation("新北市")
+renderCountyStations("新北市")
+renderStationAirDataDom("三重")
+```
 #### 妤甄：

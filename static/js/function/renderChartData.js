@@ -237,7 +237,7 @@ function renderChart(data, subindex){
             },
             beginAtZero: true,
             min: 0, 
-            max: 150, 
+            max: 200, 
             ticks: { 
                 color: '#888',
                 font: {
@@ -261,7 +261,7 @@ function renderChart(data, subindex){
             },
             beginAtZero: true,
             min: 0, 
-            max: 10, 
+            max: 20, 
             ticks: { 
                 color: '#888',
                 font: {
@@ -389,7 +389,7 @@ function renderChart(data, subindex){
                 },
                 customHighlightAxis: {} // 啟用 plugin
             },
-            scales: scales
+            scales: scales,
         }
     });
 }

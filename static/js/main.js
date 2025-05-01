@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     window["allStations"] = allStations;
     window["allStationAirData"] = allStationAirData;
     renderSearchCounty(counties); // 渲染縣市下拉選單
-    onStationListClick(allStations); // 監聽縣市下拉選單並渲染監測站按鈕
+    onStationListClick(); // 監聽縣市下拉選單並渲染監測站按鈕
     onAirDataDomClick(); //監聽監測站按鈕
 
     const previousPageBtn = document.getElementById("previous-page-btn");
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   if (path === "/previous") {
-    console.log("歷史監測資料");
+    // console.log("歷史監測資料");
 
     revisePreviousPage(); //頁面調整
     createPreviousSelect(currentLocationData); //縣市觀測站渲染
