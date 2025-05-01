@@ -9,6 +9,7 @@
     align-items: center;
     gap: 4px;
     color: var(--color-zinc-700);
+    background-color: unset;
     max-width: 400px;
     white-space: nowrap; 
     overflow: hidden; 

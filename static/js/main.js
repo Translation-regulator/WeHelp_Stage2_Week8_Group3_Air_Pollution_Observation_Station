@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   if (path === "/previous") {
-    console.log("歷史監測資料");
+    // console.log("歷史監測資料");
 
     revisePreviousPage(); //頁面調整
     createPreviousSelect(); //縣市觀測站渲染

@@ -8,7 +8,10 @@ export function confirmPreviousSelect(){
 
 let initSubindexChipsIsListening = false;
 let initSiteChipsIsListening = false;
+let initSiteChipsAllIsListening = false;
 
+
+// 選擇觀測站（chip 單選）
 function initSiteChips() {
     const siteSelect = document.getElementById('site-select');
   
@@ -26,8 +29,31 @@ function initSiteChips() {
     }
 }
 
+//選擇觀測項目（chip 多選）
 function initSubindexChips() {
+    const subindexSelectAll = document.getElementById('subindex-select-all');
     const subindexSelect = document.getElementById('subindex-select');
+    const chips = subindexSelect.querySelectorAll('.chip');
+
+    if(!initSiteChipsAllIsListening){
+        subindexSelectAll.addEventListener('click', ()=>{
+            if (subindexSelectAll.textContent === '全選'){
+                chips.forEach(item => {
+                    item.classList.add('chip-active');
+                });
+                subindexSelectAll.textContent = '取消全選';
+            } else{
+                chips.forEach(item => {
+                    item.classList.remove('chip-active');
+                });
+                chips[0].classList.add('chip-active');
+                subindexSelectAll.textContent = '全選';
+            }
+
+        })
+
+        initSiteChipsAllIsListening = true;
+    }
   
     if(!initSubindexChipsIsListening){
         subindexSelect.addEventListener('click', (event) => {
