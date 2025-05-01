@@ -1,4 +1,4 @@
-import { renderHeaderAndFooter } from "./feature/headerAndFooter.js";
+import { renderHeaderAndFooter, getGeolocation } from "./feature/headerAndFooter.js";
 import { getAirData } from "./function/getAirData.js";
 import { getCountyAndStation } from "./function/getCountyAndStation.js";
 import taiwanMap from "./feature/taiwanMap.js";
@@ -11,6 +11,7 @@ import { revisePreviousPage } from "./feature/revisePreviousPage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   await renderHeaderAndFooter();
+  await getGeolocation();
 
   const path = window.location.pathname;
   console.log(path);
