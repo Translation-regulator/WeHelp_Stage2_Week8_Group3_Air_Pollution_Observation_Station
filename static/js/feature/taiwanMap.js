@@ -74,16 +74,12 @@ function taiwanMap() {
           const countyName = this.dataset.county;
           model.hoverCountry = d3.select(this);
           d3.select(this).style("fill", "var(--color-zinc-500)");
-          // view.createCountryName(model.hoverCountry);
         })
         .on("mouseout", function () {
           d3.select(this).style("fill", "var(--color-zinc-400)");
-          // model.d3.svg.selectAll(".taiwan-map-country-name").remove();
-          // model.d3.svg.selectAll(".taiwan-map-name-bg").remove();
           model.hoverCountry = {};
         })
         .on("click", function () {
-          // const countyName = this.dataset.county;
           model.clickCountry = d3.select(this);
         });
 
@@ -104,10 +100,8 @@ function taiwanMap() {
       if (targetPath.node()) {
         const bbox = targetPath.node().getBBox();
 
-        // 建立群組 g
         const group = model.d3.svg.append("g").attr("class", "highlight-group");
 
-        // 把 rect 加到 g 裡
         group
           .append("rect")
           .attr("x", bbox.x - 5)
@@ -120,15 +114,11 @@ function taiwanMap() {
           .style("fill", "transparent")
           .on("mouseover", function (event) {
             const countyName = this.dataset.county;
-            // model.hoverCountry = `${nodeName}縣`;
             model.hoverCountry = d3.select(this);
             d3.select(this).style("fill", "var(--color-zinc-500)");
-            // view.createCountryName(hoverCountry);
           })
           .on("mouseout", function () {
             d3.select(this).style("fill", "transparent");
-            // model.d3.svg.selectAll(".taiwan-map-country-name").remove();
-            // model.d3.svg.selectAll(".taiwan-map-name-bg").remove();
             model.hoverCountry = {};
           })
           .on("click", function () {
@@ -184,6 +174,10 @@ function taiwanMap() {
         .on("click", function () {
           const siteName = this.dataset.stationSitename;
           renderStationAirDataDom(siteName);
+          if (window.innerWidth < 992) {
+            const target = document.querySelector(".airDataWrapper");
+            target.scrollIntoView({ behavior: "smooth" });
+          }
         });
     },
     createCountryName: (d3Select) => {
@@ -267,18 +261,26 @@ function taiwanMap() {
       taiwanContainer.addEventListener("click", async (e) => {
         e.stopPropagation();
         if (e.target.dataset.county) {
-          model.d3.svg.selectAll(".taiwan-map-country-name").remove();
-          model.d3.svg.selectAll(".taiwan-map-name-bg").remove();
-          view.createCountryName(model.clickCountry);
-          model.d3.svg.selectAll("*").classed("taiwan-map-select", false);
-          model.clickCountry.attr("class", "taiwan-map-select");
-          model.d3.svg.selectAll("circle.taiwan-map-station").remove();
-          let stationData = model.stationDataByCountry[e.target.dataset.county];
-          stationData.forEach(async (el) => {
-            view.createStation(el, el.status);
-          });
+          controller.clickHandler(e.target.dataset.county);
         }
       });
+    },
+    clickHandler: (county) => {
+      const path = d3.select(`path[data-county="${county}"]`);
+      if (path) {
+        model.d3.svg.selectAll(".taiwan-map-country-name").remove();
+        model.d3.svg.selectAll(".taiwan-map-name-bg").remove();
+        view.createCountryName(path);
+        model.d3.svg.selectAll("*").classed("taiwan-map-select", false);
+        path.attr("class", "taiwan-map-select");
+        model.d3.svg.selectAll("circle.taiwan-map-station").remove();
+        let stationData = model.stationDataByCountry[county];
+        stationData.forEach(async (el) => {
+          view.createStation(el, el.status);
+        });
+      }else{
+        console.log("county輸入錯誤")
+      }
     },
   };
 
