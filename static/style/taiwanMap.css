@@ -39,6 +39,9 @@ svg {
 .taiwan-map-hint {
   display: flex;
   align-items: end;
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
 }
 
 @media screen and (min-width:992px) {

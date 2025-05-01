@@ -2,18 +2,20 @@
     display: none;
 }
 
+
+.airData,
 .airDataWrapper{
-    width: 400px;
-    height: 752px;
+    width: 40%;
+    max-width: 400px;
+    height: calc(100vh - 56px - 40px);
     position: relative;
     margin: auto 0;
+    padding-bottom: 24px;
 }
 
-.airData{
-    width: 400px;
-    height: 752px;
-    position: relative;
-    margin: auto 0;
+.airDataWrapper{
+    display: flex;
+    flex-direction: column;
 }
 
 .airData__Title{
@@ -197,10 +199,9 @@
 /* 空污資訊部分 */
 .airData__content{
     width: 100%;
-    height: 576px;
-    /* height: 450px; */
     background-color: var(--color-white-100);
     overflow-y: scroll;
+    flex: 1; /* 自適應 */
     display: flex;
     flex-direction: column;
     align-items: center;
