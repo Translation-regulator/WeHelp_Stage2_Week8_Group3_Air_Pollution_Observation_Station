@@ -27,8 +27,19 @@
 1. 安排會議時間
 2. Discord 後端路由撰寫
 3. 協調 pull request 檔案合併衝突問題
+(幫你補：偵測用戶當前位置功能)
+
 
 #### 宜昀：
+1. 功能發想，分工討論
+2. 介面規格設計及定義設計規範，css guideline 編寫
+3. Chart.js 研究及實作
+4. 串接當前位置功能到畫面並帶入預設值
+5. 協助 UI/UX 優化及 debug
+```javascript
+    getGeolocation() //return {sitename: '豐原', county: '臺中市', siteid: '28', aqi: '73'}
+    getChartData(county, siteId, subindex)  //新北市, 9 ,['AQI', 'PM25', 'NO2']
+```
 
 #### 意惠：
 1. 功能發想，分工討論

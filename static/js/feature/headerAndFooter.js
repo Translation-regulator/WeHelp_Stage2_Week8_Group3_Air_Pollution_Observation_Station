@@ -57,7 +57,7 @@ export function getGeolocation(){
                     const aqi = locationData.aqi || "";
                     if (aqi){
                         document.getElementById("status").textContent = 
-                            `最近測站：${county}/${sitename}，AQI: ${aqi}`;
+                            `最近測站：${county}/${sitename}，當前 AQI: ${aqi}`;
                     }else{
                         document.getElementById("status").textContent = 
                         `最近測站：${county}/${sitename}`;
