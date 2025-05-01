@@ -45,3 +45,6 @@ renderCountyStations("新北市")
 renderStationAirDataDom("三重")
 ```
 #### 妤甄：
+1. 結合 D3 與地理資料繪製台灣地圖
+2. 使用D3.js與JS實現互動式視覺效果
+3. 串接組員function實現觀測站點位置渲染及即時依空氣品質分級顏色渲染
