@@ -192,12 +192,6 @@ async def send_message(data: SiteSelection):
     payload = build_embed(match)
     send_to_discord(payload)
     return JSONResponse({"message": f"已推播 {data.county}/{data.sitename} AQI {match.get('aqi','N/A')}"})
-
-@app.post("/test")
-def test(data: SiteSelection):
-    print (data)
-    if (data):
-        return {"ok":True}
     
 #  ----------- Static Pages -----------
 
