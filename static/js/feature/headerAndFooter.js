@@ -1,6 +1,6 @@
 export async function renderHeaderAndFooter(){
     try{
-        const header = await fetch("/header.html");
+        const header = await fetch("/static/header.html");
         const html = await header.text();
         document.body.insertAdjacentHTML('afterbegin', html);
     }
@@ -16,7 +16,7 @@ export async function renderHeaderAndFooter(){
         `
     document.body.appendChild(footer);
 
-    document.querySelector('header nav h3').addEventListener('click', ()=>{
+    document.querySelector('#header-logo').addEventListener('click', ()=>{
         window.location.href='/';
     })
 
