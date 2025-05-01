@@ -5,7 +5,7 @@ export async function createPreviousSelect(){
 
     // 建立選項
     let counties = await getCountyAndStation("county");
-    console.log(counties)
+    // console.log('input 內的',counties)
     counties.forEach((county) => {
         let option = document.createElement("option");
         option.value = county;
@@ -29,7 +29,7 @@ async function renderSiteChip(event){
     // 取得縣市資料
     const selectedCounty = event.target.value;
     const stationData = await getCountyAndStation({ county: selectedCounty });
-    console.log("該縣市的測站資料：", stationData);
+    // console.log("該縣市的測站資料：", stationData);
 
     // 取得容器DOM
     let siteSelect = document.getElementById("site-select");

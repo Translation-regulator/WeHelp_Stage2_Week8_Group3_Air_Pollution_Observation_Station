@@ -52,6 +52,7 @@ async function sendMessage() {
   const select = document.getElementById("stationSelect");
   const status = document.getElementById("status");
   if (select.value === "") return;
+  console.log(select.value)
   const stationData = JSON.parse(select.value);
   status.textContent = "⏳ 手動發送中...";
   try {

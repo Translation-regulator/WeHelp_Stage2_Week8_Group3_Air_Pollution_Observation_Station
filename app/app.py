@@ -30,8 +30,6 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.mount("/", StaticFiles(directory=".", html=True), name="static")
-
 # 用來記錄最新 ImportDate
 _last_import: str = None
 
@@ -86,18 +84,17 @@ def build_embed(data: dict) -> dict:
     if aqi_val is None:
         remark, color = "無資料", 0x808080
     elif aqi_val <= 50:
-        remark, color = "👍 空氣品質良好，適合戶外活動!", 0x008000
+        remark, color = "👍 空氣品質良好，適合戶外活動!", 0x39BCBE
     elif aqi_val <= 100:
-        remark, color = "👌 普通，長時間戶外要注意體感。", 0xFFFF00
+        remark, color = "👌 普通，長時間戶外要注意體感。", 0x08A2A5
     elif aqi_val <= 150:
-        remark, color = "⚠️ 對敏感族群不佳，請減少戶外活動。", 0xFFA500
+        remark, color = "⚠️ 對敏感族群不佳，請減少戶外活動。", 0xFCB165
     elif aqi_val <= 200:
-        remark, color = "⚠️ 對所有族群不健康，建議減少外出。", 0xFF0000
+        remark, color = "⚠️ 對所有族群不健康，建議減少外出。", 0xEE963B
     elif aqi_val <= 300:
-        remark, color = "🚨 非常不健康，建議避免外出。", 0x800080
+        remark, color = "🚨 非常不健康，建議避免外出。", 0xF27E6E
     else:
-        remark, color = "☠️ 危害健康，應留在室內並採取防護措施。", 0xA52A2A
-
+        remark, color = "☠️ 危害健康，應留在室內並採取防護措施。", 0xBF4B3B
     city = f"{data['county']} / {data['sitename']}"
     return {
         "username": "空氣小幫手 🌤️",
@@ -122,7 +119,10 @@ def build_embed(data: dict) -> dict:
                 {"name": "更新時間", "value": data.get("publishtime","N/A"), "inline": False},
                 {"name": "📝 建議活動", "value": remark, "inline": False},
             ],
-            "footer": {"text": "由彭大帥團隊開發中"}
+            "footer": {
+                "text": "資料來源：環境部環境資料平台",
+                "icon_url":"https://cdn-icons-png.flaticon.com/128/8635/8635653.png"  
+}
         }]
     }
 
@@ -151,23 +151,6 @@ def start_scheduler():
     sched.start()
 
 # --------- FastAPI 路由 ---------
-# 根目錄對應 index.html
-@app.get("/", response_class=HTMLResponse)
-async def index():
-    return FileResponse("index.html")
-
-@app.get("/previous", response_class=HTMLResponse)
-async def previous():
-    return FileResponse("previous.html")
-
-# 通用路由：讓 /xxx 對應 xxx.html（例如 /previous -> previous.html）
-@app.get("/{page_name}", response_class=HTMLResponse)
-async def serve_page(page_name: str):
-    filename = f"{page_name}.html"
-    if os.path.exists(filename):
-        return FileResponse(filename)
-    raise HTTPException(status_code=404, detail="Page not found")
-
 @app.get("/stations")
 async def stations():
     recs = await fetch_all_records()
@@ -201,6 +184,7 @@ async def auto_notify(lat: float = Query(...), lon: float = Query(...), km: floa
 
 @app.post("/send_message")
 async def send_message(data: SiteSelection):
+    # print(data)
     recs = await fetch_all_records()
     match = next((r for r in recs if r["county"] == data.county and r["sitename"] == data.sitename), None)
     if not match:
@@ -208,3 +192,28 @@ async def send_message(data: SiteSelection):
     payload = build_embed(match)
     send_to_discord(payload)
     return JSONResponse({"message": f"已推播 {data.county}/{data.sitename} AQI {match.get('aqi','N/A')}"})
+
+@app.post("/test")
+def test(data: SiteSelection):
+    print (data)
+    if (data):
+        return {"ok":True}
+    
+#  ----------- Static Pages -----------
+
+# 根目錄對應 index.html
+@app.get("/", response_class=HTMLResponse)
+async def index():
+    return FileResponse("./static/index.html")
+
+# 通用路由：讓 /xxx 對應 xxx.html（例如 /previous -> ./static/previous.html）
+@app.get("/{page_name}", response_class=HTMLResponse)
+async def serve_page(page_name: str):
+    filename = f"./static/{page_name}.html"
+    print(f"Requested file: {filename}")
+    if os.path.exists(filename):
+        return FileResponse(filename)
+    raise HTTPException(status_code=404, detail="Page not found")
+
+# app.mount("/", StaticFiles(directory=".", html=True), name="static")
+app.mount("/static", StaticFiles(directory="static", html=True), name="static")

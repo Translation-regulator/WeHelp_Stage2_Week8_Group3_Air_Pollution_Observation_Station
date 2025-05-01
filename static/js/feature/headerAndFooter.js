@@ -1,6 +1,6 @@
 export async function renderHeaderAndFooter(){
     try{
-        const header = await fetch("/header.html");
+        const header = await fetch("/static/header.html");
         const html = await header.text();
         document.body.insertAdjacentHTML('afterbegin', html);
     }
@@ -16,7 +16,21 @@ export async function renderHeaderAndFooter(){
         `
     document.body.appendChild(footer);
 
-    document.querySelector('header nav h3').addEventListener('click', ()=>{
+    document.querySelector('#header-logo').addEventListener('click', ()=>{
         window.location.href='/';
     })
+
+    rwdHeader();
 }
+
+function rwdHeader(){
+    const hideHeaderText = document.querySelector('#header-logo h3');
+    const isMobileScreen = window.matchMedia('(max-width: 601px)').matches;
+    if (isMobileScreen){
+        hideHeaderText.style.display = 'none';
+    }else{
+        hideHeaderText.style.display = 'block';
+    }
+}
+
+window.addEventListener('resize', rwdHeader);
