@@ -36,47 +36,51 @@ function rwdHeader(){
 
 // 自動定位與推播
 export function getGeolocation(){
-    if (!navigator.geolocation) {
-        document.getElementById("status").textContent = "此瀏覽器不支援定位。";
-        return;
-    }
-    navigator.geolocation.getCurrentPosition(
-        ({ coords }) => {
-            const lat = coords.latitude;
-            const lon = coords.longitude;
-            document.getElementById("status").textContent =
-            `偵測到位置：${lat.toFixed(5)}, ${lon.toFixed(5)}，自動搜尋中...`;
-            fetch(`/auto_notify?lat=${lat}&lon=${lon}`)
-            .then(res => res.json())
-            .then(json => {
-                console.log(json.data);
-                const county = json.data.county || "";
-                const sitename = json.data.sitename || "";
-                const aqi = json.data.aqi || "";
-                if (aqi){
-                    document.getElementById("status").textContent = 
-                        `已自動推播最近測站：${county}/${sitename}，AQI: ${aqi}`;
-                }else{
-                    document.getElementById("status").textContent = 
-                    `已自動推播最近測站：${county}/${sitename}`;
-                }
-            })
-            .catch(err => {
+    return new Promise((resolve, reject) => {
+        if (!navigator.geolocation) {
+            document.getElementById("status").textContent = "此瀏覽器不支援定位。";
+            resolve(null);
+            return;
+        }
+        navigator.geolocation.getCurrentPosition(
+            ({ coords }) => {
+                const lat = coords.latitude;
+                const lon = coords.longitude;
+                document.getElementById("status").textContent =
+                `偵測到位置：${lat.toFixed(5)}, ${lon.toFixed(5)}，自動搜尋中...`;
+                fetch(`/auto_notify?lat=${lat}&lon=${lon}`)
+                .then(res => res.json())
+                .then(json => {
+                    const locationData = json.data || {};
+                    const county = locationData.county || "";
+                    const sitename = locationData.sitename || "";
+                    const aqi = locationData.aqi || "";
+                    if (aqi){
+                        document.getElementById("status").textContent = 
+                            `已自動推播最近測站：${county}/${sitename}，AQI: ${aqi}`;
+                    }else{
+                        document.getElementById("status").textContent = 
+                        `已自動推播最近測站：${county}/${sitename}`;
+                    }
+                    // console.log("get locationData",locationData)
+                    resolve(locationData); //{sitename: '豐原', county: '臺中市', siteid: '28', aqi: '73'}
+                })
+                .catch(err => {
+                    console.error(err);
+                    document.getElementById("status").textContent = "自動推播失敗";
+                    resolve(null);
+                });
+
+            },
+            err => {
                 console.error(err);
-                document.getElementById("status").textContent = "自動推播失敗";
-            });
-
-        },
-        err => {
-            console.error(err);
-            document.getElementById("status").textContent = "無法取得位置，請允許定位。";
-
-        },
-        { enableHighAccuracy: true, timeout: 5000 }
-    );
-    return county; //{sitename: '豐原', county: '臺中市', siteid: '28', aqi: '73'}
+                document.getElementById("status").textContent = "無法取得位置，請允許定位。";
+                resolve(null);
+            },
+            { enableHighAccuracy: true, timeout: 5000 }
+        );
+    })
 }
-
 
 
 window.addEventListener('resize', rwdHeader);

@@ -1,11 +1,12 @@
 import { getCountyAndStation } from "../function/getCountyAndStation.js";
 
-export async function createPreviousSelect(){
+export async function createPreviousSelect(currentData = false){
     const countySelect = document.getElementById('county-select');
 
     // 建立選項
     let counties = await getCountyAndStation("county");
     // console.log('input 內的',counties)
+
     counties.forEach((county) => {
         let option = document.createElement("option");
         option.value = county;
@@ -14,18 +15,20 @@ export async function createPreviousSelect(){
     });
 
     // 預選縣市
-    const defaultCounty = '新北市';
+    // console.log("資料",currentData)
+    const defaultCounty = currentData.county ? currentData.county : '新北市';
     countySelect.value = defaultCounty;
-    await renderSiteChip({ target: { value: defaultCounty } });
+    await renderSiteChip(currentData, { target: { value: defaultCounty } });
+
 
     // 監聽選擇的縣市
     countySelect.addEventListener("change", async (event) => {
-        await renderSiteChip(event)
+        await renderSiteChip(currentData, event)
     });
 
 }
 
-async function renderSiteChip(event){
+async function renderSiteChip(currentData, event){
     // 取得縣市資料
     const selectedCounty = event.target.value;
     const stationData = await getCountyAndStation({ county: selectedCounty });
@@ -45,8 +48,13 @@ async function renderSiteChip(event){
         newSiteData.className = "chip text-sm-500 site-select-option";
         siteSelect.appendChild(newSiteData);
     });
-    const firstSiteSelect = siteSelect.querySelector(".chip");
-    firstSiteSelect.classList.add('chip-active');
+    if (currentData.siteid){
+        const currentSiteId = document.getElementById(`site-select-${currentData.siteid}`);
+        currentSiteId.classList.add('chip-active');
+    }else{
+        const firstSiteSelect = siteSelect.querySelector(".chip");
+        firstSiteSelect.classList.add('chip-active');
+    }
 }
 
 
