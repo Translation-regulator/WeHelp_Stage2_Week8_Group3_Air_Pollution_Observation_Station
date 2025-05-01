@@ -14,9 +14,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const currentLocationData = await getGeolocation();//最近的監測站和即時 aqi，{sitename: '豐原', county: '臺中市', siteid: '28', aqi: '73'}
 
   const path = window.location.pathname;
-  console.log(path);
+  // console.log(path);
   if (path === "/") {
-    console.log("首頁的功能們");
+    // console.log("首頁的功能們");
 
     // 渲染台灣地圖
     taiwanMap.init();
