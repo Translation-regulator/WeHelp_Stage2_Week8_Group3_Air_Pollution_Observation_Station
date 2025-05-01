@@ -34,6 +34,7 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-bottom: 0;
   }
 
 .index-main {
@@ -41,7 +42,14 @@ main{
   height: auto;
   max-width: 1280px;
   display: flex;
-  height: auto;
-  flex-direction: row;
   overflow: visible;
+  padding-left: 12px;
+  padding-right: 12px;
+  flex-direction: column;
+}
+
+@media screen and (min-width:992px) {
+    .index-main {
+        flex-direction: row;
+    }
 }

@@ -2,6 +2,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 import * as topojson from "https://cdn.jsdelivr.net/npm/topojson@3/+esm";
 import { getCountyAndStation } from "../function/getCountyAndStation.js";
 import { getAirData } from "../function/getAirData.js";
+import { renderStationAirDataDom } from "./renderStationAirData.js";
 
 function taiwanMap() {
   const model = {
@@ -174,14 +175,13 @@ function taiwanMap() {
         .attr("r", 8)
         .attr("data-stationCounty", stationData.county)
         .attr("data-stationSitename", stationData.sitename)
-        .attr("data-stationsiteId", stationData.siteId)
-        .attr("data-stationSitename", stationData.sitename)
         .attr("fill", model.statusColor[status])
+        .each(function (d) {
+          d3.select(this).append("title").text(stationData.sitename);
+        })
         .on("click", function () {
-          const county = this.dataset.stationCounty;
           const siteName = this.dataset.stationSitename;
-          const siteId = this.dataset.stationsiteId;
-          console.log(county, siteId, siteName);
+          renderStationAirDataDom(siteName);
         });
     },
     createCountryName: (d3Select) => {
@@ -193,7 +193,6 @@ function taiwanMap() {
             (f) => f.properties.COUNTYNAME === "高雄市"
           )
         );
-        console.log(bounds);
         const [x0, y0] = bounds[0];
         const [x1, y1] = bounds[1];
 
@@ -214,11 +213,11 @@ function taiwanMap() {
           .text(d3Select.node().dataset.county)
           .attr("font-size", "12px")
           .style("fill", "var(--color-primary-500)");
-      }else if (d3Select.node().dataset.county === "金門縣") {
+      } else if (d3Select.node().dataset.county === "金門縣") {
         textNode = model.d3.svg
           .append("text")
           .attr("class", "taiwan-map-country-name")
-          .attr("x", bbox.x + bbox.width/2)
+          .attr("x", bbox.x + bbox.width / 2)
           .attr("y", bbox.y + bbox.height / 1.2)
           .text(d3Select.node().dataset.county)
           .attr("font-size", "12px")
@@ -248,7 +247,6 @@ function taiwanMap() {
   };
   const controller = {
     init: async () => {
-      console.log(window.innerHeight);
       const main = document.querySelector("main");
       const container = view.createDiv(main);
       container.classList.add("taiwan-map-container");
