@@ -162,7 +162,7 @@
   /* flex-wrap: wrap; */
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  gap: 40px;
   padding: 12px 12px 12px 0;
 }
 
@@ -447,7 +447,7 @@
   }
 }
 
-@media(max-width:555px){
+@media(max-width:595px){
   .airData,
   .airDataWrapper {
     max-width: 95%;
