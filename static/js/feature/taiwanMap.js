@@ -258,6 +258,7 @@ function taiwanMap() {
       view.createHint(hint);
       view.createTaiwan(taiwanContainer);
       model.allStationData = await getAirData("total");
+      model.d3.svg.selectAll(".taiwan-map-station").raise();
       model.organizeStationData();
       model.allStationData.forEach((el) => {
         view.createStation(el, el.status);
