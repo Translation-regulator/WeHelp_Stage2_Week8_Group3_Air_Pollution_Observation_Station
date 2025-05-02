@@ -9,7 +9,11 @@ function taiwanMap() {
   const model = {
     hoverCountry: {},
     clickCountry: {},
-    d3: { svg: {}, topoData: {}, geoData: {}, projection: {}, path: {} },
+    d3: { svg: {}, topoData: {}, geoData: {}, projection: d3
+        .geoMercator()
+        .center([121, 24]) // 台灣中心的經緯度
+        .scale(8000)
+        .translate([600 / 1.5, 800 / 2]), path: {} },
     allStationData: {},
     stationDataByCountry: {},
     statusColor: {
