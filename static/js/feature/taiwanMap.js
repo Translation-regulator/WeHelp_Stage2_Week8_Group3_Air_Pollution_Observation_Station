@@ -252,7 +252,7 @@ function taiwanMap() {
       const hint = view.createDiv(container);
       hint.classList.add("taiwan-map-hint");
       view.createHint(hint);
-      view.createTaiwan(taiwanContainer);
+      await view.createTaiwan(taiwanContainer);
       model.allStationData = await getAirData("total");
       model.organizeStationData();
       model.allStationData.forEach((el) => {

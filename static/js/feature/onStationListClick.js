@@ -34,7 +34,7 @@ export function renderCountyStations(county) {
 
   // 過濾點擊的縣市有哪些測站
   const stationData = allStations.filter((item) => item.county === county);
-  console.log("該縣市的測站資料：", stationData);
+  // console.log("該縣市的測站資料：", stationData);
 
   // 取得容器DOM
   let airDataDOM = document.getElementById("airDataDom");
