@@ -57,3 +57,30 @@ renderStationAirDataDom("三重")
 1. 結合 D3 與地理資料繪製台灣地圖
 2. 使用D3.js與JS實現互動式視覺效果
 3. 串接組員function實現觀測站點位置渲染及即時依空氣品質分級顏色渲染
+
+## 網站 DEMO
+### 點擊地圖出現該縣市名稱以及連動右側表單
+![](/gif-image/地圖互動-hover%20顯示縣市及站點並直接顯示資料.gif)
+### 根據不同數值對應不同級別的顏色
+![](/gif-image/測點顯示，根據數值最顏色及視覺對應.gif)
+### 選單內的地區以及測站及時對應地圖上的位置
+![](/gif-image/測點顯示.gif)
+### 結合 Discord 發送精華版測站偵測的數值
+![](/gif-image/發送%20bot.gif)
+### 點擊歷史監測資料即時呈現附近偵測站並呈現於選單並提供當前AQI數值
+![](/gif-image/帶入最近測站.gif)
+### 選取欲知曉的當前空汙數值並以圖表呈現
+![](/gif-image/根據監測需求繪製圖表，hover%20顯示對應單位.gif)
+### 至少必須選擇一個欲知的數值
+![](/gif-image/ux%20防呆，確保至少一個探測站及一個監測項目.gif)
+### RWD 首頁模板：點擊觀測站馬上跳至選單並且可得知當前空汙狀況
+![](/gif-image/mobile-首頁.gif)
+### RWD 歷史資料模板：確保手機使用者有良好體驗，完整呈現圖表
+![](/gif-image/mobile-歷史資料.gif)
+
+
+## 參考資料
+1. [對照圖表](https://airtw.moenv.gov.tw/CHT/Information/Standard/AirQualityIndicator.aspx)
+2. [空氣品質指標(AQI)](https://data.gov.tw/dataset/40448)
+3. [環境部環境資料開放平台開放資料API](https://data.moenv.gov.tw/swagger/#/)
+4. [直轄市、縣市界線(TWD97經緯度](https://data.gov.tw/dataset/7442)
