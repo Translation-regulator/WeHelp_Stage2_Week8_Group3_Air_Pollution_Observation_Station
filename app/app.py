@@ -97,10 +97,11 @@ def build_embed(data: dict) -> dict:
         remark, color = "☠️ 危害健康，應留在室內並採取防護措施。", 0xBF4B3B
     city = f"{data['county']} / {data['sitename']}"
     return {
-        "username": "空氣小幫手 🌤️",
+        "username": "空汙偵測小幫手 🌤️",
         "content": None,
         "embeds": [{
             "title": "🌆 空氣品質快報",
+            "url":"https://www.airpullution.site/",
             "description": f"{city} 當前空氣品質數據如下:",
             "color": color,
             "timestamp": data.get("publishtime_iso"),

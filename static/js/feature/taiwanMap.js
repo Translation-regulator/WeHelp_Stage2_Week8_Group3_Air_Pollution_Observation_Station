@@ -252,7 +252,7 @@ function taiwanMap() {
       const hint = view.createDiv(container);
       hint.classList.add("taiwan-map-hint");
       view.createHint(hint);
-      view.createTaiwan(taiwanContainer);
+      await view.createTaiwan(taiwanContainer);
       model.allStationData = await getAirData("total");
       model.organizeStationData();
       model.allStationData.forEach((el) => {
@@ -272,7 +272,6 @@ function taiwanMap() {
     },
     clickHandler: (county) => {
       const path = d3.select(`path[data-county="${county}"]`);
-      console.log(path);
       if (path) {
         model.d3.svg.selectAll(".taiwan-map-country-name").remove();
         model.d3.svg.selectAll(".taiwan-map-name-bg").remove();

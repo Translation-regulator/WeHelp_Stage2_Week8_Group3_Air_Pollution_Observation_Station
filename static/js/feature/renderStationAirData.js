@@ -141,7 +141,7 @@ export function renderStationAirDataDom(stationName) {
   // console.log(sendStationData);
   let discordBtn = document.querySelector(".airData__discord__btn");
   discordBtn.addEventListener("click", function () {
-    console.log("監聽成功", sendStationData);
+    // console.log("監聽成功", sendStationData);
     sendMessage(sendStationData);
   });
 
