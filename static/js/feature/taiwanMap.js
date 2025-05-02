@@ -9,11 +9,7 @@ function taiwanMap() {
   const model = {
     hoverCountry: {},
     clickCountry: {},
-    d3: { svg: {}, topoData: {}, geoData: {}, projection: d3
-        .geoMercator()
-        .center([121, 24]) // 台灣中心的經緯度
-        .scale(8000)
-        .translate([600 / 1.5, 800 / 2]), path: {} },
+    d3: { svg: {}, topoData: {}, geoData: {}, projection: {}, path: {} },
     allStationData: {},
     stationDataByCountry: {},
     statusColor: {
@@ -258,7 +254,6 @@ function taiwanMap() {
       view.createHint(hint);
       view.createTaiwan(taiwanContainer);
       model.allStationData = await getAirData("total");
-      model.d3.svg.selectAll(".taiwan-map-station").raise();
       model.organizeStationData();
       model.allStationData.forEach((el) => {
         view.createStation(el, el.status);
