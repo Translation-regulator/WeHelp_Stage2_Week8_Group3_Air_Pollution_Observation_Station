@@ -57,3 +57,9 @@ renderStationAirDataDom("三重")
 1. 結合 D3 與地理資料繪製台灣地圖
 2. 使用D3.js與JS實現互動式視覺效果
 3. 串接組員function實現觀測站點位置渲染及即時依空氣品質分級顏色渲染
+
+### 參考資料
+1. [對照圖表](https://airtw.moenv.gov.tw/CHT/Information/Standard/AirQualityIndicator.aspx)
+2. [空氣品質指標(AQI)](https://data.gov.tw/dataset/40448)
+3. [環境部環境資料開放平台開放資料API](https://data.moenv.gov.tw/swagger/#/)
+4. [直轄市、縣市界線(TWD97經緯度](https://data.gov.tw/dataset/7442)
