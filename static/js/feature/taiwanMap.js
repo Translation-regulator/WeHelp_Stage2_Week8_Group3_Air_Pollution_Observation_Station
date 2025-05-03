@@ -255,9 +255,11 @@ function taiwanMap() {
       await view.createTaiwan(taiwanContainer);
       model.allStationData = await getAirData("total");
       model.organizeStationData();
-      model.allStationData.forEach((el) => {
-        view.createStation(el, el.status);
-      });
+      if (Array.isArray(model.allStationData)) {
+        model.allStationData.forEach((el) => {
+          view.createStation(el, el.status);
+        });
+      }
 
       taiwanContainer.addEventListener("click", async (e) => {
         e.stopPropagation();
@@ -280,9 +282,11 @@ function taiwanMap() {
         path.attr("class", "taiwan-map-select");
         model.d3.svg.selectAll("circle.taiwan-map-station").remove();
         let stationData = model.stationDataByCountry[county];
-        stationData.forEach(async (el) => {
-          view.createStation(el, el.status);
-        });
+        if (Array.isArray(stationData)) {
+          stationData.forEach(async (el) => {
+            view.createStation(el, el.status);
+          });
+        }
         if (window.innerWidth < 992) {
           let target = document.querySelector(".airData");
           let targetDisplay = target.classList.contains("display-none");
@@ -291,13 +295,6 @@ function taiwanMap() {
           );
           if (!target | targetDisplay) {
             target = document.querySelector(".airDataWrapper");
-          }
-          if (summary) {
-            document.querySelector(".airData").classList.remove("display-none");
-            document
-              .querySelector("main")
-              .removeChild(document.querySelector(".airDataWrapper"));
-            target = document.querySelector(".airData");
           }
           target.scrollIntoView({ behavior: "smooth" });
         }
